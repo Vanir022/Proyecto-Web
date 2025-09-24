@@ -1,0 +1,62 @@
+    /* Estilos personalizados mínimos para efectos especiales */
+    .hero-section {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://media.staticontent.com/media/pictures/c0e7b5f8-f9c2-4d6d-b59a-bcd5ada3900f');
+        background-size: cover;
+        background-position: center;
+        min-height: 100vh;
+        color: white;
+    }
+
+    .sticky-header {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+    }
+
+    .service-box:hover {
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
+    }
+
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+        /* para recortar exceso de imagen */
+    }
+
+    .gallery-img {
+        width: 100%;
+        height: 250px;
+        /* altura uniforme, puedes ajustarla */
+        object-fit: cover;
+        /* recorta y mantiene proporción */
+        display: block;
+    }
+
+    .gallery-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+        opacity: 1;
+    }
+
+    .card-img-custom {
+        width: 100%;
+        height: 220px;
+        /* ajusta la altura a tu gusto */
+        object-fit: cover;
+        /* recorta proporcionalmente sin deformar */
+        display: block;
+        border-top-left-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+    }

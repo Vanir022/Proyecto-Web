@@ -1,0 +1,79 @@
+.hero-spa {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../../imagenes/aranwa-colca-spa.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 70vh;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.treatment-card {
+    transition: all 0.3s ease;
+    height: 100%;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.treatment-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.spa-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(45deg, #20c997, #17a2b8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: white;
+    font-size: 1.8rem;
+}
+
+.duration-badge {
+    background: linear-gradient(45deg, #6f42c1, #e83e8c);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.price-spa {
+    background: linear-gradient(45deg, #fd7e14, #ffc107);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.benefit-item {
+    background: rgba(32, 201, 151, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    border-left: 4px solid #20c997;
+    margin-bottom: 1rem;
+}
+
+.floating-element {
+    position: absolute;
+    opacity: 0.1;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+}

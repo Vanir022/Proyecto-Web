@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <div th:fragment="header">
+        <!-- Header -->
+        <header class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/}">
+                    <img src="imagenes/logoAranwa.png" alt="Logo de Aranwa Hotels" height="50">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto me-4">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="menuServicios" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Servicios
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="menuServicios">
+                                <li><a class="dropdown-item" th:href="@{/spa}">Spa</a></li>
+                                <li><a class="dropdown-item" th:href="@{/bodas}">Bodas</a></li>
+                                <li><a class="dropdown-item" th:href="@{/eventos}">Eventos</a></li>
+                                <!-- Agrega más servicios según los archivos en html/servicios -->
+
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <!--Importante el th:href="@{/nosotros}-->
+                            <a class="nav-link" th:href="@{/nosotros}" id="menuNosotros">Nosotros</a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/reservas}" id="menuReservas">Reservas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/hoteles}" id="menuHoteles">Hoteles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/login}" id="menuLogin">Login/Registrarme</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/contactos}" id="menuContactos">Contactos</a>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-phone-volume text-primary me-2"></i>
+                        <span class="fw-bold">511 207-0440</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <div th:fragment="footer">
+        <footer class="bg-dark text-white py-5">
+            <div class="container">
+                <!-- Newsletter -->
+                <div class="row mb-5">
+                    <div class="col-12 col-md-10 col-lg-8 mx-auto text-center">
+                        <h2 class="mb-3" id="subscribeTitle">Suscríbete</h2>
+                        <p class="mb-4" id="subscribeDescription">Recibe las últimas noticias y promociones directamente entu correo
+                        </p>
+                        <form class="row g-2 justify-content-center">
+                            <div class="col-12 col-sm-8 col-md-6">
+                                <input type="email" class="form-control" placeholder="Ingresa tu correo">
+                            </div>
+                            <div class="col-12 col-sm-4 col-md-3">
+                                <button class="btn btn-primary w-100"
+                                    onclick="window.location.href='html/Contactos.html'" type="button">
+                                    <span id="subscribeButton">Contactanos</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Footer Content -->
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="mb-4">
+                            <img src="imagenes/logoAranwa.png" alt="Logo de Aranwa" class="img-fluid"
+                                style="max-height: 50px;">
+                        </div>
+                        <div class="d-flex gap-3">
+                            <a href="https://www.facebook.com/AranwaHotels/?locale=es_LA" target="_blank"
+                                class="text-white">
+                                <i class="fab fa-facebook-f fa-lg"></i>
+                            </a>
+                            <a href="https://www.instagram.com/aranwahotels/?hl=es-la" target="_blank"
+                                class="text-white">
+                                <i class="fab fa-instagram fa-lg"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@AranwaHotels" target="_blank" class="text-white">
+                                <i class="fab fa-youtube fa-lg"></i>
+                            </a>
+                            <a href="https://www.tripadvisor.com/Aranwa" target="_blank" class="text-white">
+                                <i class="fab fa-tripadvisor fa-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <h5 class="mb-3" id="aranwaTitle">ARANWA</h5>
+            <ul class="list-unstyled">
+                <li><a th:href="@{/nosotros}" class="text-white-50 text-decoration-none" id="aboutUsLink">
+                    <i class="fas fa-angle-double-right me-2"></i>Nosotros</a></li>
+                <li><a th:href="@{/acercade}" class="text-white-50 text-decoration-none" id="aboutUsLink">
+                    <i class="fas fa-angle-double-right me-2"></i>Acerca del Proyecto</a></li>
+            </ul>
+
+                    </div>
+
+                    <!--<div class="col-lg-2">
+                        <h5 class="mb-3" id="destinationsTitle">DESTINOS</h5>
+                        <ul class="list-unstyled">
+                            <li><span class="text-white-50">
+                                    <i class="fas fa-angle-double-right me-2"></i>Cusco</span></li>
+                            <li><span class="text-white-50">
+                                    <i class="fas fa-angle-double-right me-2"></i>Valle Sagrado</span></li>
+                            <li><span class="text-white-50">
+                                    <i class="fas fa-angle-double-right me-2"></i>Colca</span></li>
+                            <li><span class="text-white-50">
+                                    <i class="fas fa-angle-double-right me-2"></i>Paracas</span></li>
+                            <li><span class="text-white-50">
+                                    <i class="fas fa-angle-double-right me-2"></i>Vichayito</span></li>
+                        </ul>
+                    </div>-->
+
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <h5 class="mb-3" id="servicesFooterTitle">SERVICIOS</h5>
+            <ul class="list-unstyled">
+                <li><a th:href="@{/eventos}" class="text-white-50 text-decoration-none" id="eventosLink">
+                    <i class="fas fa-angle-double-right me-2"></i>Eventos</a></li>
+                <li><a th:href="@{/spa}" class="text-white-50 text-decoration-none" id="spaLink">
+                    <i class="fas fa-angle-double-right me-2"></i>Spa</a></li>
+                <li><a th:href="@{/bodas}" class="text-white-50 text-decoration-none" id="bodasLink">
+                    <i class="fas fa-angle-double-right me-2"></i>Bodas</a></li>
+            </ul>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <h5 class="mb-3" id="contactInfoTitle">Información de Contacto</h5>
+
+                        <div class="d-flex mb-3">
+                            <div class="me-3">
+                                <i class="fas fa-map-marker-alt fa-lg text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1" id="corporateOfficesTitle">Oficinas Corporativas</h6>
+                                <p class="text-white-50 mb-0 small" id="corporateOfficesAddress">Av. Encalada 1420 of.
+                                    401,
+                                    Santiago de
+                                    Surco, Lima - Perú.</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex mb-3">
+                            <div class="me-3">
+                                <i class="fas fa-phone fa-lg text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1" id="reservationCenterTitle">Central de Reservas</h6>
+                                <p class="text-white-50 mb-0" id="reservationCenterNumber">511 207-0440</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="far fa-envelope fa-lg text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1" id="reservationEmailTitle">Correo de Reserva:</h6>
+                                <p class="text-white-50 mb-2 small" id="reservationEmail">reservas@aranwahotels.com</p>
+                                <h6 class="mb-1" id="contactEmailTitle">Correo de Contacto:</h6>
+                                <p class="text-white-50 mb-0 small" id="contactEmail">consultas@aranwahotels.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Bottom -->
+                <hr class="my-4">
+                <div class="row">
+                    <div class="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
+                        <span class="text-white-50">Sitemap próximamente</span>
+                    </div>
+                    <div class="col-12 col-md-6 text-center text-md-end">
+                        <p class="text-white-50 mb-0">&copy; 2025 Aranwa Hotels. Todos los derechos reservados.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</body>
+
+</html>

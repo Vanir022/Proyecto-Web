@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Eventos corporativos y sociales en Aranwa Hotels - Salones equipados, catering gourmet y servicio personalizado para hacer de tu evento una experiencia inolvidable.">
+    <meta name="keywords"
+        content="eventos corporativos, salones, Aranwa Hotels, conferencias, reuniones, celebraciones, catering">
+
+    <title>Eventos Corporativos y Sociales - ARANWA HOTELS</title>
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" th:href="@{../../css/styleIndex.css}">
+    <link rel="stylesheet" th:href="@{../../css/styleEventos.css}">
+
+
+
+</head>
+
+<body>
+    <!-- Header -->
+    <div th:replace="fragments/Header :: header"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-eventos" style="margin-top: 76px;">
+        <div class="container text-center">
+            <h1 class="display-3 fw-bold mb-4">Eventos Inolvidables</h1>
+            <p class="lead mb-5">Transforma tus celebraciones y reuniones en experiencias extraordinarias con nuestros
+                exclusivos salones y servicios personalizados</p>
+            <button type="button" class="btn btn-primary btn-lg"
+                onclick="document.getElementById('contactForm').scrollIntoView({behavior: 'smooth'})">
+                <i class="fas fa-calendar-plus me-2"></i>Planifica tu Evento
+            </button>
+        </div>
+    </section>
+
+    <!-- Tipos de Eventos -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 text-primary mb-3">Tipos de Eventos</h2>
+                <p class="lead">Ofrecemos espacios versátiles para todo tipo de celebraciones</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card service-card border-0 shadow-sm p-4 text-center">
+                        <div class="icon-circle">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h4 class="mb-3">Eventos Corporativos</h4>
+                        <p class="text-muted mb-4">Conferencias, seminarios, presentaciones y reuniones de trabajo con
+                            tecnología de punta.</p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success me-2"></i>Equipos audiovisuales</li>
+                            <li><i class="fas fa-check text-success me-2"></i>WiFi alta velocidad</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Servicio de coffee break</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Soporte técnico</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card service-card border-0 shadow-sm p-4 text-center">
+                        <div class="icon-circle">
+                            <i class="fas fa-birthday-cake"></i>
+                        </div>
+                        <h4 class="mb-3">Celebraciones Sociales</h4>
+                        <p class="text-muted mb-4">Cumpleaños, aniversarios, graduaciones y reuniones familiares en
+                            ambientes únicos.</p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success me-2"></i>Decoración personalizada</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Menús temáticos</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Animación y música</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Fotografía profesional</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card service-card border-0 shadow-sm p-4 text-center">
+                        <div class="icon-circle">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4 class="mb-3">Eventos Especiales</h4>
+                        <p class="text-muted mb-4">Lanzamientos de productos, galas benéficas, cenas de gala y eventos
+                            temáticos.</p>
+                        <ul class="list-unstyled text-start">
+                            <li><i class="fas fa-check text-success me-2"></i>Coordinación completa</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Catering gourmet</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Servicio de valet parking</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Seguridad especializada</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nuestros Salones -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 text-primary mb-3">Nuestros Salones</h2>
+                <p class="lead">Espacios elegantes y versátiles para eventos de cualquier tamaño</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                <img src="../../imagenes/aranwa-cusco-eventos-01.png" alt="Salón Principal Aranwa"
+                                    class="img-fluid h-100 object-fit-cover">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body h-100 d-flex flex-column">
+                                    <h5 class="card-title text-primary">Salón Imperial</h5>
+                                    <span class="capacity-badge mb-3 align-self-start">Hasta 300 personas</span>
+                                    <p class="card-text flex-grow-1">Nuestro salón principal con arquitectura colonial y
+                                        tecnología moderna. Perfecto para grandes celebraciones y eventos corporativos.
+                                    </p>
+                                    <ul class="list-unstyled small">
+                                        <li><i class="fas fa-expand-arrows-alt text-primary me-2"></i>450 m²</li>
+                                        <li><i class="fas fa-microphone text-primary me-2"></i>Sistema de sonido
+                                            profesional</li>
+                                        <li><i class="fas fa-video text-primary me-2"></i>Proyector 4K</li>
+                                        <li><i class="fas fa-snowflake text-primary me-2"></i>Aire acondicionado</li>
+                                    </ul>
+                                    <div class="price-tag mt-3 align-self-center">Desde S/2,500</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                <img src="../../imagenes/aranwa-sacred-valley-bodas.png" alt="Salón Íntimo Aranwa"
+                                    class="img-fluid h-100 object-fit-cover">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body h-100 d-flex flex-column">
+                                    <h5 class="card-title text-primary">Salón Cusco</h5>
+                                    <span class="capacity-badge mb-3 align-self-start">Hasta 150 personas</span>
+                                    <p class="card-text flex-grow-1">Ambiente acogedor con vista a los jardines. Ideal
+                                        para reuniones ejecutivas, cenas privadas y celebraciones íntimas.</p>
+                                    <ul class="list-unstyled small">
+                                        <li><i class="fas fa-expand-arrows-alt text-primary me-2"></i>220 m²</li>
+                                        <li><i class="fas fa-leaf text-primary me-2"></i>Vista a jardines</li>
+                                        <li><i class="fas fa-lightbulb text-primary me-2"></i>Iluminación regulable</li>
+                                        <li><i class="fas fa-door-open text-primary me-2"></i>Acceso independiente</li>
+                                    </ul>
+                                    <div class="price-tag mt-3 align-self-center">Desde S/1,800</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                <img src="../../imagenes/aranwa-paracas-restaurante-ban.png"
+                                    alt="Terraza de Eventos Aranwa" class="img-fluid h-100 object-fit-cover">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body h-100 d-flex flex-column">
+                                    <h5 class="card-title text-primary">Terraza Paracas</h5>
+                                    <span class="capacity-badge mb-3 align-self-start">Hasta 80 personas</span>
+                                    <p class="card-text flex-grow-1">Espacio al aire libre con vistas panorámicas.
+                                        Perfecto para cócteles, recepciones y eventos bajo las estrellas.</p>
+                                    <ul class="list-unstyled small">
+                                        <li><i class="fas fa-expand-arrows-alt text-primary me-2"></i>180 m²</li>
+                                        <li><i class="fas fa-eye text-primary me-2"></i>Vista panorámica</li>
+                                        <li><i class="fas fa-umbrella text-primary me-2"></i>Área techada disponible
+                                        </li>
+                                        <li><i class="fas fa-glass-cheers text-primary me-2"></i>Bar exclusivo</li>
+                                    </ul>
+                                    <div class="price-tag mt-3 align-self-center">Desde S/1,200</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                <img src="../../imagenes/aranwa-paracas-restaurante-brisas.png"
+                                    alt="Sala de Juntas Aranwa" class="img-fluid h-100 object-fit-cover">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body h-100 d-flex flex-column">
+                                    <h5 class="card-title text-primary">Sala Ejecutiva</h5>
+                                    <span class="capacity-badge mb-3 align-self-start">Hasta 40 personas</span>
+                                    <p class="card-text flex-grow-1">Sala moderna para reuniones de directorio,
+                                        presentaciones ejecutivas y sesiones de trabajo colaborativo.</p>
+                                    <ul class="list-unstyled small">
+                                        <li><i class="fas fa-expand-arrows-alt text-primary me-2"></i>80 m²</li>
+                                        <li><i class="fas fa-desktop text-primary me-2"></i>Mesa de conferencia</li>
+                                        <li><i class="fas fa-chalkboard text-primary me-2"></i>Pizarra digital</li>
+                                        <li><i class="fas fa-coffee text-primary me-2"></i>Estación de café</li>
+                                    </ul>
+                                    <div class="price-tag mt-3 align-self-center">Desde S/800</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios Incluidos -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 text-primary mb-3">Servicios Incluidos</h2>
+                <p class="lead">Todo lo que necesitas para que tu evento sea perfecto</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="icon-circle">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h5 class="mb-3">Catering Gourmet</h5>
+                    <p class="text-muted">Menús personalizados con lo mejor de la gastronomía peruana e internacional.
+                    </p>
+                </div>
+
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="icon-circle">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h5 class="mb-3">Equipos A/V</h5>
+                    <p class="text-muted">Tecnología de última generación con soporte técnico especializado.</p>
+                </div>
+
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="icon-circle">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h5 class="mb-3">Coordinación</h5>
+                    <p class="text-muted">Personal especializado que se encarga de cada detalle de tu evento.</p>
+                </div>
+
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="icon-circle">
+                        <i class="fas fa-parking"></i>
+                    </div>
+                    <h5 class="mb-3">Estacionamiento</h5>
+                    <p class="text-muted">Amplio estacionamiento gratuito y servicio de valet parking disponible.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulario de Contacto -->
+    <section class="py-5 bg-light" id="contactForm">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-5">
+                            <div class="text-center mb-4">
+                                <h2 class="text-primary">Solicita una Cotización</h2>
+                                <p class="lead">Cuéntanos sobre tu evento y te ayudaremos a planificarlo</p>
+                            </div>
+
+                            <form id="eventoForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="nombre" class="form-label">Nombre Completo *</label>
+                                        <input type="text" class="form-control form-control-lg" id="nombre" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="telefono" class="form-label">Teléfono *</label>
+                                        <input type="tel" class="form-control form-control-lg" id="telefono" required>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label for="email" class="form-label">Correo Electrónico *</label>
+                                        <input type="email" class="form-control form-control-lg" id="email" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="tipoEvento" class="form-label">Tipo de Evento *</label>
+                                        <select class="form-control form-control-lg" id="tipoEvento" required>
+                                            <option value="">Selecciona el tipo</option>
+                                            <option value="corporativo">Evento Corporativo</option>
+                                            <option value="social">Celebración Social</option>
+                                            <option value="especial">Evento Especial</option>
+                                            <option value="reunion">Reunión de Trabajo</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="invitados" class="form-label">Número de Invitados *</label>
+                                        <input type="number" class="form-control form-control-lg" id="invitados"
+                                            min="10" max="300" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="fechaEvento" class="form-label">Fecha del Evento *</label>
+                                        <input type="date" class="form-control form-control-lg" id="fechaEvento"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="horaEvento" class="form-label">Hora del Evento</label>
+                                        <input type="time" class="form-control form-control-lg" id="horaEvento">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="mensaje" class="form-label">Detalles del Evento</label>
+                                        <textarea class="form-control" id="mensaje" rows="4"
+                                            placeholder="Cuéntanos más sobre tu evento: servicios especiales, decoración, menú preferido, etc."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                                        <i class="fas fa-paper-plane me-2"></i>Enviar Solicitud
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Formulario de eventos
+        document.getElementById('eventoForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = {
+                nombre: document.getElementById('nombre').value,
+                telefono: document.getElementById('telefono').value,
+                email: document.getElementById('email').value,
+                tipoEvento: document.getElementById('tipoEvento').value,
+                invitados: document.getElementById('invitados').value,
+                fechaEvento: document.getElementById('fechaEvento').value,
+                horaEvento: document.getElementById('horaEvento').value,
+                mensaje: document.getElementById('mensaje').value
+            };
+
+            alert('🎉 SOLICITUD ENVIADA\n\n' +
+                `Gracias ${formData.nombre}, hemos recibido tu solicitud para un ${formData.tipoEvento} el ${formData.fechaEvento}.\n\n` +
+                '📧 Te contactaremos en las próximas 24 horas con una cotización personalizada.\n\n' +
+                '📞 Para consultas urgentes: +51 1 234-5678\n' +
+                '💼 Equipo de Eventos Aranwa Hotels');
+        });
+
+        // Establecer fecha mínima como hoy
+        document.addEventListener('DOMContentLoaded', function () {
+            const hoy = new Date().toISOString().split('T')[0];
+            document.getElementById('fechaEvento').min = hoy;
+        });
+
+        // Sticky navbar effect
+        window.addEventListener("scroll", function () {
+            var header = document.querySelector(".navbar");
+            if (header && window.scrollY > 100) {
+                header.classList.add("sticky-header");
+            } else if (header) {
+                header.classList.remove("sticky-header");
+            }
+        });
+    </script>
+</body>
+
+</html>

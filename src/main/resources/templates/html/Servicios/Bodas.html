@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Bodas y Matrimonios en Aranwa Hotels - Celebra tu día especial en destinos únicos de Cusco, Paracas y Valle Sagrado con paquetes completos y servicios exclusivos.">
+    <meta name="keywords"
+        content="bodas, matrimonios, Aranwa Hotels, celebración, wedding, destino, Cusco, Paracas, Valle Sagrado">
+
+    <title>Bodas y Matrimonios - ARANWA HOTELS</title>
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" th:href="@{../../css/styleIndex.css}">
+    <link rel="stylesheet" th:href="@{../../css/styleBodas.css}">
+
+
+</head>
+
+<body>
+    <!-- Header -->
+    <div th:replace="fragments/Header :: header"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-wedding position-relative" style="margin-top: 76px;">
+        <div class="romantic-element" style="top: 15%; left: 10%;">
+            <i class="fas fa-heart fa-4x text-white"></i>
+        </div>
+        <div class="romantic-element" style="top: 25%; right: 15%;">
+            <i class="fas fa-rings-wedding fa-3x text-white"></i>
+        </div>
+        <div class="romantic-element" style="bottom: 20%; left: 20%;">
+            <i class="fas fa-dove fa-2x text-white"></i>
+        </div>
+        <div class="container text-center">
+            <h1 class="display-2 fw-bold mb-4">Bodas de Ensueño</h1>
+            <p class="lead mb-5">Celebra el día más importante de tu vida en destinos únicos donde cada detalle cuenta
+                tu historia de amor</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <button type="button" class="btn btn-light btn-lg"
+                    onclick="document.getElementById('paquetes').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-heart love-heart me-2"></i>Ver Paquetes
+                </button>
+                <button type="button" class="btn btn-outline-light btn-lg"
+                    onclick="document.getElementById('consultaForm').scrollIntoView({behavior: 'smooth'})">
+                    <i class="fas fa-calendar-alt me-2"></i>Solicitar Cotización
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinos para Bodas -->
+    <section class="py-5 bg-light" id="destinos">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 text-primary mb-3">Destinos Únicos</h2>
+                <p class="lead">Tres escenarios mágicos para hacer realidad la boda de tus sueños</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="destination-card">
+                        <img src="../../imagenes/aranwa-cusco.png"
+                            alt="Aranwa Cusco - Bodas con historia y tradición en la ciudad imperial"
+                            class="img-fluid rounded mb-4">
+                        <h4 class="text-primary mb-3">
+                            <i class="fas fa-landmark me-2"></i>Aranwa Cusco
+                        </h4>
+                        <p class="lead mb-3">Ciudad Imperial</p>
+                        <p class="mb-4">Celebra tu amor en el corazón histórico del Perú, rodeado de la majestuosa
+                            arquitectura inca y colonial que hace de Cusco un escenario incomparable.</p>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-6">
+                                <div class="text-center p-2 bg-white rounded">
+                                    <i class="fas fa-users text-primary mb-1"></i>
+                                    <small class="d-block">Hasta 150 invitados</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center p-2 bg-white rounded">
+                                    <i class="fas fa-mountain text-primary mb-1"></i>
+                                    <small class="d-block">Vista a montañas</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="list-unstyled mb-4">
+                            <li><i class="fas fa-check text-primary me-2"></i>Ceremonia en patio colonial</li>
+                            <li><i class="fas fa-check text-primary me-2"></i>Salones con historia</li>
+                            <li><i class="fas fa-check text-primary me-2"></i>Gastronomía fusión</li>
+                            <li><i class="fas fa-check text-primary me-2"></i>Tours culturales incluidos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="destination-card">
+                        <img src="../../imagenes/aranwa-paracas.png"
+                            alt="Aranwa Paracas - Bodas frente al mar con atardeceres únicos"
+                            class="img-fluid rounded mb-4">
+                        <h4 class="text-primary mb-3">
+                            <i class="fas fa-water me-2"></i>Aranwa Paracas
+                        </h4>
+                        <p class="lead mb-3">Frente al Mar</p>
+                        <p class="mb-4">Una celebración romántica con la brisa marina y atardeceres dorados como
+                            testigos. El escenario perfecto para parejas que aman el mar.</p>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-6">
+                                <div class="text-center p-2 bg-white rounded">
+                                    <i class="fas fa-users text-primary mb-1"></i>
+                                    <small class="d-block">Hasta 200 invitados</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center p-2 bg-white rounded">
+                                    <i class="fas fa-sun text-primary mb-1"></i>
+                                    <small class="d-block">Ceremonia al aire libre</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="list-unstyled mb-4">
+                            <li><i class="fas fa-check text-primary me-2"></i>Ceremonia en la playa</li>
+                            <li><i class="fas fa-check text-primary me-2"></i>Salón con vista al océano</li>
+                            <li><i class="fas fa-check text-primary me-2"></i>Cena romántica privada</li>
+                            <li><i class="fas fa-check text-primary me-2"></i>Actividades acuáticas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="destination-card">
+                        <img src="../../imagenes/aranwa-sacred-valley-bodas.png"
+                            alt="Aranwa Valle Sagrado - Bodas en medio de la naturaleza andina"
+                            class="img-fluid rounded mb-4">
+                        <h4 class="text-primary mb-3">
+                            <i class="fas fa-leaf me-2"></i>Valle Sagrado
+                        </h4>
+                        <p class="lead mb-3">Naturaleza Andina</p>
+                        <p class="mb-4">Rodeados de montañas sagradas y paisajes únicos, celebra tu unión en armonía con
+                            la naturaleza y la espiritualidad andina.</p>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-6">
+                                <div class="text-center p-2 bg-white rounded">
+                                    <i class="fas fa-users text-primary mb-1"></i>
+                                    <small class="d-block">Hasta 120 invitados</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center p-2 bg-white rounded">
+                                    <i class="fas fa-tree text-primary mb-1"></i>
+                                    <small class="d-block">Jardines privados</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="list-unstyled mb-4">
+                            <li><i class="fas fa-check text-primary me-2"></i>Ceremonia en jardines</li>
+                            <li><i class="fas fa-check text-primary me-2"></i>Ritual andino opcional</li>
+                            <li><i class="fas fa-check text-primary me-2"></i>Vista a montañas sagradas</li>
+                            <li><i class="fas fa-check text-primary me-2"></i>Experiencias místicas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Paquetes de Boda -->
+    <section class="py-5" id="paquetes">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 text-primary mb-3">Paquetes de Boda</h2>
+                <p class="lead">Servicios completos para que tu día sea perfecto</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Paquete Íntimo -->
+                <div class="col-lg-4">
+                    <div class="card wedding-card shadow-sm">
+                        <div class="card-body p-5 text-center">
+                            <div class="wedding-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h4 class="card-title text-primary mb-3">Ceremonia Íntima</h4>
+                            <p class="text-muted mb-4">Perfecta para celebraciones pequeñas y románticas</p>
+                            <div class="price-wedding mb-4">S/8,500</div>
+
+                            <ul class="list-unstyled text-start mb-4">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Hasta 30
+                                        invitados</strong></li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Ceremonia en jardín
+                                    privado</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Decoración floral básica
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cóctel de bienvenida</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cena de 3 tiempos</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Pastel de bodas</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Brindis con champagne
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Coordinador de evento
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Suite nupcial 1 noche
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paquete Elegante -->
+                <div class="col-lg-4">
+                    <div class="card wedding-card shadow-sm border-primary">
+                        <div class="card-body p-5 text-center">
+                            <div class="wedding-icon" style="background: linear-gradient(45deg, #007bff, #6610f2);">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <h4 class="card-title text-primary mb-3">Celebración Elegante</h4>
+                            <p class="text-muted mb-4">La opción más popular para bodas especiales</p>
+                            <div class="price-wedding mb-4">S/15,800</div>
+                            <div class="badge bg-warning text-dark mb-4">MÁS POPULAR</div>
+
+                            <ul class="list-unstyled text-start mb-4">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Hasta 80
+                                        invitados</strong></li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Ceremonia religiosa/civil
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Decoración premium</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Fotografía profesional
+                                    (4h)</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>DJ y sistema de sonido
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cena buffet premium</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Barra libre 5 horas</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Centro de mesa incluido
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Suite nupcial 2 noches
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Spa de cortesía para
+                                    novios</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paquete Luxury -->
+                <div class="col-lg-4">
+                    <div class="card wedding-card shadow-sm">
+                        <div class="card-body p-5 text-center">
+                            <div class="wedding-icon" style="background: linear-gradient(45deg, #fd7e14, #ffc107);">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <h4 class="card-title text-primary mb-3">Boda de Lujo</h4>
+                            <p class="text-muted mb-4">La experiencia más exclusiva y completa</p>
+                            <div class="price-wedding mb-4">S/28,500</div>
+
+                            <ul class="list-unstyled text-start mb-4">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i><strong>Hasta 150
+                                        invitados</strong></li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Ceremonia personalizada
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Decoración de lujo
+                                    completa</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Fotografía + Video (día
+                                    completo)</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Banda en vivo</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cena gourmet
+                                    personalizada</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Barra premium ilimitada
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Wedding planner personal
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Suite presidencial 3
+                                    noches</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Spa completo para novios
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Transfer VIP aeropuerto
+                                </li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cena romántica privada
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios Adicionales -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 text-primary mb-3">Servicios Adicionales</h2>
+                <p class="lead">Personaliza tu boda con nuestros servicios exclusivos</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="text-center p-4 bg-white rounded shadow-sm h-100">
+                        <i class="fas fa-camera fa-3x text-primary mb-3"></i>
+                        <h5>Fotografía Premium</h5>
+                        <p class="text-muted mb-3">Sesión pre-boda + día completo</p>
+                        <strong class="text-primary">+S/1,800</strong>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="text-center p-4 bg-white rounded shadow-sm h-100">
+                        <i class="fas fa-video fa-3x text-primary mb-3"></i>
+                        <h5>Video Cinematográfico</h5>
+                        <p class="text-muted mb-3">Drone + cámara profesional</p>
+                        <strong class="text-primary">+S/2,200</strong>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="text-center p-4 bg-white rounded shadow-sm h-100">
+                        <i class="fas fa-seedling fa-3x text-primary mb-3"></i>
+                        <h5>Decoración Temática</h5>
+                        <p class="text-muted mb-3">Diseño personalizado único</p>
+                        <strong class="text-primary">+S/1,500</strong>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="text-center p-4 bg-white rounded shadow-sm h-100">
+                        <i class="fas fa-utensils fa-3x text-primary mb-3"></i>
+                        <h5>Menú Gourmet</h5>
+                        <p class="text-muted mb-3">Chef exclusivo + menú degustación</p>
+                        <strong class="text-primary">+S/2,800</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 text-primary mb-3">Galería de Bodas</h2>
+                <p class="lead">Momentos mágicos capturados en nuestras instalaciones</p>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-item">
+                        <img src="../../imagenes/aranwa-cusco-eventos-01.png"
+                            alt="Ceremonia de boda en Aranwa Cusco con decoración elegante" class="img-fluid">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus fa-2x text-white"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-item">
+                        <img src="../../imagenes/aranwa-paracas-cena-romantica.png"
+                            alt="Cena romántica para novios en Aranwa Paracas" class="img-fluid">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus fa-2x text-white"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="gallery-item">
+                        <img src="../../imagenes/aranwa-cusco-03.png"
+                            alt="Recepción de bodas en salón elegante de Aranwa" class="img-fluid">
+                        <div class="gallery-overlay">
+                            <i class="fas fa-search-plus fa-2x text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulario de Consulta -->
+    <section class="py-5 bg-light" id="consultaForm">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-5">
+                            <div class="text-center mb-4">
+                                <h2 class="text-primary">Solicita tu Cotización</h2>
+                                <p class="lead">Cuéntanos sobre la boda de tus sueños y te ayudaremos a hacerla realidad
+                                </p>
+                            </div>
+
+                            <form id="bodaForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="nombreNovia" class="form-label">Nombre de la Novia *</label>
+                                        <input type="text" class="form-control form-control-lg" id="nombreNovia"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="nombreNovio" class="form-label">Nombre del Novio *</label>
+                                        <input type="text" class="form-control form-control-lg" id="nombreNovio"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="emailBoda" class="form-label">Correo Electrónico *</label>
+                                        <input type="email" class="form-control form-control-lg" id="emailBoda"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="telefonoBoda" class="form-label">Teléfono *</label>
+                                        <input type="tel" class="form-control form-control-lg" id="telefonoBoda"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="fechaBoda" class="form-label">Fecha de la Boda *</label>
+                                        <input type="date" class="form-control form-control-lg" id="fechaBoda" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="invitados" class="form-label">Número de Invitados *</label>
+                                        <select class="form-control form-control-lg" id="invitados" required>
+                                            <option value="">Selecciona</option>
+                                            <option value="1-30">1 - 30 invitados</option>
+                                            <option value="31-80">31 - 80 invitados</option>
+                                            <option value="81-150">81 - 150 invitados</option>
+                                            <option value="151+">Más de 150 invitados</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="destino" class="form-label">Destino Preferido *</label>
+                                        <select class="form-control form-control-lg" id="destino" required>
+                                            <option value="">Selecciona un destino</option>
+                                            <option value="cusco">Aranwa Cusco</option>
+                                            <option value="paracas">Aranwa Paracas</option>
+                                            <option value="valle-sagrado">Valle Sagrado</option>
+                                            <option value="sin-preferencia">Sin preferencia</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="paquete" class="form-label">Paquete de Interés</label>
+                                        <select class="form-control form-control-lg" id="paquete">
+                                            <option value="">Selecciona un paquete</option>
+                                            <option value="intima">Ceremonia Íntima - S/8,500</option>
+                                            <option value="elegante">Celebración Elegante - S/15,800</option>
+                                            <option value="lujo">Boda de Lujo - S/28,500</option>
+                                            <option value="personalizado">Paquete Personalizado</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="serviciosAdicionales" class="form-label">Servicios Adicionales de
+                                            Interés</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="fotografia"
+                                                        value="fotografia">
+                                                    <label class="form-check-label" for="fotografia">
+                                                        Fotografía Premium (+S/1,800)
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="video"
+                                                        value="video">
+                                                    <label class="form-check-label" for="video">
+                                                        Video Cinematográfico (+S/2,200)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="decoracion"
+                                                        value="decoracion">
+                                                    <label class="form-check-label" for="decoracion">
+                                                        Decoración Temática (+S/1,500)
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="gourmet"
+                                                        value="gourmet">
+                                                    <label class="form-check-label" for="gourmet">
+                                                        Menú Gourmet (+S/2,800)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="presupuesto" class="form-label">Presupuesto Estimado</label>
+                                        <select class="form-control form-control-lg" id="presupuesto">
+                                            <option value="">Selecciona un rango</option>
+                                            <option value="5000-10000">S/5,000 - S/10,000</option>
+                                            <option value="10000-20000">S/10,000 - S/20,000</option>
+                                            <option value="20000-35000">S/20,000 - S/35,000</option>
+                                            <option value="35000+">Más de S/35,000</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="mensajeBoda" class="form-label">Cuéntanos sobre tu boda
+                                            ideal</label>
+                                        <textarea class="form-control" id="mensajeBoda" rows="4"
+                                            placeholder="Describe tu visión, estilo preferido, tradiciones especiales, o cualquier detalle importante para tu celebración..."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                                        <i class="fas fa-heart love-heart me-2"></i>Solicitar Cotización
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Formulario de bodas
+        document.getElementById('bodaForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = {
+                novia: document.getElementById('nombreNovia').value,
+                novio: document.getElementById('nombreNovio').value,
+                email: document.getElementById('emailBoda').value,
+                telefono: document.getElementById('telefonoBoda').value,
+                fecha: document.getElementById('fechaBoda').value,
+                invitados: document.getElementById('invitados').value,
+                destino: document.getElementById('destino').value,
+                paquete: document.getElementById('paquete').value,
+                presupuesto: document.getElementById('presupuesto').value,
+                mensaje: document.getElementById('mensajeBoda').value
+            };
+
+            // Servicios adicionales seleccionados
+            const serviciosAdicionales = [];
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            checkboxes.forEach(cb => serviciosAdicionales.push(cb.value));
+
+            const destinoText = document.getElementById('destino').options[document.getElementById('destino').selectedIndex].text;
+            const paqueteText = document.getElementById('paquete').options[document.getElementById('paquete').selectedIndex].text;
+
+            alert('💕 SOLICITUD DE COTIZACIÓN ENVIADA\n\n' +
+                `Queridos ${formData.novia} y ${formData.novio}:\n\n` +
+                `📅 Fecha deseada: ${formData.fecha}\n` +
+                `👥 Invitados: ${formData.invitados}\n` +
+                `🏨 Destino: ${destinoText}\n` +
+                `💎 Paquete: ${paqueteText || 'Por definir'}\n\n` +
+                '📞 Nuestro Wedding Planner se contactará contigo en las próximas 4 horas para coordinar una cita personalizada.\n\n' +
+                '✨ ¡Juntos haremos realidad la boda de sus sueños!');
+        });
+
+        // Establecer fecha mínima como hoy
+        document.addEventListener('DOMContentLoaded', function () {
+            const hoy = new Date();
+            hoy.setDate(hoy.getDate() + 60); // Mínimo 2 meses de anticipación
+            const fechaMinima = hoy.toISOString().split('T')[0];
+            document.getElementById('fechaBoda').min = fechaMinima;
+        });
+
+        // Sticky navbar effect
+        window.addEventListener("scroll", function () {
+            var header = document.querySelector(".navbar");
+            if (header && window.scrollY > 100) {
+                header.classList.add("sticky-header");
+            } else if (header) {
+                header.classList.remove("sticky-header");
+            }
+        });
+
+        // Gallery lightbox effect (simulado)
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function () {
+                const img = this.querySelector('img');
+                const modal = `
+          <div class="modal fade" id="galleryModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-body p-0">
+                  <img src="${img.src}" alt="${img.alt}" class="img-fluid w-100">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+                document.body.insertAdjacentHTML('beforeend', modal);
+                const galleryModal = new bootstrap.Modal(document.getElementById('galleryModal'));
+                galleryModal.show();
+
+                document.getElementById('galleryModal').addEventListener('hidden.bs.modal', function () {
+                    this.remove();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

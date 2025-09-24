@@ -1,0 +1,49 @@
+    .hero-eventos {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../imagenes/aranwa-cusco-eventos-01.png');
+        background-size: cover;
+        background-position: center;
+        min-height: 70vh;
+        color: white;
+        display: flex;
+        align-items: center;
+    }
+
+    .service-card {
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .icon-circle {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: white;
+        font-size: 2rem;
+    }
+
+    .capacity-badge {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-weight: bold;
+    }
+
+    .price-tag {
+        background: linear-gradient(45deg, #ffc107, #fd7e14);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
