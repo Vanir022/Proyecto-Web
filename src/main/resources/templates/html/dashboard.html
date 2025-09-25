@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - ARANWA HOTELS</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+  <link rel="stylesheet" th:href="@{/css/styleIndex.css}">
+  
+  <style>
+    .dashboard-header {
+      background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+      color: white;
+      padding: 2rem 0;
+      margin-top: 76px;
+    }
+    
+    .welcome-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+    
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 3rem;
+      color: white;
+    }
+    
+    .info-card {
+      background: white;
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+      border-left: 4px solid #8B4513;
+    }
+    
+    .info-card h5 {
+      color: #8B4513;
+      margin-bottom: 1rem;
+    }
+    
+    .btn-aranwa {
+      background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-aranwa:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+      color: white;
+    }
+    
+    .logout-btn {
+      background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    }
+    
+    .logout-btn:hover {
+      box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+    }
+    
+    .stats-card {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 15px;
+      padding: 1.5rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    
+    .stats-number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #8B4513;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <div th:replace="fragments/Header :: header"></div>
+
+  <!-- Dashboard Header -->
+  <section class="dashboard-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="mb-3"><i class="fas fa-tachometer-alt me-3"></i>Panel de Cliente</h1>
+          <p class="lead mb-0">Bienvenido a tu espacio personal en Aranwa Hotels</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <form th:action="@{/logout}" method="post" style="display: inline;">
+            <button type="submit" class="btn-aranwa logout-btn">
+              <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Content -->
+  <section class="py-5" style="background: #f8f9fa;">
+    <div class="container">
+      <!-- Welcome Card -->
+      <div class="welcome-card">
+        <div class="row align-items-center">
+          <div class="col-md-3 text-center">
+            <div class="profile-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <h2 class="mb-3">¡Bienvenido de nuevo<span th:if="${detalles != null}">, <span th:text="${detalles.nombres}">Usuario</span></span>!</h2>
+            <p class="lead mb-2">
+              <i class="fas fa-envelope text-primary me-2"></i>
+              <strong>Email:</strong> <span th:text="${email}">usuario@example.com</span>
+            </p>
+            <div th:if="${detalles != null}">
+              <p class="lead mb-2">
+                <i class="fas fa-user text-primary me-2"></i>
+                <strong>Nombre Completo:</strong> <span th:text="${detalles.nombreCompleto}">Nombre Apellido</span>
+              </p>
+              <p class="lead mb-2" th:if="${detalles.telefono != null}">
+                <i class="fas fa-phone text-primary me-2"></i>
+                <strong>Teléfono:</strong> <span th:text="${detalles.telefono}">+51 999 999 999</span>
+              </p>
+            </div>
+            <p class="text-muted mb-3">
+              Nos alegra verte de nuevo en Aranwa Hotels. Desde aquí puedes gestionar tus reservas, 
+              ver tu historial y acceder a servicios exclusivos.
+            </p>
+            <small class="text-muted">
+              <i class="fas fa-calendar-alt me-1"></i>
+              Último acceso: <span id="currentDate"></span>
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="stats-card">
+            <div class="stats-number">0</div>
+            <small class="text-muted">Reservas Activas</small>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card">
+            <div class="stats-number">0</div>
+            <small class="text-muted">Reservas Completadas</small>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card">
+            <div class="stats-number">0</div>
+            <small class="text-muted">Puntos Aranwa</small>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card">
+            <div class="stats-number">Cliente</div>
+            <small class="text-muted">Estado</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="row">
+        <!-- Información del Cliente -->
+        <div class="col-lg-8">
+          <div class="info-card">
+            <h5><i class="fas fa-user-circle me-2"></i>Información Personal</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <p><strong>Email:</strong> <span th:text="${email}">usuario@example.com</span></p>
+                <p th:if="${detalles != null && detalles.nombres != null}">
+                  <strong>Nombre:</strong> <span th:text="${detalles.nombres}">Nombre</span>
+                </p>
+                <p th:if="${detalles != null && detalles.apellidos != null}">
+                  <strong>Apellidos:</strong> <span th:text="${detalles.apellidos}">Apellidos</span>
+                </p>
+                <p><strong>Estado de la Cuenta:</strong> <span class="badge bg-success">Activa</span></p>
+                <p><strong>Tipo de Cliente:</strong> Cliente Regular</p>
+              </div>
+              <div class="col-md-6">
+                <p th:if="${detalles != null && detalles.telefono != null}">
+                  <strong>Teléfono:</strong> <span th:text="${detalles.telefono}">N/A</span>
+                </p>
+                <p th:if="${detalles != null && detalles.fechaNacimiento != null}">
+                  <strong>Fecha de Nacimiento:</strong> 
+                  <span th:text="${#temporals.format(detalles.fechaNacimiento, 'dd/MM/yyyy')}">N/A</span>
+                </p>
+                <p th:if="${detalles != null && detalles.intereses != null && !detalles.intereses.isEmpty()}">
+                  <strong>Intereses:</strong> <span th:text="${detalles.intereses}">N/A</span>
+                </p>
+                <p><strong>Fecha de Registro:</strong> Hoy</p>
+                <p><strong>Nivel de Membresía:</strong> Estándar</p>
+              </div>
+            </div>
+            <hr>
+            <div class="text-center">
+              <a href="#" class="btn-aranwa me-2">
+                <i class="fas fa-edit me-2"></i>Editar Perfil
+              </a>
+              <a href="#" class="btn-aranwa">
+                <i class="fas fa-key me-2"></i>Cambiar Contraseña
+              </a>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h5><i class="fas fa-calendar-check me-2"></i>Mis Reservas</h5>
+            <div class="text-center py-4">
+              <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+              <h6 class="text-muted">No tienes reservas activas</h6>
+              <p class="text-muted">¡Explora nuestros destinos y haz tu primera reserva!</p>
+              <a th:href="@{/reservas}" class="btn-aranwa">
+                <i class="fas fa-plus me-2"></i>Nueva Reserva
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acciones Rápidas -->
+        <div class="col-lg-4">
+          <div class="info-card">
+            <h5><i class="fas fa-bolt me-2"></i>Acciones Rápidas</h5>
+            <div class="d-grid gap-2">
+              <a th:href="@{/reservas}" class="btn btn-outline-primary">
+                <i class="fas fa-bed me-2"></i>Hacer Reserva
+              </a>
+              <a th:href="@{/spa}" class="btn btn-outline-success">
+                <i class="fas fa-spa me-2"></i>Servicios Spa
+              </a>
+              <a th:href="@{/eventos}" class="btn btn-outline-warning">
+                <i class="fas fa-calendar-plus me-2"></i>Eventos Especiales
+              </a>
+              <a th:href="@{/contactos}" class="btn btn-outline-info">
+                <i class="fas fa-phone me-2"></i>Contactar Soporte
+              </a>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h5><i class="fas fa-gift me-2"></i>Ofertas Especiales</h5>
+            <div class="alert alert-success">
+              <i class="fas fa-star me-2"></i>
+              <strong>¡Bienvenido!</strong> 
+              <br>Como nuevo cliente, disfruta de un 10% de descuento en tu primera reserva.
+            </div>
+            <div class="text-center">
+              <a href="#" class="btn-aranwa btn-sm">
+                <i class="fas fa-tags me-2"></i>Ver Todas las Ofertas
+              </a>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <h5><i class="fas fa-headset me-2"></i>Soporte</h5>
+            <p class="small text-muted">¿Necesitas ayuda? Nuestro equipo está disponible 24/7</p>
+            <div class="d-grid gap-1">
+              <a href="tel:+51-1-234-5678" class="btn btn-sm btn-outline-primary">
+                <i class="fas fa-phone me-2"></i>Llamar Ahora
+              </a>
+              <a href="mailto:soporte@aranwa.com" class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-envelope me-2"></i>Enviar Email
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Mostrar fecha actual
+    document.getElementById('currentDate').textContent = new Date().toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    // Efectos de animación al cargar
+    window.addEventListener('load', function() {
+      const cards = document.querySelectorAll('.info-card, .welcome-card');
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          card.style.transition = 'all 0.5s ease';
+          
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 100);
+        }, index * 100);
+      });
+    });
+
+    // Sticky navbar effect
+    window.addEventListener("scroll", function () {
+      var header = document.querySelector(".navbar");
+      if (header && window.scrollY > 100) {
+        header.classList.add("sticky-header");
+      } else if (header) {
+        header.classList.remove("sticky-header");
+      }
+    });
+  </script>
+</body>
+
+</html>

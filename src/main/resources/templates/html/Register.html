@@ -74,21 +74,33 @@
             </div>
 
             <!-- Formulario principal -->
-            <form id="registerForm">
+            <form id="registerForm" th:action="@{/auth/registro}" method="post">
+              <!-- Mostrar mensajes de error -->
+              <div id="errorMessage" class="alert alert-danger mb-3" role="alert" style="display: none;">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <span id="errorText"></span>
+              </div>
+              
+              <!-- Mostrar mensajes de éxito -->
+              <div id="successMessage" class="alert alert-success mb-3" role="alert" style="display: none;">
+                <i class="fas fa-check-circle me-2"></i>
+                <span id="successText"></span>
+              </div>
+
               <!-- Información Personal -->
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="firstName" class="form-label fw-semibold">
                     <i class="fas fa-user me-2 text-primary"></i>Nombre
                   </label>
-                  <input type="text" class="form-control form-control-lg" id="firstName" 
+                  <input type="text" class="form-control form-control-lg" id="firstName" name="firstName"
                          placeholder="Ingrese su nombre" required>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="lastName" class="form-label fw-semibold">
                     <i class="fas fa-user me-2 text-primary"></i>Apellido
                   </label>
-                  <input type="text" class="form-control form-control-lg" id="lastName" 
+                  <input type="text" class="form-control form-control-lg" id="lastName" name="lastName"
                          placeholder="Ingrese su apellido" required>
                 </div>
               </div>
@@ -97,7 +109,7 @@
                 <label for="email" class="form-label fw-semibold">
                   <i class="fas fa-envelope me-2 text-primary"></i>Correo Electrónico
                 </label>
-                <input type="email" class="form-control form-control-lg" id="email" 
+                <input type="email" class="form-control form-control-lg" id="email" name="email"
                        placeholder="Ingrese su correo electrónico" required>
               </div>
 
@@ -106,45 +118,16 @@
                   <label for="phone" class="form-label fw-semibold">
                     <i class="fas fa-phone me-2 text-primary"></i>Teléfono
                   </label>
-                  <input type="tel" class="form-control form-control-lg" id="phone" 
+                  <input type="tel" class="form-control form-control-lg" id="phone" name="phone"
                          placeholder="+51 999 999 999" required>
                 </div>
-                
-                <!--<div class="col-md-6 mb-3">
-                  <label for="country" class="form-label fw-semibold">
-                    <i class="fas fa-globe me-2 text-primary"></i>País
-                  </label>
-                  <select class="form-control form-control-lg" id="country" required>
-                    <option value="">Seleccione su país</option>
-                    <option value="PE">Perú</option>
-                    <option value="AR">Argentina</option>
-                    <option value="BO">Bolivia</option>
-                    <option value="BR">Brasil</option>
-                    <option value="CL">Chile</option>
-                    <option value="CO">Colombia</option>
-                    <option value="EC">Ecuador</option>
-                    <option value="UY">Uruguay</option>
-                    <option value="VE">Venezuela</option>
-                    <option value="US">Estados Unidos</option>
-                    <option value="CA">Canadá</option>
-                    <option value="MX">México</option>
-                    <option value="ES">España</option>
-                    <option value="FR">Francia</option>
-                    <option value="IT">Italia</option>
-                    <option value="DE">Alemania</option>
-                    <option value="UK">Reino Unido</option>
-                    <option value="JP">Japón</option>
-                    <option value="AU">Australia</option>
-                    <option value="OTHER">Otro</option>
-                  </select>
-                </div>-->
               </div>
 
               <div class="mb-3">
                 <label for="birthDate" class="form-label fw-semibold">
                   <i class="fas fa-calendar me-2 text-primary"></i>Fecha de Nacimiento
                 </label>
-                <input type="date" class="form-control form-control-lg" id="birthDate" required>
+                <input type="date" class="form-control form-control-lg" id="birthDate" name="birthDate" required>
               </div>
 
               <!-- Credenciales -->
@@ -153,7 +136,7 @@
                   <i class="fas fa-lock me-2 text-primary"></i>Contraseña
                 </label>
                 <div class="position-relative">
-                  <input type="password" class="form-control form-control-lg" id="password" 
+                  <input type="password" class="form-control form-control-lg" id="password" name="password"
                          placeholder="Mínimo 8 caracteres" required minlength="8">
                   <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" 
                           onclick="togglePassword('password')" style="z-index: 10; border: none;">
@@ -173,7 +156,7 @@
                   <i class="fas fa-lock me-2 text-primary"></i>Confirmar Contraseña
                 </label>
                 <div class="position-relative">
-                  <input type="password" class="form-control form-control-lg" id="confirmPassword" 
+                  <input type="password" class="form-control form-control-lg" id="confirmPassword" name="confirmPassword"
                          placeholder="Repita su contraseña" required>
                   <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" 
                           onclick="togglePassword('confirmPassword')" style="z-index: 10; border: none;">
@@ -191,29 +174,29 @@
                 <div class="row">
                   <div class="col-6">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="spa" value="spa">
+                      <input class="form-check-input" type="checkbox" id="spa" name="interests" value="spa">
                       <label class="form-check-label" for="spa">Spa & Bienestar</label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="gastronomia" value="gastronomia">
+                      <input class="form-check-input" type="checkbox" id="gastronomia" name="interests" value="gastronomia">
                       <label class="form-check-label" for="gastronomia">Gastronomía</label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="aventura" value="aventura">
+                      <input class="form-check-input" type="checkbox" id="aventura" name="interests" value="aventura">
                       <label class="form-check-label" for="aventura">Aventura</label>
                     </div>
                   </div>
                   <div class="col-6">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="cultura" value="cultura">
+                      <input class="form-check-input" type="checkbox" id="cultura" name="interests" value="cultura">
                       <label class="form-check-label" for="cultura">Cultura</label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="familia" value="familia">
+                      <input class="form-check-input" type="checkbox" id="familia" name="interests" value="familia">
                       <label class="form-check-label" for="familia">Familiar</label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="romance" value="romance">
+                      <input class="form-check-input" type="checkbox" id="romance" name="interests" value="romance">
                       <label class="form-check-label" for="romance">Romántico</label>
                     </div>
                   </div>
@@ -223,14 +206,14 @@
               <!-- Términos y condiciones -->
               <div class="mb-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="acceptTerms" required>
+                  <input class="form-check-input" type="checkbox" id="acceptTerms" name="acceptTerms" required>
                   <label class="form-check-label" for="acceptTerms">
                     Acepto los <a href="#" onclick="showTerms()" class="text-primary">Términos y Condiciones</a> 
                     y la <a href="#" onclick="showPrivacy()" class="text-primary">Política de Privacidad</a>
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="acceptMarketing">
+                  <input class="form-check-input" type="checkbox" id="acceptMarketing" name="acceptMarketing">
                   <label class="form-check-label" for="acceptMarketing">
                     Deseo recibir ofertas especiales y novedades por email
                   </label>
@@ -266,12 +249,12 @@
             <!-- Enlaces adicionales -->
             <div class="text-center login-links">
               <p class="mb-0">¿Ya tienes una cuenta? 
-                <a href="login.html">
+                <a th:href="@{/login}">
                   <strong>Inicia sesión aquí</strong>
                 </a>
               </p>
               <p class="mt-2 mb-0">
-                <a href="../index.html" class="d-flex align-items-center justify-content-center">
+                <a th:href="@{/}" class="d-flex align-items-center justify-content-center">
                   <i class="fas fa-arrow-left me-2"></i>Volver al inicio
                 </a>
               </p>
@@ -434,25 +417,33 @@
     document.getElementById('registerForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
+      // Ocultar mensajes previos
+      document.getElementById('errorMessage').style.display = 'none';
+      document.getElementById('successMessage').style.display = 'none';
+      
       // Validaciones básicas
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
       const acceptTerms = document.getElementById('acceptTerms').checked;
       
       if (!checkPasswordStrength(password)) {
-        alert('La contraseña debe ser más fuerte. Incluya mayúsculas, minúsculas, números y caracteres especiales.');
+        showError('La contraseña debe ser más fuerte. Incluya mayúsculas, minúsculas, números y caracteres especiales.');
         return;
       }
       
       if (!checkPasswordMatch()) {
-        alert('Las contraseñas no coinciden.');
+        showError('Las contraseñas no coinciden.');
         return;
       }
       
       if (!acceptTerms) {
-        alert('Debe aceptar los términos y condiciones.');
+        showError('Debe aceptar los términos y condiciones.');
         return;
       }
+      
+      // Recopilar intereses seleccionados
+      const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked'))
+                             .map(checkbox => checkbox.value);
       
       // Recopilar datos del formulario
       const formData = {
@@ -460,11 +451,11 @@
         lastName: document.getElementById('lastName').value,
         email: document.getElementById('email').value,
         phone: document.getElementById('phone').value,
-        country: document.getElementById('country').value,
         birthDate: document.getElementById('birthDate').value,
-        interests: Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
-                        .filter(cb => cb.id !== 'acceptTerms' && cb.id !== 'acceptMarketing')
-                        .map(cb => cb.value),
+        password: password,
+        confirmPassword: confirmPassword,
+        interests: interests,
+        acceptTerms: acceptTerms,
         acceptMarketing: document.getElementById('acceptMarketing').checked
       };
       
@@ -474,21 +465,56 @@
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creando cuenta...';
       submitBtn.disabled = true;
       
-      // Simular procesamiento
-      setTimeout(() => {
-        alert('¡Bienvenido a Aranwa Hotels, ' + formData.firstName + '!\n\n' +
-              'Tu cuenta ha sido creada exitosamente.\n' +
-              'Te hemos enviado un email de confirmación a: ' + formData.email + '\n\n' +
-              '¡Disfruta de todos nuestros beneficios exclusivos!');
-        
+      // Enviar datos al servidor
+      fetch('/auth/registro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          // Éxito
+          showSuccess('¡Bienvenido a Aranwa Hotels, ' + formData.firstName + '! Tu cuenta ha sido creada exitosamente. Redirigiendo al login...');
+          
+          // Redireccionar al login después de 3 segundos
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 3000);
+        } else if (data.error) {
+          // Error del servidor
+          showError(data.error);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showError('Error de conexión. Por favor, inténtelo de nuevo.');
+      })
+      .finally(() => {
         // Restaurar botón
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-        
-        // Redireccionar al login
-        window.location.href = 'login.html';
-      }, 3000);
+      });
     });
+
+    // Funciones helper para mostrar mensajes
+    function showError(message) {
+      const errorDiv = document.getElementById('errorMessage');
+      const errorText = document.getElementById('errorText');
+      errorText.textContent = message;
+      errorDiv.style.display = 'block';
+      errorDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showSuccess(message) {
+      const successDiv = document.getElementById('successMessage');
+      const successText = document.getElementById('successText');
+      successText.textContent = message;
+      successDiv.style.display = 'block';
+      successDiv.scrollIntoView({ behavior: 'smooth' });
+    }
 
     // Funciones para mostrar términos y políticas
     function showTerms() {

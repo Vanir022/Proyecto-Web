@@ -75,12 +75,23 @@
             </div>
 
             <!-- Formulario principal -->
-            <form id="loginForm">
+            <form id="loginForm" th:action="@{/login}" method="post">
+              <!-- Mostrar mensajes de error o logout -->
+              <div th:if="${errorMessage}" class="alert alert-danger mb-3" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <span th:text="${errorMessage}"></span>
+              </div>
+              
+              <div th:if="${logoutMessage}" class="alert alert-success mb-3" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <span th:text="${logoutMessage}"></span>
+              </div>
+              
               <div class="mb-4">
                 <label for="email" class="form-label fw-semibold">
                   <i class="fas fa-envelope me-2 text-primary"></i>Correo Electrónico
                 </label>
-                <input type="email" class="form-control form-control-lg" id="email" 
+                <input type="email" class="form-control form-control-lg" id="email" name="email"
                        placeholder="Ingrese su correo electrónico" required>
               </div>
 
@@ -89,7 +100,7 @@
                   <i class="fas fa-lock me-2 text-primary"></i>Contraseña
                 </label>
                 <div class="position-relative">
-                  <input type="password" class="form-control form-control-lg" id="password" 
+                  <input type="password" class="form-control form-control-lg" id="password" name="password"
                          placeholder="Ingrese su contraseña" required>
                   <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" 
                           onclick="togglePassword()" style="z-index: 10; border: none;">
@@ -101,7 +112,7 @@
               <!-- Recordar sesión -->
               <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="rememberMe">
+                  <input class="form-check-input" type="checkbox" id="rememberMe" name="remember-me">
                   <label class="form-check-label" for="rememberMe">
                     Recordar sesión
                   </label>
@@ -198,7 +209,8 @@
       }
     }
 
-    // Manejo del formulario de login
+    // Manejo del formulario de login - Comentado para permitir envío normal del formulario
+    /*
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
@@ -228,6 +240,7 @@
         }, 2000);
       }
     });
+    */
 
     // Función para mostrar recuperación de contraseña
     function showForgotPassword() {
