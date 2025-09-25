@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Reservas en Aranwa Hotels - Reserva habitaciones de lujo y servicios exclusivos como Spa, Bodas y Eventos en los mejores destinos del Perú.">
+    <meta name="keywords" content="reservas, habitaciones, Aranwa Hotels, spa, bodas, eventos, turismo Peru, hoteles lujo">
+    <meta name="author" content="Aranwa Hotels Resorts & Spa">
+
+    <title>Reservas - ARANWA HOTELS</title>
+
+    <!-- Preconnect para mejorar performance -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://pro.fontawesome.com">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" th:href="@{/css/styleIndex.css}">
+</head>
+
+<body>
+    <!-- Header -->
+    <div th:replace="fragments/Header :: header"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section d-flex align-items-center" style="margin-top: 76px;" role="banner">
+        <div class="container text-center">
+            <h1 class="display-3 fw-bold mb-4">Reservas</h1>
+            <p class="lead mb-5">Descubre nuestras habitaciones de lujo y servicios exclusivos para una experiencia inolvidable</p>
+
+            <!-- Formulario de Reserva Mejorado -->
+            <form class="reservation-form" role="search" aria-label="Formulario de reserva de hotel">
+                <div class="row g-2 justify-content-center">
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="bg-white p-3 rounded shadow-sm text-dark">
+                            <label for="fechaLlegada" class="d-block mb-2 fw-bold small">FECHA DE LLEGADA</label>
+                            <input type="date" class="form-control border-0" id="fechaLlegada" name="fechaLlegada" aria-label="Seleccionar fecha de llegada">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="bg-white p-3 rounded shadow-sm text-dark">
+                            <label for="fechaSalida" class="d-block mb-2 fw-bold small">FECHA DE SALIDA</label>
+                            <input type="date" class="form-control border-0" id="fechaSalida" name="fechaSalida" aria-label="Seleccionar fecha de salida">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="bg-white p-3 rounded shadow-sm text-dark">
+                            <label for="adultos" class="d-block mb-2 fw-bold small">ADULTOS</label>
+                            <input type="number" class="form-control border-0" id="adultos" name="adultos" placeholder="01" min="1" max="10" aria-label="Número de adultos">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-6">
+                        <div class="bg-white p-3 rounded shadow-sm text-dark">
+                            <label for="ninos" class="d-block mb-2 fw-bold small">NIÑOS</label>
+                            <input type="number" class="form-control border-0" id="ninos" name="ninos" placeholder="00" min="0" max="10" aria-label="Número de niños">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-12">
+                        <button type="button" class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center"
+                            onclick="buscarDisponibilidad()" aria-label="Buscar disponibilidad de reserva">
+                            <span class="me-2">BUSCAR</span>
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Habitaciones Disponibles -->
+    <section class="py-5" role="main">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 text-primary mb-3">Habitaciones Disponibles</h2>
+                <p class="lead">Descubre nuestras elegantes habitaciones diseñadas para tu máximo confort</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Habitación Deluxe King -->
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow h-100">
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                <img src="../imagenes/duplex1.png" alt="Habitación Deluxe con cama King size" 
+                                     class="img-fluid h-100 w-100 object-fit-cover rounded-start">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body h-100 d-flex flex-column">
+                                    <h4 class="card-title text-center text-primary">Habitación Deluxe King</h4>
+                                    <div class="text-center mb-3">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                    </div>
+                                    
+                                    <!-- Amenidades -->
+                                    <div class="row g-2 mb-3 flex-grow-1">
+                                        <div class="col-6">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-bed text-primary me-2"></i>
+                                                <small>Cama King Size</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-wifi text-primary me-2"></i>
+                                                <small>WiFi Gratuito</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-desktop text-primary me-2"></i>
+                                                <small>Smart TV</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-hot-tub text-primary me-2"></i>
+                                                <small>Jacuzzi</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-temperature-high text-primary me-2"></i>
+                                                <small>A/C</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-bath text-primary me-2"></i>
+                                                <small>Amenities Premium</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-auto">
+                                        <h5 class="text-primary mb-3 text-center">S/800 / Noche</h5>
+                                        <button type="button" class="btn btn-primary w-100" 
+                                                onclick="mostrarDetallesHabitacion('deluxe-king')"
+                                                aria-label="Ver detalles de habitación Deluxe King">
+                                            <span>Ver Detalles y Reservar</span>
+                                            <i class="fas fa-arrow-circle-right ms-2"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Habitación Deluxe Matrimonial -->
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow h-100">
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                <img src="../imagenes/duplex2.png" alt="Habitación Deluxe Matrimonial" 
+                                     class="img-fluid h-100 w-100 object-fit-cover rounded-start">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body h-100 d-flex flex-column">
+                                    <h4 class="card-title text-center text-primary">Habitación Deluxe Matrimonial</h4>
+                                    <div class="text-center mb-3">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                    </div>
+                                    
+                                    <!-- Amenidades -->
+                                    <div class="row g-2 mb-3 flex-grow-1">
+                                        <div class="col-6">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-bed text-primary me-2"></i>
+                                                <small>Cama Matrimonial</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-mountain text-primary me-2"></i>
+                                                <small>Vista al Valle</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-expand-arrows-alt text-primary me-2"></i>
+                                                <small>40 m²</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-mug-hot text-primary me-2"></i>
+                                                <small>Cafetera</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-unlock-alt text-primary me-2"></i>
+                                                <small>Caja de Seguridad</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-phone text-primary me-2"></i>
+                                                <small>Servicio a la Hab.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-auto">
+                                        <h5 class="text-primary mb-3 text-center">S/622 / Noche</h5>
+                                        <button type="button" class="btn btn-primary w-100" 
+                                                onclick="mostrarDetallesHabitacion('deluxe-matrimonial')"
+                                                aria-label="Ver detalles de habitación Deluxe Matrimonial">
+                                            <span>Ver Detalles y Reservar</span>
+                                            <i class="fas fa-arrow-circle-right ms-2"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suite Presidential -->
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow h-100">
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                <img src="../imagenes/Habitacion4.png" alt="Suite Presidential de lujo" 
+                                     class="img-fluid h-100 w-100 object-fit-cover rounded-start">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body h-100 d-flex flex-column">
+                                    <h4 class="card-title text-center text-primary">Suite Presidential</h4>
+                                    <div class="text-center mb-3">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <span class="badge bg-warning text-dark ms-2">PREMIUM</span>
+                                    </div>
+                                    
+                                    <!-- Amenidades -->
+                                    <div class="row g-2 mb-3 flex-grow-1">
+                                        <div class="col-6">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-crown text-primary me-2"></i>
+                                                <small>Suite de Lujo</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-couch text-primary me-2"></i>
+                                                <small>Sala Privada</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-expand-arrows-alt text-primary me-2"></i>
+                                                <small>85 m²</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-hot-tub text-primary me-2"></i>
+                                                <small>Jacuzzi Doble</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-glass-cheers text-primary me-2"></i>
+                                                <small>Minibar Premium</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-concierge-bell text-primary me-2"></i>
+                                                <small>Mayordomo 24/7</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-auto">
+                                        <h5 class="text-primary mb-3 text-center">S/1,450 / Noche</h5>
+                                        <button type="button" class="btn btn-primary w-100" 
+                                                onclick="mostrarDetallesHabitacion('suite-presidential')"
+                                                aria-label="Ver detalles de Suite Presidential">
+                                            <span>Ver Detalles y Reservar</span>
+                                            <i class="fas fa-arrow-circle-right ms-2"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Habitación Estándar -->
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow h-100">
+                        <div class="row g-0">
+                            <div class="col-md-5">
+                                <img src="../imagenes/aranwa-cusco-habitaciones-01.png" alt="Habitación Estándar confortable" 
+                                     class="img-fluid h-100 w-100 object-fit-cover rounded-start">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body h-100 d-flex flex-column">
+                                    <h4 class="card-title text-center text-primary">Habitación Estándar</h4>
+                                    <div class="text-center mb-3">
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <i class="fas fa-star text-secondary"></i>
+                                        <span class="badge bg-success text-white ms-2">POPULAR</span>
+                                    </div>
+                                    
+                                    <!-- Amenidades -->
+                                    <div class="row g-2 mb-3 flex-grow-1">
+                                        <div class="col-6">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-bed text-primary me-2"></i>
+                                                <small>2 Camas Simples</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-expand-arrows-alt text-primary me-2"></i>
+                                                <small>28 m²</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-wifi text-primary me-2"></i>
+                                                <small>WiFi Gratuito</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-tv text-primary me-2"></i>
+                                                <small>Cable TV</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-snowflake text-primary me-2"></i>
+                                                <small>Aire Acond.</small>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="fas fa-coffee text-primary me-2"></i>
+                                                <small>Desayuno Incluido</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-auto">
+                                        <h5 class="text-primary mb-3 text-center">S/420 / Noche</h5>
+                                        <button type="button" class="btn btn-primary w-100" 
+                                                onclick="mostrarDetallesHabitacion('estandar')"
+                                                aria-label="Ver detalles de Habitación Estándar">
+                                            <span>Ver Detalles y Reservar</span>
+                                            <i class="fas fa-arrow-circle-right ms-2"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios Disponibles -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 text-primary mb-3">Servicios Exclusivos</h2>
+                <p class="lead">Complementa tu estadía con nuestros servicios premium</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Servicio de Spa -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <img src="../imagenes/aranwa-paracas-spa.png" alt="Spa y Bienestar en Aranwa" class="card-img-top">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-spa fa-2x text-success me-3"></i>
+                                <h4 class="card-title text-primary mb-0">Spa & Bienestar</h4>
+                            </div>
+                            <p class="card-text flex-grow-1">Disfruta de tratamientos relajantes, masajes terapéuticos y circuitos de aguas termales en un ambiente de total tranquilidad.</p>
+                            
+                            <div class="mb-3">
+                                <h6 class="text-muted">Servicios incluidos:</h6>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check text-success me-2"></i>Masajes relajantes y terapéuticos</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Circuito de aguas termales</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Tratamientos faciales y corporales</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Yoga y meditación</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-primary fw-bold">Desde S/180</span>
+                                    <small class="text-muted">por tratamiento</small>
+                                </div>
+                                <button type="button" class="btn btn-success w-100" onclick="reservarServicio('spa')">
+                                    <i class="fas fa-leaf me-2"></i>Reservar Spa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servicio de Bodas -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <img src="../imagenes/aranwa-sacred-valley-bodas.png" alt="Bodas en Aranwa Hotels" class="card-img-top">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-heart fa-2x text-danger me-3"></i>
+                                <h4 class="card-title text-primary mb-0">Bodas & Matrimonios</h4>
+                            </div>
+                            <p class="card-text flex-grow-1">Celebra el día más importante de tu vida en destinos únicos con paquetes completos que incluyen todo lo necesario.</p>
+                            
+                            <div class="mb-3">
+                                <h6 class="text-muted">Paquetes disponibles:</h6>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check text-success me-2"></i>Ceremonia Íntima (hasta 30 invitados)</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Celebración Elegante (hasta 80 invitados)</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Boda de Lujo (hasta 150 invitados)</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Wedding planner incluido</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-primary fw-bold">Desde S/8,500</span>
+                                    <small class="text-muted">paquete completo</small>
+                                </div>
+                                <button type="button" class="btn btn-outline-danger w-100" onclick="reservarServicio('bodas')">
+                                    <i class="fas fa-heart me-2"></i>Cotizar Boda
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servicio de Eventos -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <img src="../imagenes/aranwa-cusco-eventos-01.png" alt="Eventos corporativos en Aranwa" class="card-img-top">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-calendar-alt fa-2x text-warning me-3"></i>
+                                <h4 class="card-title text-primary mb-0">Eventos Corporativos</h4>
+                            </div>
+                            <p class="card-text flex-grow-1">Organiza conferencias, seminarios, celebraciones corporativas y eventos especiales en nuestros espacios únicos.</p>
+                            
+                            <div class="mb-3">
+                                <h6 class="text-muted">Servicios incluidos:</h6>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check text-success me-2"></i>Salones equipados con tecnología</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Servicio de catering personalizado</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Coordinador de eventos</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Actividades de team building</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-primary fw-bold">Desde S/2,800</span>
+                                    <small class="text-muted">por evento</small>
+                                </div>
+                                <button type="button" class="btn btn-outline-warning w-100" onclick="reservarServicio('eventos')">
+                                    <i class="fas fa-calendar-alt me-2"></i>Cotizar Evento
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulario de Contacto para Reservas Personalizadas -->
+    <section class="py-5" id="contactoReservas">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow">
+                        <div class="card-body p-5">
+                            <div class="text-center mb-4">
+                                <h2 class="text-primary">¿Necesitas una Reserva Personalizada?</h2>
+                                <p class="lead">Nuestros especialistas te ayudarán a crear la experiencia perfecta</p>
+                            </div>
+
+                            <form id="reservaPersonalizadaForm">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="nombreCompleto" class="form-label">Nombre Completo *</label>
+                                        <input type="text" class="form-control form-control-lg" id="nombreCompleto" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Correo Electrónico *</label>
+                                        <input type="email" class="form-control form-control-lg" id="email" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="telefono" class="form-label">Teléfono *</label>
+                                        <input type="tel" class="form-control form-control-lg" id="telefono" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="tipoReserva" class="form-label">Tipo de Reserva *</label>
+                                        <select class="form-control form-control-lg" id="tipoReserva" required>
+                                            <option value="">Selecciona</option>
+                                            <option value="habitacion">Solo Habitación</option>
+                                            <option value="habitacion-spa">Habitación + Spa</option>
+                                            <option value="paquete-romantico">Paquete Romántico</option>
+                                            <option value="evento-corporativo">Evento Corporativo</option>
+                                            <option value="boda">Boda o Celebración</option>
+                                            <option value="grupo">Reserva Grupal</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="fechaPreferida" class="form-label">Fecha Preferida</label>
+                                        <input type="date" class="form-control form-control-lg" id="fechaPreferida">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="huespedes" class="form-label">Número de Huéspedes</label>
+                                        <input type="number" class="form-control form-control-lg" id="huespedes" min="1" max="200">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="serviciosInteres" class="form-label">Servicios de Interés</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="spaServicio" value="spa">
+                                                    <label class="form-check-label" for="spaServicio">
+                                                        Servicios de Spa y Bienestar
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="restaurante" value="restaurante">
+                                                    <label class="form-check-label" for="restaurante">
+                                                        Reservas en Restaurante
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="transporte" value="transporte">
+                                                    <label class="form-check-label" for="transporte">
+                                                        Transporte desde el aeropuerto
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="tours" value="tours">
+                                                    <label class="form-check-label" for="tours">
+                                                        Tours y Excursiones
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="eventos" value="eventos">
+                                                    <label class="form-check-label" for="eventos">
+                                                        Organización de Eventos
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="celebracion" value="celebracion">
+                                                    <label class="form-check-label" for="celebracion">
+                                                        Celebraciones Especiales
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="comentarios" class="form-label">Comentarios o Solicitudes Especiales</label>
+                                        <textarea class="form-control" id="comentarios" rows="4" placeholder="Cuéntanos sobre tu viaje ideal, preferencias alimenticias, ocasiones especiales, o cualquier solicitud particular..."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                                        <i class="fas fa-paper-plane me-2"></i>Enviar Solicitud
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Función para buscar disponibilidad
+        function buscarDisponibilidad() {
+            const fechaLlegada = document.getElementById('fechaLlegada').value;
+            const fechaSalida = document.getElementById('fechaSalida').value;
+            const adultos = document.getElementById('adultos').value || 1;
+            const ninos = document.getElementById('ninos').value || 0;
+            
+            // Validaciones básicas
+            if (!fechaLlegada || !fechaSalida) {
+                alert('Por favor, selecciona las fechas de llegada y salida.');
+                return;
+            }
+            
+            const llegada = new Date(fechaLlegada);
+            const salida = new Date(fechaSalida);
+            const hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+            
+            if (llegada < hoy) {
+                alert('La fecha de llegada debe ser hoy o posterior.');
+                return;
+            }
+            
+            if (salida <= llegada) {
+                alert('La fecha de salida debe ser posterior a la fecha de llegada.');
+                return;
+            }
+            
+            // Calcular noches
+            const noches = Math.ceil((salida - llegada) / (1000 * 60 * 60 * 24));
+            
+            alert(`🔍 BÚSQUEDA COMPLETADA\n\n` +
+                  `📅 Llegada: ${fechaLlegada}\n` +
+                  `📅 Salida: ${fechaSalida}\n` +
+                  `🌙 ${noches} noche(s)\n` +
+                  `👥 ${adultos} adulto(s), ${ninos} niño(s)\n\n` +
+                  `✅ Habitaciones disponibles mostradas abajo\n` +
+                  `💡 Selecciona la habitación de tu preferencia`);
+        }
+
+        // Función para mostrar detalles de habitación
+        function mostrarDetallesHabitacion(tipo) {
+            const habitaciones = {
+                'deluxe-king': {
+                    nombre: 'Habitación Deluxe King',
+                    precio: 800,
+                    descripcion: 'Habitación elegante con cama King, Smart TV, jacuzzi y todas las comodidades premium.',
+                    amenidades: ['Cama King Size', 'Jacuzzi privado', 'Smart TV 55"', 'WiFi de alta velocidad', 'Aire acondicionado', 'Minibar', 'Caja de seguridad', 'Servicio a la habitación 24h']
+                },
+                'deluxe-matrimonial': {
+                    nombre: 'Habitación Deluxe Matrimonial',
+                    precio: 622,
+                    descripcion: 'Habitación con vista al valle del Colca, 40 m² de espacios cómodos y acogedores.',
+                    amenidades: ['Cama matrimonial', 'Vista al Valle del Colca', '40 m² de espacio', 'Cafetera', 'WiFi gratuito', 'TV por cable', 'Caja de seguridad', 'Amenities de baño']
+                },
+                'suite-presidential': {
+                    nombre: 'Suite Presidential',
+                    precio: 1450,
+                    descripcion: 'La experiencia más lujosa con 85 m² de elegancia, sala privada y servicios exclusivos.',
+                    amenidades: ['Suite de lujo 85 m²', 'Sala de estar privada', 'Jacuzzi doble', 'Minibar premium', 'Mayordomo personal 24/7', 'Vista panorámica', 'Balcón privado', 'Servicio de concierge']
+                },
+                'estandar': {
+                    nombre: 'Habitación Estándar',
+                    precio: 420,
+                    descripcion: 'Habitación cómoda y funcional con todas las amenidades básicas para una estadía agradable.',
+                    amenidades: ['2 camas simples', '28 m² de espacio', 'Desayuno incluido', 'WiFi gratuito', 'TV por cable', 'Aire acondicionado', 'Baño privado', 'Servicio de limpieza']
+                }
+            };
+
+            const habitacion = habitaciones[tipo];
+            if (habitacion) {
+                const amenidadesTexto = habitacion.amenidades.map(a => `• ${a}`).join('\n');
+                
+                const confirmar = confirm(
+                    `🏨 ${habitacion.nombre}\n\n` +
+                    `${habitacion.descripcion}\n\n` +
+                    `💰 Precio: S/${habitacion.precio} por noche\n\n` +
+                    `✨ Amenidades incluidas:\n${amenidadesTexto}\n\n` +
+                    `¿Te gustaría proceder con la reserva?`
+                );
+
+                if (confirmar) {
+                    alert(`✅ RESERVA INICIADA\n\n` +
+                          `Habitación: ${habitacion.nombre}\n` +
+                          `Precio: S/${habitacion.precio}/noche\n\n` +
+                          `📞 Nuestro equipo de reservas se contactará contigo para confirmar los detalles.\n\n` +
+                          `📧 También puedes llamarnos al +51 912345678`);
+                }
+            }
+        }
+
+        // Función para reservar servicios
+        function reservarServicio(servicio) {
+            const servicios = {
+                'spa': {
+                    nombre: 'Spa & Bienestar',
+                    descripcion: 'Tratamientos relajantes y terapéuticos en un ambiente de tranquilidad',
+                    precio: 'Desde S/180'
+                },
+                'bodas': {
+                    nombre: 'Bodas & Matrimonios',
+                    descripcion: 'Paquetes completos para el día más especial de tu vida',
+                    precio: 'Desde S/8,500'
+                },
+                'eventos': {
+                    nombre: 'Eventos Corporativos',
+                    descripcion: 'Organización completa de eventos empresariales y celebraciones',
+                    precio: 'Desde S/2,800'
+                }
+            };
+
+            const servicioData = servicios[servicio];
+            if (servicioData) {
+                alert(`🎯 SERVICIO SELECCIONADO\n\n` +
+                      `${servicioData.nombre}\n` +
+                      `${servicioData.descripcion}\n\n` +
+                      `💰 ${servicioData.precio}\n\n` +
+                      `📞 Te contactaremos para coordinar los detalles\n` +
+                      `📧 O escríbenos a: reservas@aranwahotels.com`);
+            }
+        }
+
+        // Formulario de reserva personalizada
+        document.getElementById('reservaPersonalizadaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = {
+                nombre: document.getElementById('nombreCompleto').value,
+                email: document.getElementById('email').value,
+                telefono: document.getElementById('telefono').value,
+                tipoReserva: document.getElementById('tipoReserva').value,
+                fecha: document.getElementById('fechaPreferida').value,
+                huespedes: document.getElementById('huespedes').value,
+                comentarios: document.getElementById('comentarios').value
+            };
+
+            // Servicios adicionales seleccionados
+            const serviciosSeleccionados = [];
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            checkboxes.forEach(cb => serviciosSeleccionados.push(cb.nextElementSibling.textContent.trim()));
+
+            const tipoTexto = document.getElementById('tipoReserva').options[document.getElementById('tipoReserva').selectedIndex].text;
+
+            alert(`📋 SOLICITUD ENVIADA EXITOSAMENTE\n\n` +
+                  `Estimado(a) ${formData.nombre}:\n\n` +
+                  `📋 Tipo de reserva: ${tipoTexto}\n` +
+                  `📅 Fecha preferida: ${formData.fecha || 'Por definir'}\n` +
+                  `👥 Huéspedes: ${formData.huespedes || 'Por definir'}\n\n` +
+                  `📞 Te contactaremos en las próximas 2 horas al ${formData.telefono}\n` +
+                  `📧 Email: ${formData.email}\n\n` +
+                  `✨ ¡Gracias por elegir Aranwa Hotels!`);
+        });
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Establecer fecha mínima como hoy
+            const hoy = new Date().toISOString().split('T')[0];
+            const fechaLlegadaInput = document.getElementById('fechaLlegada');
+            const fechaSalidaInput = document.getElementById('fechaSalida');
+            const fechaPreferidaInput = document.getElementById('fechaPreferida');
+            
+            if (fechaLlegadaInput) fechaLlegadaInput.min = hoy;
+            if (fechaSalidaInput) fechaSalidaInput.min = hoy;
+            if (fechaPreferidaInput) fechaPreferidaInput.min = hoy;
+            
+            // Auto-actualizar fecha de salida cuando cambie la llegada
+            if (fechaLlegadaInput && fechaSalidaInput) {
+                fechaLlegadaInput.addEventListener('change', function() {
+                    const fechaLlegada = new Date(this.value);
+                    fechaLlegada.setDate(fechaLlegada.getDate() + 1);
+                    fechaSalidaInput.min = fechaLlegada.toISOString().split('T')[0];
+                    
+                    if (fechaSalidaInput.value && new Date(fechaSalidaInput.value) <= new Date(this.value)) {
+                        fechaSalidaInput.value = fechaLlegada.toISOString().split('T')[0];
+                    }
+                });
+            }
+        });
+
+        // Sticky navbar effect
+        window.addEventListener("scroll", function () {
+            var header = document.querySelector(".navbar");
+            if (header && window.scrollY > 100) {
+                header.classList.add("sticky-header");
+            } else if (header) {
+                header.classList.remove("sticky-header");
+            }
+        });
+    </script>
+</body>
+</html>

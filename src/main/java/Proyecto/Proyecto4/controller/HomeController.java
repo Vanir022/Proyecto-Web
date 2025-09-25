@@ -33,6 +33,11 @@ public class HomeController {
         
     }
 
+    @GetMapping("/reservas")
+    public String reservas() {
+        return "html/Reservas"; // Thymeleaf buscará templates/reservas.html
+    }
+
     //Mapeo para el footer
     @GetMapping("/acercade")
     public String acercade() {
