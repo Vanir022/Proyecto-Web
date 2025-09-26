@@ -40,6 +40,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        <!-- Thymeleaf Extras Spring Security: soporte para expresiones de seguridad en Thymeleaf -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+        </dependency>
         <!-- Spring Boot Starter Web: incluye dependencias para crear aplicaciones web RESTful -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

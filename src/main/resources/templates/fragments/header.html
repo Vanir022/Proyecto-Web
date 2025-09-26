@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
     <div th:fragment="header">
@@ -7,7 +8,7 @@
         <header class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
             <div class="container">
                 <a class="navbar-brand" th:href="@{/}">
-                    <img src="imagenes/logoAranwa.png" alt="Logo de Aranwa Hotels" height="50">
+                    <img src="imagenes/EDEN.png" alt="Logo de Aranwa Hotels" height="50">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
@@ -36,7 +37,7 @@
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/reservas}" id="menuReservas">Reservas</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
                             <a class="nav-link" th:href="@{/login}" id="menuLogin">Login/Registrarme</a>
                         </li>
                         <li class="nav-item">
@@ -45,6 +46,28 @@
                     </ul>
 
                     <div class="d-flex align-items-center">
+                        <!-- Icono de usuario autenticado -->
+                        <div class="dropdown me-3" sec:authorize="isAuthenticated()">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle fa-lg text-primary me-2"></i>
+                                <span class="d-none d-md-inline" sec:authentication="name"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" th:href="@{/dashboard}"><i class="fas fa-tachometer-alt me-2"></i>Mi Panel</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-user-edit me-2"></i>Mi Perfil</a></li>
+                                <li><a class="dropdown-item" th:href="@{/reservas}"><i class="fas fa-calendar-check me-2"></i>Mis Reservas</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form th:action="@{/logout}" method="post" style="display: inline;">
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+
                         <i class="fas fa-phone-volume text-primary me-2"></i>
                         <span class="fw-bold">51 912345678</span>
                     </div>
