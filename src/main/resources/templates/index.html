@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <!-- #1: Metadatos básicos mejorados -->
+  <!-- #1: Metadatos básicos mejor        <img src="imagenes/eden-paracas.png" alt="Vista exterior del hotel Eden Paracas Resort con arquitectura moderna frente al mar" class="img-fluid rounded shadow">dos -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Eden Resorts - Hoteles de lujo en Perú. Descubre experiencias únicas en Cusco, Paracas, Valle Sagrado y Arequipa. Reserva tu estadía inolvidable.">
@@ -15,6 +15,7 @@
   <meta property="og:type" content="website">
   
   <title>EDEN RESORTS - Resort de Lujo en Perú</title>
+  <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
   <!-- #3: Preconnect para mejorar performance -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -40,7 +41,17 @@
       <p class="lead mb-5" id="subHeader">Descubre el lugar donde divertirte y disfrutar mucho</p>
 
       <!-- #5: Formulario de Reserva con mejor accesibilidad -->
-      <form class="reservation-form" role="search" aria-label="Formulario de reserva de hotel">
+
+      <!-- Crea un boton para q me redirija a Reservas-->
+      <div class="text-center mb-4">
+        <a th:href="@{/reservas}" class="btn btn-primary btn-lg">Reservar Aquí</a>
+      </div>
+            <!-- Crea un boton para q me redirija a Login-->
+      <div class="text-center mb-4">
+        <a th:href="@{/auth/login}" class="btn btn-group btn-lg text-light">Si eres cliente puedes ver tus reservaciones ingresando sesion</a>
+      </div>
+
+      <!--<form class="reservation-form" role="search" aria-label="Formulario de reserva de hotel">
         <div class="row g-2 justify-content-center">
           <div class="col-lg-2 col-md-4 col-6">
             <div class="bg-white p-3 rounded shadow-sm text-dark">
@@ -74,7 +85,7 @@
             </button>
           </div>
         </div>
-      </form>
+      </form>-->
     </div>
   </section>
 
@@ -103,7 +114,7 @@
         </div>
         <div class="col-lg-6">
           <!-- #7: Imagen con mejor alt text descriptivo -->
-          <img src="imagenes/aranwa-paracas.png" alt="Vista exterior del hotel Aranwa Paracas Resort con arquitectura moderna frente al mar" class="img-fluid rounded shadow">
+          <img src="imagenes/aranwa-paracas.png" alt="Vista exterior del hotel Eden Paracas Resort con arquitectura moderna frente al mar" class="img-fluid rounded shadow">
         </div>
       </div>
     </div>
@@ -133,9 +144,9 @@
           <div class="carousel-item">
             <div class="p-5 shadow-sm bg-white rounded-4">
               <h5 class="text-primary mb-3">HOTEL</h5>
-              <h3 class="fw-bold mb-3">Aranwa Cusco Boutique Hotel</h3>
+              <h3 class="fw-bold mb-3">Eden Cusco Boutique Hotel</h3>
               <p class="lead mb-0">
-                Aranwa Cusco Boutique Hotel es un hotel boutique de 5 estrellas en el centro de Cusco, que combina
+                Eden Cusco Boutique Hotel es un hotel boutique de 5 estrellas en el centro de Cusco, que combina
                 historia, lujo y bienestar. Sus elegantes habitaciones ofrecen sistemas inteligentes de oxigenación,
                 baños estilo spa con calefacción por suelo radiante, duchas escocesas y tinas de hidromasaje, además de
                 un servicio acogedor. Ubicado en la calle San Juan de Dios, a pocas cuadras de la Plaza de Armas, invita
@@ -149,9 +160,9 @@
           <div class="carousel-item">
             <div class="p-5 shadow-sm bg-white rounded-4">
               <h5 class="text-primary mb-3">HOTEL</h5>
-              <h3 class="fw-bold mb-3">Aranwa Sacred Valley Hotel & Wellness</h3>
+              <h3 class="fw-bold mb-3">Eden Sacred Valley Hotel & Wellness</h3>
               <p class="lead mb-0">
-                El Aranwa Sacred Valley Hotel & Wellness, ubicado a orillas del río Vilcanota en una hacienda colonial
+                El Eden Sacred Valley Hotel & Wellness, ubicado a orillas del río Vilcanota en una hacienda colonial
                 del siglo XVII, se encuentra a una hora y media de Cusco y a cuarenta minutos de la estación de tren de
                 Ollantaytambo, de camino a Machu Picchu. Con habitaciones de estilo colonial y moderno, ofrece una
                 experiencia inolvidable en el místico Valle Sagrado, donde se fusionan la cultura inca y la grandeza
@@ -165,9 +176,9 @@
           <div class="carousel-item">
             <div class="p-5 shadow-sm bg-white rounded-4">
               <h5 class="text-primary mb-3">HOTEL</h5>
-              <h3 class="fw-bold mb-3">Aranwa Pueblito Encantado del Colca</h3>
+              <h3 class="fw-bold mb-3">Eden Pueblito Encantado del Colca</h3>
               <p class="lead mb-0">
-                Aranwa Pueblito Encantado del Colca, ubicado en el distrito de Coporaque, a orillas del río Colca y a
+                Eden Pueblito Encantado del Colca, ubicado en el distrito de Coporaque, a orillas del río Colca y a
                 tres horas de Arequipa, ofrece un entorno de ensueño lleno de leyendas y tradiciones andinas y
                 coloniales. A solo diez minutos de Chivay, este hotel es la puerta de entrada al mágico valle del Colca,
                 rodeado de flora, fauna y el majestuoso vuelo del cóndor. Los huéspedes disfrutan de sus exuberantes
@@ -181,7 +192,7 @@
           <div class="carousel-item">
             <div class="p-5 shadow-sm bg-white rounded-4">
               <h5 class="text-primary mb-3">HOTEL</h5>
-              <h3 class="fw-bold mb-3">Aranwa Vichayito Bungalows & Carpas</h3>
+              <h3 class="fw-bold mb-3">Eden Vichayito Bungalows & Carpas</h3>
               <p class="lead mb-0">
                 El hotel Vichayito Bungalows & Carpas, ubicado en la playa de Vichayito, ofrece espectaculares puestas
                 de sol, una excelente ubicación y una exquisita gastronomía. A solo veinte minutos de Máncora y a quince
@@ -417,7 +428,7 @@
       <div class="row align-items-center">
         <div class="col-lg-6">
           <!-- #13: Imagen de servicios con mejor descripción -->
-          <img src="imagenes/restauranteAranwa.png" alt="Restaurante elegante de Aranwa con ambiente acogedor, decoración peruana contemporánea y servicio gourmet"
+          <img src="imagenes/restauranteAranwa.png" alt="Restaurante elegante de Eden Resort con ambiente acogedor, decoración peruana contemporánea y servicio gourmet"
             class="img-fluid rounded shadow" id="servicesImage">
         </div>
         <div class="col-lg-6">
@@ -526,7 +537,7 @@
               <h3 class="h4 text-center mb-3">Recomendado</h3>
               <blockquote class="blockquote text-center">
                 <p class="text-muted mb-4">
-                  Me encantó el Aranwa. Instalaciones amplias, piscina temperada, juegos y actividades para toda la
+                  Me encantó Eden Resort. Instalaciones amplias, piscina temperada, juegos y actividades para toda la
                   familia. El trato del personal fue excelente, en especial Ruth Estrada que nos atendió de manera
                   personalizada. ¡Definitivamente recomiendo este hotel y volveré pronto!
                 </p>
@@ -565,7 +576,7 @@
         </div>
       </div>
       <div class="item gallery-item">
-        <img src="imagenes/Aranwa2.png" alt="Ambiente interior elegante de Aranwa con decoración peruana contemporánea" class="gallery-img">
+        <img src="imagenes/Aranwa2.png" alt="Ambiente interior elegante de Eden Resort con decoración peruana contemporánea" class="gallery-img">
         <div class="gallery-overlay">
           <i class="fab fa-instagram fa-2x text-white" aria-hidden="true"></i>
         </div>
@@ -592,7 +603,7 @@
                 id="hotelLabel1">HOTEL</span>
             </div>
             <div class="card-body">
-              <h5 class="card-title" id="postTitle1">Aranwa se suma a la noble labor de Voz Animal</h5>
+              <h5 class="card-title" id="postTitle1">Eden Resort se suma a la noble labor de Voz Animal</h5>
               <p class="card-text" id="postDescription1">Eden Resorts donará parte de las ventas de su programa "Dog
                 Friendly" al albergue Voz Animal.</p>
             </div>
@@ -602,7 +613,7 @@
         <div class="col-lg-4 d-flex">
           <div class="card border-0 shadow-sm h-100 flex-fill">
             <div class="position-relative">
-              <img src="imagenes/aniversarioAranwa.png" alt="15° aniversario Aranwa" class="card-img-custom">
+              <img src="imagenes/aniversarioAranwa.png" alt="15° aniversario Eden Resort" class="card-img-custom">
               <span class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 m-2 rounded"
                 id="hotelLabel2">HOTEL</span>
             </div>
@@ -610,7 +621,7 @@
               <h5 class="card-title" id="postTitle2">Eden Resorts Resorts & Spas celebra su 15° aniversario
                 “Convirtiendo viajes en leyenda” en 5 destinos de Perú</h5>
               <p class="card-text" id="postDescription2">Eden Resorts celebra su 15° aniversario ofreciendo
-                hospitalidad única en cinco destinos de Perú. La celebración central fue en su hotel Aranwa Sacred
+                hospitalidad única en cinco destinos de Perú. La celebración central fue en su hotel Eden Sacred
                 Valley, reafirmando su compromiso con experiencias culturales y bienestar para los huéspedes.</p>
             </div>
           </div>
@@ -625,7 +636,7 @@
             </div>
             <div class="card-body">
               <h5 class="card-title" id="postTitle3">Avistamiento de picaflores en Valle Sagrado</h5>
-              <p class="card-text" id="postDescription3">Perú es tercero en biodiversidad de aves, y en Aranwa Sacred
+              <p class="card-text" id="postDescription3">Perú es tercero en biodiversidad de aves, y en Eden Sacred
                 Valley se avistan 8 especies de picaflores, incluyendo el endémico Green and White Hummingbird. El hotel
                 restaura flora nativa para atraerlos; los jardines y la piscina son los mejores lugares para verlos.</p>
             </div>
@@ -708,7 +719,7 @@
               `📶 WiFi gratuito\n\n` +
               `¿Te gustaría hacer una reserva?\n` +
               `📞 Llámanos: +51 1 234-5678\n` +
-              `📧 Email: reservas@aranwahotels.com`);
+              `📧 Email: reservas@edenresort.com`);
       }
     }
 

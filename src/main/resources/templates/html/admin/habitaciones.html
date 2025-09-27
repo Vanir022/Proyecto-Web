@@ -1,21 +1,110 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Habitaciones - Admin</title>
+    <title>Gestión de Habitaciones - Resort Eden Admin</title>
+      <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
+    <style>
+        .sidebar {
+            min-height: calc(100vh - 56px);
+        }
+    </style>
 </head>
-<body>
-    <div class="container-fluid">
-        <!-- Encabezado -->
-        <div class="row bg-primary text-white p-3 mb-4">
-            <div class="col">
-                <h2><i class="fas fa-bed me-2"></i>Gestión de Habitaciones</h2>
-                <p class="mb-0">Administración del sistema hotelero</p>
-            </div>
-        </div>
+<body class="bg-light">
+    <!-- Header -->
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="container-fluid mt-5 pt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar border-end">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <img th:if="${admin.fotoPerfil != null}" th:src="@{'/uploads/fotos/' + ${admin.fotoPerfil}}"
+                            alt="Foto Admin" class="rounded-circle mb-2"
+                            style="width: 60px; height: 60px; object-fit: cover;">
+                        <i th:unless="${admin.fotoPerfil != null}"
+                            class="fas fa-user-shield fa-3x text-primary mb-2"></i>
+                        <h6 th:text="${admin.nombres + ' ' + admin.apellidos}">Admin</h6>
+                        <small class="text-muted" th:text="${admin.rol}">Rol</small>
+                        <br>
+                        <small class="text-muted" th:if="${admin.hotel != null}" th:text="${admin.hotel}">Hotel</small>
+                    </div>
+
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a th:href="@{/admin/dashboard}" class="nav-link text-dark">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/usuarios}" class="nav-link text-dark">
+                                <i class="fas fa-users me-2"></i>
+                                Gestión de Usuarios
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/habitaciones}" class="nav-link active">
+                                <i class="fas fa-bed me-2"></i>
+                                Gestión de Habitaciones
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/reservas}" class="nav-link text-dark">
+                                <i class="fas fa-calendar-check me-2"></i>
+                                Gestión de Reservas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-dark">
+                                <i class="fas fa-chart-bar me-2"></i>
+                                Reportes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-dark">
+                                <i class="fas fa-cog me-2"></i>
+                                Configuración
+                            </a>
+                        </li>
+                    </ul>
+
+                    <hr>
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+                            data-bs-toggle="dropdown">
+                            <strong>Opciones</strong>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Perfil</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" th:href="@{/logout}">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2"><i class="fas fa-bed me-2"></i>Gestión de Habitaciones</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Exportar</button>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fas fa-plus"></i> Nueva Habitación
+                        </button>
+                    </div>
+                </div>
 
         <!-- Filtros -->
         <div class="row mb-4">
@@ -86,7 +175,7 @@
                     <div class="card-body">
                         <div class="row mb-2">
                             <div class="col-6"><strong>Hotel:</strong></div>
-                            <div class="col-6" th:text="${habitacion.hotel}">Aranwa Cusco</div>
+                            <div class="col-6" th:text="${habitacion.hotel}">Resort Eden</div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-6"><strong>Tipo:</strong></div>
@@ -145,6 +234,8 @@
             </div>
         </div>
 
+            </main>
+        </div>
     </div>
 
     <!-- Scripts -->
