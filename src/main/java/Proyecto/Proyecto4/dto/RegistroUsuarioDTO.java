@@ -1,9 +1,10 @@
 package Proyecto.Proyecto4.dto;
 
-import lombok.Getter;
-import lombok.Setter;
 import java.time.LocalDate;
 import java.util.List;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -17,6 +18,7 @@ public class RegistroUsuarioDTO {
     // Datos personales
     private String firstName;
     private String lastName;
+    private String dni;
     private String phone;
     private LocalDate birthDate;
     

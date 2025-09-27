@@ -1,9 +1,16 @@
 package Proyecto.Proyecto4.models;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -20,6 +27,9 @@ public class DetallesPersona {
     @Column(nullable = false, length = 100)
     private String apellidos;
 
+    @Column(nullable = false, unique = true, length = 8)
+    private String dni;
+
     @Column(length = 20)
     private String telefono;
 
@@ -32,6 +42,9 @@ public class DetallesPersona {
     @Column(name = "acepta_marketing")
     private Boolean aceptaMarketing = false;
 
+    @Column(name = "foto_perfil", length = 500)
+    private String fotoPerfil; // Ruta o nombre del archivo de la foto
+
     @OneToOne(mappedBy = "detallesPersona")
     private Usuario usuario;
 
@@ -39,9 +52,10 @@ public class DetallesPersona {
     public DetallesPersona() {}
 
     // Constructor con parámetros principales
-    public DetallesPersona(String nombres, String apellidos, String telefono, LocalDate fechaNacimiento) {
+    public DetallesPersona(String nombres, String apellidos, String dni, String telefono, LocalDate fechaNacimiento) {
         this.nombres = nombres;
         this.apellidos = apellidos;
+        this.dni = dni;
         this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;
     }

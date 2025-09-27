@@ -1,6 +1,5 @@
 package Proyecto.Proyecto4.config;
 
-import Proyecto.Proyecto4.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,11 +10,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import Proyecto.Proyecto4.services.UserDetailsServiceImpl;
+
 @Configuration
 public class SecurityConfig {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+    
+    @Autowired
+    private CustomAuthenticationSuccessHandler successHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -23,8 +27,13 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/nosotros", "/contactos", "/login", "/register", "/acercade", "/eventos", "/spa", "/bodas").permitAll()
-                .requestMatchers("/css/**", "/js/**", "/imagenes/**", "/static/**").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/imagenes/**", "/static/**", "/uploads/**").permitAll()
                 .requestMatchers("/auth/registro").permitAll()
+                .requestMatchers("/api/admin/crear-super-admin").permitAll() // Permitir crear super admin inicial
+                .requestMatchers("/reservas", "/reservas/buscar", "/reservas/habitacion/**").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/perfil/**").authenticated()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -32,7 +41,7 @@ public class SecurityConfig {
                 .loginProcessingUrl("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/dashboard", true)
+                .successHandler(successHandler)
                 .failureUrl("/login?error=true")
                 .permitAll()
             )

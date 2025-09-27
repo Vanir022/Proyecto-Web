@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Reservas - Aranwa Hotels</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="container-fluid mt-5 pt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar border-end">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <img th:if="${admin.fotoPerfil != null}" 
+                             th:src="@{'/uploads/fotos/' + ${admin.fotoPerfil}}" 
+                             alt="Foto Admin" class="rounded-circle mb-2" 
+                             style="width: 60px; height: 60px; object-fit: cover;">
+                        <i th:unless="${admin.fotoPerfil != null}" 
+                           class="fas fa-user-shield fa-3x text-primary mb-2"></i>
+                        <h6 th:text="${admin.nombres + ' ' + admin.apellidos}">Admin</h6>
+                        <small class="text-muted" th:text="${admin.rol}">Rol</small>
+                    </div>
+                    
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a th:href="@{/admin/dashboard}" class="nav-link text-dark">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/usuarios}" class="nav-link text-dark">
+                                <i class="fas fa-users me-2"></i>
+                                Gestión de Usuarios
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/reservas}" class="nav-link active">
+                                <i class="fas fa-calendar-check me-2"></i>
+                                Gestión de Reservas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-dark">
+                                <i class="fas fa-chart-bar me-2"></i>
+                                Reportes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-dark">
+                                <i class="fas fa-cog me-2"></i>
+                                Configuración
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <hr>
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" 
+                           data-bs-toggle="dropdown">
+                            <strong>Opciones</strong>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Perfil</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" th:href="@{/logout}">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Gestión de Reservas</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-download"></i> Exportar
+                            </button>
+                        </div>
+                        <div class="btn-group me-2" role="group">
+                            <button type="button" class="btn btn-sm btn-outline-info">
+                                <i class="fas fa-check-circle"></i> Aprobar Pendientes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Estado:</label>
+                                <select class="form-select" name="estado">
+                                    <option value="">Todos</option>
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="Confirmada">Confirmada</option>
+                                    <option value="Cancelada">Cancelada</option>
+                                    <option value="Completada">Completada</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Hotel:</label>
+                                <select class="form-select" name="hotel">
+                                    <option value="">Todos los Hoteles</option>
+                                    <option value="Aranwa Cusco">Aranwa Cusco</option>
+                                    <option value="Aranwa Paracas">Aranwa Paracas</option>
+                                    <option value="Aranwa Colca">Aranwa Colca</option>
+                                    <option value="Aranwa Valle Sagrado">Aranwa Valle Sagrado</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Fecha Desde:</label>
+                                <input type="date" class="form-control" name="fechaDesde">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Fecha Hasta:</label>
+                                <input type="date" class="form-control" name="fechaHasta">
+                            </div>
+                        </form>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="busqueda" 
+                                       placeholder="Buscar por código, usuario o email...">
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i> Buscar
+                                </button>
+                                <button type="button" class="btn btn-secondary ms-2">
+                                    <i class="fas fa-eraser"></i> Limpiar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen de Estados -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card bg-warning text-white">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-clock fa-2x me-3"></i>
+                                    <div>
+                                        <h5 class="card-title mb-0" th:text="${reservasPendientes}">0</h5>
+                                        <small>Pendientes</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-success text-white">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-check fa-2x me-3"></i>
+                                    <div>
+                                        <h5 class="card-title mb-0" th:text="${reservasConfirmadas}">0</h5>
+                                        <small>Confirmadas</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-info text-white">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-calendar-check fa-2x me-3"></i>
+                                    <div>
+                                        <h5 class="card-title mb-0" th:text="${reservasCompletadas}">0</h5>
+                                        <small>Completadas</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-danger text-white">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-times fa-2x me-3"></i>
+                                    <div>
+                                        <h5 class="card-title mb-0" th:text="${reservasCanceladas}">0</h5>
+                                        <small>Canceladas</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Reservas -->
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Lista de Reservas</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Usuario</th>
+                                        <th>Habitación</th>
+                                        <th>Hotel</th>
+                                        <th>Check-in</th>
+                                        <th>Check-out</th>
+                                        <th>Días</th>
+                                        <th>Total</th>
+                                        <th>Estado</th>
+                                        <th>Fecha Reserva</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="reserva : ${reservas}">
+                                        <td>
+                                            <strong th:text="${reserva.codigoReserva}">RES-12345</strong>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img th:if="${reserva.usuario.fotoPerfil != null}" 
+                                                     th:src="@{'/uploads/fotos/' + ${reserva.usuario.fotoPerfil}}" 
+                                                     alt="Foto" class="rounded-circle me-2" 
+                                                     style="width: 30px; height: 30px; object-fit: cover;">
+                                                <i th:unless="${reserva.usuario.fotoPerfil != null}" 
+                                                   class="fas fa-user-circle me-2"></i>
+                                                <div>
+                                                    <strong th:text="${reserva.usuario.nombre}">Usuario</strong>
+                                                    <br>
+                                                    <small class="text-muted" th:text="${reserva.usuario.email}">email</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <strong th:text="'#' + ${reserva.habitacion.numero}">Habitación</strong>
+                                            <br>
+                                            <small class="text-muted" th:text="${reserva.habitacion.tipo}">Tipo</small>
+                                        </td>
+                                        <td th:text="${reserva.habitacion.hotel}">Hotel</td>
+                                        <td th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}">01/01/2023</td>
+                                        <td th:text="${#temporals.format(reserva.fechaSalida, 'dd/MM/yyyy')}">05/01/2023</td>
+                                        <td>
+                                            <span th:text="${#temporals.daysBetween(reserva.fechaEntrada, reserva.fechaSalida)}">4</span> días
+                                        </td>
+                                        <td>
+                                            <strong class="text-success" th:text="'S/. ' + ${#numbers.formatDecimal(reserva.montoTotal, 0, 2)}">S/. 1000.00</strong>
+                                        </td>
+                                        <td>
+                                            <span class="badge" 
+                                                  th:class="'bg-' + 
+                                                      (${reserva.estado == 'Pendiente'} ? 'warning' : 
+                                                       ${reserva.estado == 'Confirmada'} ? 'success' : 
+                                                       ${reserva.estado == 'Cancelada'} ? 'danger' : 'info')"
+                                                  th:text="${reserva.estado}">Estado</span>
+                                        </td>
+                                        <td th:text="${#temporals.format(reserva.fechaReserva, 'dd/MM/yyyy HH:mm')}">01/01/2023 10:30</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" 
+                                                        th:onclick="'verDetalleReserva(' + ${reserva.idReserva} + ')'"
+                                                        title="Ver Detalles">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                
+                                                <!-- Botones específicos por estado -->
+                                                <div th:if="${reserva.estado == 'Pendiente'}">
+                                                    <button type="button" class="btn btn-sm btn-success"
+                                                            th:onclick="'aprobarReserva(' + ${reserva.idReserva} + ')'"
+                                                            title="Aprobar">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                            th:onclick="'rechazarReserva(' + ${reserva.idReserva} + ')'"
+                                                            title="Rechazar">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </div>
+                                                
+                                                <div th:if="${reserva.estado == 'Confirmada'}">
+                                                    <button type="button" class="btn btn-sm btn-info"
+                                                            th:onclick="'completarReserva(' + ${reserva.idReserva} + ')'"
+                                                            title="Marcar como Completada">
+                                                        <i class="fas fa-flag-checkered"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-warning"
+                                                            th:onclick="'cancelarReserva(' + ${reserva.idReserva} + ')'"
+                                                            title="Cancelar">
+                                                        <i class="fas fa-ban"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${#lists.size(reservas) == 0}">
+                                        <td colspan="11" class="text-center">No hay reservas registradas</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Paginación -->
+                        <nav th:if="${totalPaginas > 1}">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item" th:classappend="${paginaActual == 0} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/admin/reservas(page=${paginaActual - 1})}">Anterior</a>
+                                </li>
+                                <li th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}" 
+                                    class="page-item" th:classappend="${i == paginaActual} ? 'active'">
+                                    <a class="page-link" th:href="@{/admin/reservas(page=${i})}" th:text="${i + 1}">1</a>
+                                </li>
+                                <li class="page-item" th:classappend="${paginaActual >= totalPaginas - 1} ? 'disabled'">
+                                    <a class="page-link" th:href="@{/admin/reservas(page=${paginaActual + 1})}">Siguiente</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Detalle Reserva -->
+    <div class="modal fade" id="detalleReservaModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalles de la Reserva</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="detalleReservaContent">
+                    <!-- El contenido se cargará dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Confirmar Acción -->
+    <div class="modal fade" id="confirmarAccionModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmarAccionTitulo">Confirmar Acción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmarAccionTexto">¿Está seguro de realizar esta acción?</p>
+                    <div id="motivoContainer" class="mt-3" style="display:none;">
+                        <label class="form-label">Motivo (opcional):</label>
+                        <textarea id="motivoTexto" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="confirmarAccionBtn">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let accionPendiente = null;
+
+        function verDetalleReserva(idReserva) {
+            fetch(`/admin/reservas/${idReserva}/detalle`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('detalleReservaContent').innerHTML = html;
+                    new bootstrap.Modal(document.getElementById('detalleReservaModal')).show();
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function aprobarReserva(idReserva) {
+            mostrarConfirmacion(
+                'Aprobar Reserva',
+                '¿Está seguro de aprobar esta reserva?',
+                () => cambiarEstadoReserva(idReserva, 'Confirmada')
+            );
+        }
+
+        function rechazarReserva(idReserva) {
+            mostrarConfirmacion(
+                'Rechazar Reserva',
+                '¿Está seguro de rechazar esta reserva?',
+                () => cambiarEstadoReserva(idReserva, 'Cancelada'),
+                true
+            );
+        }
+
+        function completarReserva(idReserva) {
+            mostrarConfirmacion(
+                'Completar Reserva',
+                '¿Está seguro de marcar esta reserva como completada?',
+                () => cambiarEstadoReserva(idReserva, 'Completada')
+            );
+        }
+
+        function cancelarReserva(idReserva) {
+            mostrarConfirmacion(
+                'Cancelar Reserva',
+                '¿Está seguro de cancelar esta reserva?',
+                () => cambiarEstadoReserva(idReserva, 'Cancelada'),
+                true
+            );
+        }
+
+        function mostrarConfirmacion(titulo, texto, accion, mostrarMotivo = false) {
+            document.getElementById('confirmarAccionTitulo').textContent = titulo;
+            document.getElementById('confirmarAccionTexto').textContent = texto;
+            document.getElementById('motivoContainer').style.display = mostrarMotivo ? 'block' : 'none';
+            
+            accionPendiente = accion;
+            
+            new bootstrap.Modal(document.getElementById('confirmarAccionModal')).show();
+        }
+
+        function cambiarEstadoReserva(idReserva, nuevoEstado) {
+            const motivo = document.getElementById('motivoTexto').value;
+            
+            fetch(`/admin/reservas/${idReserva}/cambiar-estado`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    estado: nuevoEstado,
+                    motivo: motivo
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Error al cambiar el estado de la reserva');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Event listener para el botón de confirmar
+        document.getElementById('confirmarAccionBtn').addEventListener('click', function() {
+            if (accionPendiente) {
+                accionPendiente();
+                bootstrap.Modal.getInstance(document.getElementById('confirmarAccionModal')).hide();
+                accionPendiente = null;
+                document.getElementById('motivoTexto').value = '';
+            }
+        });
+
+        // Limpiar formulario al cerrar modal
+        document.getElementById('confirmarAccionModal').addEventListener('hidden.bs.modal', function () {
+            document.getElementById('motivoTexto').value = '';
+            accionPendiente = null;
+        });
+    </script>
+</body>
+</html>

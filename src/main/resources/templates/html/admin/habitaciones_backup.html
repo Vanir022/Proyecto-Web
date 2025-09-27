@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Habitaciones - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Encabezado -->
+        <div class="row bg-primary text-white p-3 mb-4">
+            <div class="col">
+                <h2><i class="fas fa-bed me-2"></i>Gestión de Habitaciones</h2>
+                <p class="mb-0">Administración del sistema hotelero</p>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Filtros de Búsqueda</h5>
+                        <form method="GET" action="/admin/habitaciones">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label">Hotel:</label>
+                                    <select class="form-select" name="hotel">
+                                        <option value="">Todos los Hoteles</option>
+                                        <option th:each="hotel : ${hoteles}" 
+                                                th:value="${hotel}" 
+                                                th:text="${hotel}"
+                                                th:selected="${filtroHotel == hotel}">
+                                            Hotel
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Tipo:</label>
+                                    <input type="text" class="form-control" name="tipo" 
+                                           th:value="${filtroTipo}" placeholder="Buscar por tipo">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Estado:</label>
+                                    <select class="form-select" name="estado">
+                                        <option value="">Todos los Estados</option>
+                                        <option value="LIBRE" th:selected="${filtroEstado == 'LIBRE'}">Libre</option>
+                                        <option value="OCUPADA" th:selected="${filtroEstado == 'OCUPADA'}">Ocupada</option>
+                                        <option value="MANTENIMIENTO" th:selected="${filtroEstado == 'MANTENIMIENTO'}">En Mantenimiento</option>
+                                        <option value="BLOQUEADA" th:selected="${filtroEstado == 'BLOQUEADA'}">Bloqueada</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary d-block w-100">
+                                        <i class="fas fa-search"></i> Filtrar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards de Habitaciones -->
+        <div class="row">
+            <div th:each="habitacion : ${habitaciones}" class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class="fas fa-bed me-2"></i>
+                            Habitación <span th:text="${habitacion.numero}">#101</span>
+                        </h5>
+                        <!-- Estado de la habitación -->
+                        <div>
+                            <span th:if="${habitacion.estadoHabitacion.name() == 'LIBRE'}" class="badge bg-success">Libre</span>
+                            <span th:if="${habitacion.estadoHabitacion.name() == 'OCUPADA'}" class="badge bg-danger">Ocupada</span>
+                            <span th:if="${habitacion.estadoHabitacion.name() == 'MANTENIMIENTO'}" class="badge bg-warning">Mantenimiento</span>
+                            <span th:if="${habitacion.estadoHabitacion.name() == 'BLOQUEADA'}" class="badge bg-secondary">Bloqueada</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-6"><strong>Hotel:</strong></div>
+                            <div class="col-6" th:text="${habitacion.hotel}">Aranwa Cusco</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6"><strong>Tipo:</strong></div>
+                            <div class="col-6" th:text="${habitacion.tipo}">Suite</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6"><strong>Estado:</strong></div>
+                            <div class="col-6">
+                                <span th:if="${habitacion.estadoHabitacion.name() == 'LIBRE'}" class="badge bg-success">Libre</span>
+                                <span th:if="${habitacion.estadoHabitacion.name() == 'OCUPADA'}" class="badge bg-danger">Ocupada</span>
+                                <span th:if="${habitacion.estadoHabitacion.name() == 'MANTENIMIENTO'}" class="badge bg-warning">Mantenimiento</span>
+                                <span th:if="${habitacion.estadoHabitacion.name() == 'BLOQUEADA'}" class="badge bg-secondary">Bloqueada</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6"><strong>Capacidad:</strong></div>
+                            <div class="col-6">
+                                <i class="fas fa-user"></i> <span th:text="${habitacion.capacidad}">2</span> personas
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6"><strong>Precio:</strong></div>
+                            <div class="col-6 text-success">
+                                <strong>S/. <span th:text="${#numbers.formatDecimal(habitacion.precio, 0, 2)}">250.00</span></strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <div class="btn-group w-100" role="group">
+                            <button type="button" class="btn btn-outline-success btn-sm"
+                                    th:onclick="'cambiarEstadoEspecifico(' + ${habitacion.id} + ', \"LIBRE\")'">
+                                <i class="fas fa-check-circle"></i> Libre
+                            </button>
+                            <button type="button" class="btn btn-outline-warning btn-sm"
+                                    th:onclick="'cambiarEstadoEspecifico(' + ${habitacion.id} + ', \"MANTENIMIENTO\")'">
+                                <i class="fas fa-tools"></i> Mantenimiento
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm"
+                                    th:onclick="'cambiarEstadoEspecifico(' + ${habitacion.id} + ', \"BLOQUEADA\")'">
+                                <i class="fas fa-ban"></i> Bloquear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensaje si no hay habitaciones -->
+        <div th:if="${#lists.isEmpty(habitaciones)}" class="row">
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <h4><i class="fas fa-info-circle"></i> No hay habitaciones disponibles</h4>
+                    <p>No se encontraron habitaciones que coincidan con los filtros seleccionados.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función para cambiar estado específico de habitación
+        function cambiarEstadoEspecifico(habitacionId, nuevoEstado) {
+            const estadoTexto = nuevoEstado === 'LIBRE' ? 'Libre' : 
+                               nuevoEstado === 'MANTENIMIENTO' ? 'Mantenimiento' : 'Bloqueada';
+            
+            if (confirm('¿Está seguro de cambiar el estado de la habitación a ' + estadoTexto + '?')) {
+                
+                fetch(`/admin/habitaciones/${habitacionId}/estado`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        estado: nuevoEstado
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message || data.success) {
+                        alert('Estado cambiado exitosamente');
+                        location.reload();
+                    } else if (data.error) {
+                        alert(data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al cambiar el estado de la habitación');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

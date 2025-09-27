@@ -1,7 +1,8 @@
 package Proyecto.Proyecto4.controller;
 
-import Proyecto.Proyecto4.models.Usuario;
-import Proyecto.Proyecto4.services.UsuarioService;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,13 +11,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Optional;
+import Proyecto.Proyecto4.models.Reserva;
+import Proyecto.Proyecto4.models.Usuario;
+import Proyecto.Proyecto4.services.ReservaService;
+import Proyecto.Proyecto4.services.UsuarioService;
 
 @Controller
 public class HomeController {
 
     @Autowired
     private UsuarioService usuarioService;
+    
+    @Autowired
+    private ReservaService reservaService;
 
 
     // Mapeo para el header
@@ -54,12 +61,7 @@ public class HomeController {
         
     }
 
-    @GetMapping("/reservas")
-    public String reservas() {
-        return "html/Reservas"; // Thymeleaf buscará templates/reservas.html
-    }
-
-        @GetMapping("/dashboard")
+    @GetMapping("/dashboard")
     public String dashboard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         String email = userDetails.getUsername();
         model.addAttribute("email", email);
@@ -73,6 +75,25 @@ public class HomeController {
             if (usuario.getDetallesPersona() != null) {
                 model.addAttribute("detalles", usuario.getDetallesPersona());
             }
+            
+            // Obtener las reservas del usuario
+            List<Reserva> reservas = reservaService.obtenerReservasPorUsuario(usuario);
+            model.addAttribute("reservas", reservas);
+            
+            // Contar reservas por estado
+            long reservasPendientes = reservas.stream()
+                .filter(r -> r.getEstado() == Reserva.EstadoReserva.PENDIENTE)
+                .count();
+            long reservasConfirmadas = reservas.stream()
+                .filter(r -> r.getEstado() == Reserva.EstadoReserva.CONFIRMADA)
+                .count();
+            long reservasCompletadas = reservas.stream()
+                .filter(r -> r.getEstado() == Reserva.EstadoReserva.COMPLETADA)
+                .count();
+            
+            model.addAttribute("reservasPendientes", reservasPendientes);
+            model.addAttribute("reservasConfirmadas", reservasConfirmadas);
+            model.addAttribute("reservasCompletadas", reservasCompletadas);
         }
         
         return "html/dashboard"; // Thymeleaf buscará templates/dashboard.html

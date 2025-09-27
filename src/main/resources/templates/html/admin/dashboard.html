@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrador - Aranwa Hotels</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
+    
+    <style>
+        .table td {
+            vertical-align: middle;
+        }
+        
+        .table th:last-child,
+        .table td:last-child {
+            min-width: 200px;
+            white-space: nowrap;
+        }
+        
+        .btn-group-actions {
+            display: flex;
+            gap: 5px;
+            flex-wrap: nowrap;
+            justify-content: center;
+        }
+        
+        .btn-sm {
+            font-size: 0.875rem;
+            padding: 0.25rem 0.5rem;
+            min-width: 80px;
+        }
+        
+        .btn-success {
+            background-color: #28a745 !important;
+            border-color: #28a745 !important;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+        }
+        
+        .sidebar {
+            min-height: calc(100vh - 56px);
+        }
+        
+        .card-stats {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <!-- Header -->
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="container-fluid mt-5 pt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar border-end">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <img th:if="${admin.fotoPerfil != null}" th:src="@{'/uploads/fotos/' + ${admin.fotoPerfil}}"
+                            alt="Foto Admin" class="rounded-circle mb-2"
+                            style="width: 60px; height: 60px; object-fit: cover;">
+                        <i th:unless="${admin.fotoPerfil != null}"
+                            class="fas fa-user-shield fa-3x text-primary mb-2"></i>
+                        <h6 th:text="${admin.nombres + ' ' + admin.apellidos}">Admin</h6>
+                        <small class="text-muted" th:text="${admin.rol}">Rol</small>
+                        <br>
+                        <small class="text-muted" th:if="${admin.hotel != null}" th:text="${admin.hotel}">Hotel</small>
+                    </div>
+
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a th:href="@{/admin/dashboard}" class="nav-link active">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/usuarios}" class="nav-link text-dark">
+                                <i class="fas fa-users me-2"></i>
+                                Gestión de Usuarios
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/habitaciones}" class="nav-link text-dark">
+                                <i class="fas fa-bed me-2"></i>
+                                Gestión de Habitaciones
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/reservas}" class="nav-link text-dark">
+                                <i class="fas fa-calendar-check me-2"></i>
+                                Gestión de Reservas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-dark">
+                                <i class="fas fa-chart-bar me-2"></i>
+                                Reportes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-dark">
+                                <i class="fas fa-cog me-2"></i>
+                                Configuración
+                            </a>
+                        </li>
+                    </ul>
+
+                    <hr>
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+                            data-bs-toggle="dropdown">
+                            <strong>Opciones</strong>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Perfil</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" th:href="@{/logout}">Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard de Administración</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Exportar</button>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-primary">
+                            <i class="fas fa-plus"></i> Nueva Habitación
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cards de Estadísticas -->
+                <div class="row mb-4">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2" style="border-left: 4px solid #007bff;">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Total Usuarios</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${totalUsuarios}">0
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2" style="border-left: 4px solid #28a745;">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            Habitaciones Disponibles</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                            th:text="${habitacionesDisponibles}">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-bed fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2" style="border-left: 4px solid #ffc107;">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Reservas Pendientes</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                            th:text="${totalReservasPendientes}">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar-alt fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2" style="border-left: 4px solid #17a2b8;">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                            Reservas Confirmadas</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                            th:text="${totalReservasConfirmadas}">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Reservas Pendientes -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Reservas Pendientes de Aprobación</h6>
+                        <!-- Debug info -->
+                        <small class="text-muted">Total reservas pendientes: <span th:text="${#lists.size(reservasPendientes)}">0</span></small>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped" width="100%" cellspacing="0">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Usuario</th>
+                                        <th>Habitación</th>
+                                        <th>Hotel</th>
+                                        <th>Fecha Entrada</th>
+                                        <th>Fecha Salida</th>
+                                        <th>Estado</th>
+                                        <th width="200">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="reserva : ${reservasPendientes}"
+                                        th:if="${#lists.size(reservasPendientes) > 0}">
+                                        <td th:text="${reserva.codigoReserva}">RES-12345</td>
+                                        <td>
+                                            <span th:if="${reserva.usuario.detallesPersona != null}" 
+                                                  th:text="${reserva.usuario.detallesPersona.nombres}">Usuario</span>
+                                            <span th:unless="${reserva.usuario.detallesPersona != null}" 
+                                                  th:text="${reserva.usuario.nombre}">Usuario</span>
+                                        </td>
+                                        <td
+                                            th:text="${'#' + reserva.habitacion.numero + ' - ' + reserva.habitacion.tipo}">
+                                            Habitación</td>
+                                        <td th:text="${reserva.habitacion.hotel}">Hotel</td>
+                                        <td th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}">
+                                            01/01/2023</td>
+                                        <td th:text="${#temporals.format(reserva.fechaSalida, 'dd/MM/yyyy')}">05/01/2023
+                                        </td>
+                                        <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+                                        <td>
+                                            <div class="btn-group-actions">
+                                                <button type="button" class="btn btn-sm btn-success" 
+                                                    th:attr="data-reserva-id=${reserva.id},onclick='aprobarReserva(' + ${reserva.id} + ', \'' + ${reserva.codigoReserva} + '\')'">
+                                                    <i class="fas fa-check"></i> Aprobar
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" 
+                                                    th:attr="data-reserva-id=${reserva.id},onclick='rechazarReserva(' + ${reserva.id} + ', \'' + ${reserva.codigoReserva} + '\')'">
+                                                    <i class="fas fa-times"></i> Rechazar
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${#lists.size(reservasPendientes) == 0}">
+                                        <td colspan="8" class="text-center">No hay reservas pendientes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información del Hotel (si es admin específico) -->
+                <div th:if="${admin.hotel != null}" class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary"
+                            th:text="'Información del Hotel: ' + ${admin.hotel}">Hotel Info</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Hotel Asignado:</strong> <span th:text="${admin.hotel}">Hotel</span></p>
+                                <p><strong>Habitaciones del Hotel:</strong> <span
+                                        th:text="${habitacionesHotel}">0</span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Rol:</strong> <span th:text="${admin.rol}">ADMIN</span></p>
+                                <p><strong>Estado:</strong>
+                                    <span class="badge bg-success" th:if="${admin.activo}">Activo</span>
+                                    <span class="badge bg-danger" th:unless="${admin.activo}">Inactivo</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estados de Habitaciones -->
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2" style="border-left: 4px solid #28a745;">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            Habitaciones Libres</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <span id="habitaciones-libres">--</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-bed fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-danger shadow h-100 py-2" style="border-left: 4px solid #dc3545;">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                            Habitaciones Ocupadas</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <span id="habitaciones-ocupadas">--</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user-friends fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2" style="border-left: 4px solid #ffc107;">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            En Mantenimiento</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <span id="habitaciones-mantenimiento">--</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-tools fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-secondary shadow h-100 py-2"
+                            style="border-left: 4px solid #6c757d;">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
+                                            Bloqueadas</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            <span id="habitaciones-bloqueadas">--</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-ban fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Debug: Verificar que la página se carga correctamente
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Dashboard admin cargado');
+            console.log('Botones encontrados:', document.querySelectorAll('button[data-reserva-id]').length);
+            console.log('Filas de reservas:', document.querySelectorAll('tr[th\\:each*="reserva"]').length);
+            console.log('Tabla completa:', document.querySelector('.table-responsive table'));
+            
+            // Verificar si hay reservas pendientes
+            const reservasPendientes = document.querySelectorAll('tbody tr');
+            console.log('Filas en tbody:', reservasPendientes.length);
+            
+            // Cargar estadísticas de habitaciones
+            cargarEstadisticasHabitaciones();
+            
+            // Actualizar cada 30 segundos
+            setInterval(cargarEstadisticasHabitaciones, 30000);
+        });
+
+        // Función para aprobar una reserva
+        function aprobarReserva(reservaId, codigoReserva) {
+            if (confirm(`¿Está seguro de que desea APROBAR la reserva ${codigoReserva}?`)) {
+                const button = document.querySelector(`button[data-reserva-id="${reservaId}"].btn-success`);
+                const originalText = button.innerHTML;
+
+                // Deshabilitar botón y mostrar loading
+                button.disabled = true;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+
+                fetch(`/admin/reservas/${reservaId}/aprobar`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            throw new Error(data.error);
+                        }
+
+                        // Mostrar mensaje de éxito
+                        mostrarAlerta('success', `Reserva ${codigoReserva} aprobada exitosamente`);
+
+                        // Remover la fila de la tabla
+                        const row = button.closest('tr');
+                        row.remove();
+
+                        // Verificar si quedan reservas pendientes
+                        const tbody = document.querySelector('table tbody');
+                        const remainingRows = tbody.querySelectorAll('tr').length;
+                        if (remainingRows === 0) {
+                            tbody.innerHTML = '<tr><td colspan="8" class="text-center">No hay reservas pendientes</td></tr>';
+                        }
+                    })
+                    .catch(error => {
+                        mostrarAlerta('danger', 'Error al aprobar la reserva: ' + error.message);
+                        // Restaurar botón
+                        button.disabled = false;
+                        button.innerHTML = originalText;
+                    });
+            }
+        }
+
+        // Función para rechazar una reserva
+        function rechazarReserva(reservaId, codigoReserva) {
+            if (confirm(`¿Está seguro de que desea RECHAZAR la reserva ${codigoReserva}?`)) {
+                const button = document.querySelector(`button[data-reserva-id="${reservaId}"].btn-danger`);
+                const originalText = button.innerHTML;
+
+                // Deshabilitar botón y mostrar loading
+                button.disabled = true;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+
+                fetch(`/admin/reservas/${reservaId}/rechazar`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            throw new Error(data.error);
+                        }
+
+                        // Mostrar mensaje de éxito
+                        mostrarAlerta('warning', `Reserva ${codigoReserva} rechazada exitosamente`);
+
+                        // Remover la fila de la tabla
+                        const row = button.closest('tr');
+                        row.remove();
+
+                        // Verificar si quedan reservas pendientes
+                        const tbody = document.querySelector('table tbody');
+                        const remainingRows = tbody.querySelectorAll('tr').length;
+                        if (remainingRows === 0) {
+                            tbody.innerHTML = '<tr><td colspan="8" class="text-center">No hay reservas pendientes</td></tr>';
+                        }
+                    })
+                    .catch(error => {
+                        mostrarAlerta('danger', 'Error al rechazar la reserva: ' + error.message);
+                        // Restaurar botón
+                        button.disabled = false;
+                        button.innerHTML = originalText;
+                    });
+            }
+        }
+
+        // Función para mostrar alertas
+        function mostrarAlerta(tipo, mensaje) {
+            const alertContainer = document.querySelector('.container-fluid');
+            const alertHTML = `
+                <div class="alert alert-${tipo} alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+                    <i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'warning' ? 'exclamation-triangle' : 'times-circle'}"></i>
+                    ${mensaje}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+
+            // Insertar la alerta
+            alertContainer.insertAdjacentHTML('afterbegin', alertHTML);
+
+            // Remover automáticamente después de 5 segundos
+            setTimeout(() => {
+                const alert = document.querySelector('.alert');
+                if (alert) {
+                    alert.remove();
+                }
+            }, 5000);
+        }
+
+        // Cargar estadísticas de habitaciones al cargar la página
+        document.addEventListener('DOMContentLoaded', function () {
+            cargarEstadisticasHabitaciones();
+
+            // Actualizar cada 30 segundos
+            setInterval(cargarEstadisticasHabitaciones, 30000);
+        });
+
+        function cargarEstadisticasHabitaciones() {
+            fetch('/admin/estadisticas/habitaciones', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error al cargar estadísticas:', data.error);
+                        return;
+                    }
+
+                    // Actualizar los contadores
+                    document.getElementById('habitaciones-libres').textContent = data.libres || 0;
+                    document.getElementById('habitaciones-ocupadas').textContent = data.ocupadas || 0;
+                    document.getElementById('habitaciones-mantenimiento').textContent = data.mantenimiento || 0;
+                    document.getElementById('habitaciones-bloqueadas').textContent = data.bloqueadas || 0;
+                })
+                .catch(error => {
+                    console.error('Error al cargar estadísticas de habitaciones:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>

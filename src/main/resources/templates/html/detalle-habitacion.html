@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Habitación ' + ${habitacion.numero} + ' - Aranwa Hotels'">Habitación - Aranwa Hotels</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="container mt-5 pt-5">
+        <!-- Mensajes -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Detalle de la habitación -->
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="mb-0" th:text="'Habitación ' + ${habitacion.numero}"></h3>
+                            <span class="badge bg-light text-dark fs-6" th:text="${habitacion.hotel}"></span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Imagen de la habitación -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 300px;">
+                                    <i class="fas fa-bed fa-5x text-primary"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Información básica -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h5 class="text-primary">Información General</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Tipo:</strong> <span class="badge bg-info" th:text="${habitacion.tipo}"></span></li>
+                                    <li><strong>Capacidad:</strong> <span th:text="${habitacion.capacidad}"></span> personas</li>
+                                    <li><strong>Estado:</strong> 
+                                        <span th:if="${habitacion.disponible}" class="badge bg-success">Disponible</span>
+                                        <span th:unless="${habitacion.disponible}" class="badge bg-danger">No Disponible</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="text-primary">Características</h5>
+                                <ul class="list-unstyled">
+                                    <li th:if="${habitacion.metrosCuadrados}">
+                                        <strong>Tamaño:</strong> <span th:text="${habitacion.metrosCuadrados}"></span> m²
+                                    </li>
+                                    <li th:if="${habitacion.vista}">
+                                        <strong>Vista:</strong> <span th:text="${habitacion.vista}"></span>
+                                    </li>
+                                    <li th:if="${habitacion.cama}">
+                                        <strong>Cama:</strong> <span th:text="${habitacion.cama}"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Amenidades -->
+                        <div th:if="${habitacion.amenidades}" class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary">Amenidades</h5>
+                                <div class="alert alert-light">
+                                    <i class="fas fa-star text-warning me-2"></i>
+                                    <span th:text="${habitacion.amenidades}"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Descripción -->
+                        <div th:if="${habitacion.descripcion}" class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-primary">Descripción</h5>
+                                <p th:text="${habitacion.descripcion}"></p>
+                            </div>
+                        </div>
+
+                        <!-- Precio -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-success text-center">
+                                    <h3 class="mb-0">
+                                        <i class="fas fa-tag me-2"></i>
+                                        S/ <span th:text="${#numbers.formatDecimal(habitacion.precio, 0, 0)}"></span>
+                                        <small>por noche</small>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario de reserva -->
+            <div class="col-lg-4">
+                <div class="card shadow" th:if="${habitacion.disponible}">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0">
+                            <i class="fas fa-calendar-check me-2"></i>Hacer Reserva
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/reservas/crear" method="post" id="reservaForm">
+                            <input type="hidden" name="habitacionId" th:value="${habitacion.id}">
+                            
+                            <div class="mb-3">
+                                <label for="fechaEntrada" class="form-label">Fecha de Entrada *</label>
+                                <input type="date" class="form-control" name="fechaEntrada" id="fechaEntrada" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="fechaSalida" class="form-label">Fecha de Salida *</label>
+                                <input type="date" class="form-control" name="fechaSalida" id="fechaSalida" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="numeroHuespedes" class="form-label">Número de Huéspedes *</label>
+                                <select class="form-select" name="numeroHuespedes" id="numeroHuespedes" required>
+                                    <option value="">Selecciona</option>
+                                    <option th:each="i : ${#numbers.sequence(1, habitacion.capacidad)}" 
+                                            th:value="${i}" 
+                                            th:text="${i + (i == 1 ? ' huésped' : ' huéspedes')}">
+                                    </option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="dniCliente" class="form-label">DNI del Cliente *</label>
+                                <input type="text" class="form-control" name="dniCliente" id="dniCliente" required
+                                       pattern="[0-9]{8}" maxlength="8" placeholder="12345678"
+                                       title="Ingresa un DNI válido de 8 dígitos">
+                                <div class="form-text">Ingresa el DNI de 8 dígitos del cliente que se hospedará</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="telefonoContacto" class="form-label">Teléfono de Contacto</label>
+                                <input type="tel" class="form-control" name="telefonoContacto" id="telefonoContacto" 
+                                       placeholder="Ej: +51 999 123 456">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="comentarios" class="form-label">Comentarios</label>
+                                <textarea class="form-control" name="comentarios" id="comentarios" rows="3" 
+                                          placeholder="Comentarios adicionales sobre tu reserva"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="solicitudesEspeciales" class="form-label">Solicitudes Especiales</label>
+                                <textarea class="form-control" name="solicitudesEspeciales" id="solicitudesEspeciales" rows="2" 
+                                          placeholder="Ej: Cama extra, dieta especial, cumpleaños, etc."></textarea>
+                            </div>
+
+                            <!-- Cálculo de precio -->
+                            <div class="alert alert-info">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <small>Precio por noche:</small>
+                                        <p class="mb-1" th:text="'S/ ' + ${#numbers.formatDecimal(habitacion.precio, 0, 0)}"></p>
+                                    </div>
+                                    <div class="col-6">
+                                        <small>Noches:</small>
+                                        <p class="mb-1" id="numeroNoches">-</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <strong>Total Estimado:</strong>
+                                        <h5 class="text-success mb-0" id="totalEstimado">S/ 0</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="fas fa-check me-2"></i>Confirmar Reserva
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Habitación no disponible -->
+                <div class="card shadow" th:unless="${habitacion.disponible}">
+                    <div class="card-header bg-danger text-white">
+                        <h4 class="mb-0">
+                            <i class="fas fa-ban me-2"></i>No Disponible
+                        </h4>
+                    </div>
+                    <div class="card-body text-center">
+                        <p>Esta habitación no está disponible para reservas en este momento.</p>
+                        <a href="/reservas" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>Buscar Otras Habitaciones
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Información de contacto -->
+                <div class="card shadow mt-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-headset me-2"></i>¿Necesitas Ayuda?
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <p class="mb-3">Contáctanos para asistencia personalizada</p>
+                            <div class="mb-2">
+                                <i class="fas fa-phone text-primary me-2"></i>
+                                <strong>+51 912-345-678</strong>
+                            </div>
+                            <div class="mb-2">
+                                <i class="fas fa-envelope text-primary me-2"></i>
+                                <strong>reservas@aranwahotels.com</strong>
+                            </div>
+                            <div>
+                                <i class="fas fa-clock text-primary me-2"></i>
+                                <small>24 horas / 7 días</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Volver -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <a href="/reservas" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Volver a Reservas
+                </a>
+                <a href="javascript:history.back()" class="btn btn-outline-secondary ms-2">
+                    <i class="fas fa-undo me-2"></i>Volver a Resultados
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const precioPorNoche = /*[[${habitacion.precio}]]*/ 0;
+            const fechaEntrada = document.getElementById('fechaEntrada');
+            const fechaSalida = document.getElementById('fechaSalida');
+            const dniCliente = document.getElementById('dniCliente');
+            const numeroNochesElement = document.getElementById('numeroNoches');
+            const totalEstimadoElement = document.getElementById('totalEstimado');
+
+            // Configurar fechas mínimas
+            const hoy = new Date().toISOString().split('T')[0];
+            fechaEntrada.min = hoy;
+            fechaSalida.min = hoy;
+            
+            // Validación del DNI
+            if (dniCliente) {
+                dniCliente.addEventListener('input', function() {
+                    // Solo permitir números
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                    
+                    if (this.value.length > 8) {
+                        this.value = this.value.slice(0, 8);
+                    }
+                    
+                    if (this.value.length === 8) {
+                        this.classList.remove('is-invalid');
+                        this.classList.add('is-valid');
+                    } else {
+                        this.classList.remove('is-valid');
+                        if (this.value.length > 0) {
+                            this.classList.add('is-invalid');
+                        }
+                    }
+                });
+            }
+
+            function calcularTotal() {
+                if (fechaEntrada.value && fechaSalida.value) {
+                    const entrada = new Date(fechaEntrada.value);
+                    const salida = new Date(fechaSalida.value);
+                    
+                    if (salida > entrada) {
+                        const noches = Math.ceil((salida - entrada) / (1000 * 60 * 60 * 24));
+                        const total = noches * precioPorNoche;
+                        
+                        numeroNochesElement.textContent = noches + (noches === 1 ? ' noche' : ' noches');
+                        totalEstimadoElement.textContent = 'S/ ' + total.toLocaleString();
+                    } else {
+                        numeroNochesElement.textContent = '-';
+                        totalEstimadoElement.textContent = 'S/ 0';
+                    }
+                }
+            }
+
+            fechaEntrada.addEventListener('change', function() {
+                const fechaSeleccionada = new Date(this.value);
+                fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
+                fechaSalida.min = fechaSeleccionada.toISOString().split('T')[0];
+                
+                if (fechaSalida.value && new Date(fechaSalida.value) <= new Date(this.value)) {
+                    fechaSalida.value = fechaSeleccionada.toISOString().split('T')[0];
+                }
+                
+                calcularTotal();
+            });
+
+            fechaSalida.addEventListener('change', calcularTotal);
+
+            // Validación del formulario
+            document.getElementById('reservaForm').addEventListener('submit', function(e) {
+                if (!fechaEntrada.value || !fechaSalida.value) {
+                    e.preventDefault();
+                    alert('Por favor, selecciona las fechas de entrada y salida.');
+                    return;
+                }
+
+                const entrada = new Date(fechaEntrada.value);
+                const salida = new Date(fechaSalida.value);
+
+                if (salida <= entrada) {
+                    e.preventDefault();
+                    alert('La fecha de salida debe ser posterior a la fecha de entrada.');
+                    return;
+                }
+
+                const confirmacion = confirm(
+                    '¿Confirmas que deseas realizar esta reserva?\n\n' +
+                    'Habitación: ' + /*[[${habitacion.numero}]]*/ '' + '\n' +
+                    'Entrada: ' + fechaEntrada.value + '\n' +
+                    'Salida: ' + fechaSalida.value + '\n' +
+                    'Total: ' + totalEstimadoElement.textContent
+                );
+
+                if (!confirmacion) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -8,7 +8,7 @@
         <header class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
             <div class="container">
                 <a class="navbar-brand" th:href="@{/}">
-                    <img src="imagenes/EDEN.png" alt="Logo de Aranwa Hotels" height="50">
+                    <img th:src="@{/imagenes/EDEN.png}" alt="Logo de EDEN" height="50">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
@@ -50,12 +50,31 @@
                         <div class="dropdown me-3" sec:authorize="isAuthenticated()">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user-circle fa-lg text-primary me-2"></i>
-                                <span class="d-none d-md-inline" sec:authentication="name"></span>
+                                <div class="user-photo-container me-2">
+                                    <img 
+                                        th:if="${detalles != null and detalles.fotoPerfil != null}" 
+                                        th:src="@{'/uploads/fotos/' + ${detalles.fotoPerfil}}" 
+                                        alt="Foto de perfil" 
+                                        class="user-photo rounded-circle"
+                                        style="width: 32px; height: 32px; object-fit: cover; border: 2px solid #007bff;"
+                                    >
+                                    <i 
+                                        th:unless="${detalles != null and detalles.fotoPerfil != null}"
+                                        class="fas fa-user-circle fa-lg text-primary"
+                                    ></i>
+                                </div>
+                                <span class="d-none d-md-inline" 
+                                      th:if="${detalles != null}" 
+                                      th:text="${detalles.nombres}">Usuario</span>
+                                <span class="d-none d-md-inline" 
+                                      th:unless="${detalles != null}" 
+                                      sec:authentication="name">Email</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item" th:href="@{/dashboard}"><i class="fas fa-tachometer-alt me-2"></i>Mi Panel</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-user-edit me-2"></i>Mi Perfil</a></li>
+                                <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/admin/dashboard}"><i class="fas fa-cogs me-2"></i>Panel Administración</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#subirFotoModal"><i class="fas fa-camera me-2"></i>Cambiar Foto</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#cambiarPasswordModal"><i class="fas fa-key me-2"></i>Cambiar Contraseña</a></li>
                                 <li><a class="dropdown-item" th:href="@{/reservas}"><i class="fas fa-calendar-check me-2"></i>Mis Reservas</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
@@ -74,6 +93,165 @@
                 </div>
             </div>
         </header>
+
+        <!-- Modales para Foto y Contraseña -->
+        <!-- Modal para subir foto -->
+        <div class="modal fade" id="subirFotoModal" tabindex="-1" aria-labelledby="subirFotoModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="subirFotoModalLabel">Cambiar Foto de Perfil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="text-center mb-3">
+                  <img id="preview" src="" alt="Preview" style="max-width: 200px; max-height: 200px; display: none;" class="img-thumbnail">
+                </div>
+                <form id="fotoForm" enctype="multipart/form-data">
+                  <div class="mb-3">
+                    <label for="foto" class="form-label">Selecciona una foto (JPG, PNG, GIF)</label>
+                    <input type="file" class="form-control" id="foto" name="foto" accept=".jpg,.jpeg,.png,.gif" required>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="subirFoto()">Subir Foto</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal para cambiar contraseña -->
+        <div class="modal fade" id="cambiarPasswordModal" tabindex="-1" aria-labelledby="cambiarPasswordModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="cambiarPasswordModalLabel">Cambiar Contraseña</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form id="passwordForm">
+                  <div class="mb-3">
+                    <label for="passwordActual" class="form-label">Contraseña Actual</label>
+                    <input type="password" class="form-control" id="passwordActual" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="passwordNueva" class="form-label">Nueva Contraseña</label>
+                    <input type="password" class="form-control" id="passwordNueva" minlength="8" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="confirmarPassword" class="form-label">Confirmar Nueva Contraseña</label>
+                    <input type="password" class="form-control" id="confirmarPassword" minlength="8" required>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="cambiarPassword()">Cambiar Contraseña</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          // Preview de imagen al seleccionar archivo
+          document.addEventListener('DOMContentLoaded', function() {
+            const fotoInput = document.getElementById('foto');
+            if (fotoInput) {
+              fotoInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('preview').style.display = 'block';
+                  };
+                  reader.readAsDataURL(file);
+                }
+              });
+            }
+          });
+
+          // Función para subir foto
+          function subirFoto() {
+            const formData = new FormData();
+            const fotoInput = document.getElementById('foto');
+            
+            if (!fotoInput.files[0]) {
+              alert('Por favor selecciona una foto');
+              return;
+            }
+
+            formData.append('foto', fotoInput.files[0]);
+
+            fetch('/api/perfil/subir-foto', {
+              method: 'POST',
+              body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.message) {
+                alert('Foto subida exitosamente');
+                location.reload(); // Recargar para mostrar la nueva foto
+              } else {
+                alert('Error: ' + data);
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('Error al subir la foto');
+            });
+          }
+
+          // Función para cambiar contraseña
+          function cambiarPassword() {
+            const passwordActual = document.getElementById('passwordActual').value;
+            const passwordNueva = document.getElementById('passwordNueva').value;
+            const confirmarPassword = document.getElementById('confirmarPassword').value;
+
+            if (!passwordActual || !passwordNueva || !confirmarPassword) {
+              alert('Por favor completa todos los campos');
+              return;
+            }
+
+            if (passwordNueva !== confirmarPassword) {
+              alert('Las nuevas contraseñas no coinciden');
+              return;
+            }
+
+            if (passwordNueva.length < 8) {
+              alert('La nueva contraseña debe tener al menos 8 caracteres');
+              return;
+            }
+
+            const data = {
+              passwordActual: passwordActual,
+              passwordNueva: passwordNueva,
+              confirmarPassword: confirmarPassword
+            };
+
+            fetch('/api/perfil/cambiar-password', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            })
+            .then(response => response.text())
+            .then(data => {
+              alert(data);
+              if (data.includes('exitosamente')) {
+                document.getElementById('passwordForm').reset();
+                bootstrap.Modal.getInstance(document.getElementById('cambiarPasswordModal')).hide();
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('Error al cambiar contraseña');
+            });
+          }
+        </script>
     </div>
 </body>
 

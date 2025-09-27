@@ -121,6 +121,14 @@
                   <input type="tel" class="form-control form-control-lg" id="phone" name="phone"
                          placeholder="+51 999 999 999" required>
                 </div>
+                <div class="col-md-6 mb-3">
+                  <label for="dni" class="form-label fw-semibold">
+                    <i class="fas fa-id-card me-2 text-primary"></i>DNI
+                  </label>
+                  <input type="text" class="form-control form-control-lg" id="dni" name="dni"
+                         placeholder="12345678" required pattern="[0-9]{8}" maxlength="8"
+                         title="Ingrese un DNI válido de 8 dígitos">
+                </div>
               </div>
 
               <div class="mb-3">
@@ -451,6 +459,7 @@
         lastName: document.getElementById('lastName').value,
         email: document.getElementById('email').value,
         phone: document.getElementById('phone').value,
+        dni: document.getElementById('dni').value,
         birthDate: document.getElementById('birthDate').value,
         password: password,
         confirmPassword: confirmPassword,
@@ -560,6 +569,28 @@
         }, index * 200);
       });
     });
+
+    // Validación y formato del DNI
+    const dniInput = document.getElementById('dni');
+    if (dniInput) {
+      dniInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 8) {
+          value = value.substring(0, 8);
+        }
+        e.target.value = value;
+        
+        const isValid = value.length === 8;
+        e.target.style.borderColor = isValid ? '#28a745' : (value.length > 0 ? '#dc3545' : '#ced4da');
+        
+        const icon = e.target.parentElement.querySelector('.validation-icon');
+        if (icon) {
+          icon.style.color = isValid ? '#28a745' : '#dc3545';
+          icon.innerHTML = isValid ? '✓' : '✗';
+          icon.style.opacity = value.length > 0 ? '1' : '0';
+        }
+      });
+    }
 
     // Efectos de focus en inputs
     const inputs = document.querySelectorAll('.form-control');

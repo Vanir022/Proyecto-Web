@@ -220,10 +220,14 @@
             </div>
             <hr>
             <div class="text-center">
-              <a href="#" class="btn-aranwa me-2">
+              <!-- Modal para cambiar foto -->
+              <a href="#" class="btn-aranwa me-2" data-bs-toggle="modal" data-bs-target="#cambiarFotoModal">
+                <i class="fas fa-camera me-2"></i>Cambiar Foto
+              </a>
+              <a href="#" class="btn-aranwa me-2" data-bs-toggle="modal" data-bs-target="#editarPerfilModal">
                 <i class="fas fa-edit me-2"></i>Editar Perfil
               </a>
-              <a href="#" class="btn-aranwa">
+              <a href="#" class="btn-aranwa" data-bs-toggle="modal" data-bs-target="#cambiarPasswordModal">
                 <i class="fas fa-key me-2"></i>Cambiar Contraseña
               </a>
             </div>
@@ -231,13 +235,95 @@
 
           <div class="info-card">
             <h5><i class="fas fa-calendar-check me-2"></i>Mis Reservas</h5>
-            <div class="text-center py-4">
+            
+            <!-- Si no tiene reservas -->
+            <div th:if="${reservas == null or #lists.size(reservas) == 0}" class="text-center py-4">
               <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
               <h6 class="text-muted">No tienes reservas activas</h6>
               <p class="text-muted">¡Explora nuestros destinos y haz tu primera reserva!</p>
               <a th:href="@{/reservas}" class="btn-aranwa">
                 <i class="fas fa-plus me-2"></i>Nueva Reserva
               </a>
+            </div>
+            
+            <!-- Si tiene reservas -->
+            <div th:if="${reservas != null and #lists.size(reservas) > 0}">
+              <div class="row g-2 mb-3">
+                <div class="col-4 text-center">
+                  <div class="stats-card">
+                    <div class="stats-number" th:text="${reservasPendientes}">0</div>
+                    <small>Pendientes</small>
+                  </div>
+                </div>
+                <div class="col-4 text-center">
+                  <div class="stats-card">
+                    <div class="stats-number text-success" th:text="${reservasConfirmadas}">0</div>
+                    <small>Confirmadas</small>
+                  </div>
+                </div>
+                <div class="col-4 text-center">
+                  <div class="stats-card">
+                    <div class="stats-number text-info" th:text="${reservasCompletadas}">0</div>
+                    <small>Completadas</small>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Lista de reservas recientes -->
+              <div class="row">
+                <div class="col-12">
+                  <h6 class="text-muted mb-3">Reservas Recientes</h6>
+                  <div th:each="reserva, iterStat : ${reservas}" th:if="${iterStat.index < 3}">
+                    <div class="card mb-2" style="border-left: 3px solid" 
+                         th:style="'border-left-color: ' + 
+                                   (${reserva.estado.name() == 'CONFIRMADA'} ? '#28a745' : 
+                                   (${reserva.estado.name() == 'PENDIENTE'} ? '#ffc107' : 
+                                   (${reserva.estado.name() == 'COMPLETADA'} ? '#17a2b8' : '#dc3545')))">
+                      <div class="card-body py-2">
+                        <div class="d-flex justify-content-between align-items-start">
+                          <div>
+                            <h6 class="mb-1">
+                              <span class="text-primary" th:text="'Habitación ' + ${reserva.habitacion.numero}"></span>
+                              <span class="badge ms-2" 
+                                    th:class="${reserva.estado.name() == 'CONFIRMADA' ? 'bg-success' : 
+                                               (reserva.estado.name() == 'PENDIENTE' ? 'bg-warning' : 
+                                               (reserva.estado.name() == 'COMPLETADA' ? 'bg-info' : 'bg-danger'))}"
+                                    th:text="${reserva.estado}">
+                              </span>
+                            </h6>
+                            <small class="text-muted">
+                              <i class="fas fa-map-marker-alt me-1"></i>
+                              <span th:text="${reserva.habitacion.hotel}"></span>
+                            </small>
+                            <br>
+                            <small class="text-muted">
+                              <i class="fas fa-calendar me-1"></i>
+                              <span th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}"></span> - 
+                              <span th:text="${#temporals.format(reserva.fechaSalida, 'dd/MM/yyyy')}"></span>
+                            </small>
+                          </div>
+                          <div class="text-end">
+                            <small class="text-success fw-bold">
+                              S/ <span th:text="${#numbers.formatDecimal(reserva.montoTotal, 0, 2)}"></span>
+                            </small>
+                            <br>
+                            <small class="text-muted" th:text="${reserva.codigoReserva}"></small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="text-center mt-3">
+                    <a th:href="@{/reservas}" class="btn btn-outline-primary btn-sm">
+                      <i class="fas fa-list me-1"></i>Ver Todas las Reservas
+                    </a>
+                    <a th:href="@{/reservas}" class="btn-aranwa btn-sm ms-2">
+                      <i class="fas fa-plus me-1"></i>Nueva Reserva
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -296,6 +382,87 @@
   <!-- Footer -->
   <div th:replace="fragments/footer :: footer"></div>
 
+  <!-- Modal para cambiar foto -->
+  <div class="modal fade" id="cambiarFotoModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cambiar Foto de Perfil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="fotoForm" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="foto" class="form-label">Seleccionar nueva foto</label>
+              <input type="file" class="form-control" id="foto" name="foto" accept="image/*" required>
+              <div class="form-text">Formatos permitidos: JPG, PNG, GIF. Máximo 5MB.</div>
+            </div>
+            <div class="text-center">
+              <img id="preview" src="#" alt="Vista previa" style="max-width: 200px; max-height: 200px; display: none;" class="img-thumbnail mb-3">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" onclick="subirFoto()">Guardar Foto</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para cambiar contraseña -->
+  <div class="modal fade" id="cambiarPasswordModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cambiar Contraseña</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="passwordForm">
+            <div class="mb-3">
+              <label for="passwordActual" class="form-label">Contraseña Actual</label>
+              <input type="password" class="form-control" id="passwordActual" required>
+            </div>
+            <div class="mb-3">
+              <label for="passwordNueva" class="form-label">Nueva Contraseña</label>
+              <input type="password" class="form-control" id="passwordNueva" required minlength="8">
+            </div>
+            <div class="mb-3">
+              <label for="confirmarPassword" class="form-label">Confirmar Nueva Contraseña</label>
+              <input type="password" class="form-control" id="confirmarPassword" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" onclick="cambiarPassword()">Cambiar Contraseña</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para editar perfil -->
+  <div class="modal fade" id="editarPerfilModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Perfil</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Esta funcionalidad estará disponible próximamente.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -335,6 +502,98 @@
         header.classList.remove("sticky-header");
       }
     });
+
+    // Preview de imagen al seleccionar archivo
+    document.getElementById('foto').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('preview').src = e.target.result;
+          document.getElementById('preview').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Función para subir foto
+    function subirFoto() {
+      const formData = new FormData();
+      const fotoInput = document.getElementById('foto');
+      
+      if (!fotoInput.files[0]) {
+        alert('Por favor selecciona una foto');
+        return;
+      }
+
+      formData.append('foto', fotoInput.files[0]);
+
+      fetch('/api/perfil/subir-foto', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          alert('Foto subida exitosamente');
+          location.reload(); // Recargar para mostrar la nueva foto
+        } else {
+          alert('Error: ' + data);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error al subir la foto');
+      });
+    }
+
+    // Función para cambiar contraseña
+    function cambiarPassword() {
+      const passwordActual = document.getElementById('passwordActual').value;
+      const passwordNueva = document.getElementById('passwordNueva').value;
+      const confirmarPassword = document.getElementById('confirmarPassword').value;
+
+      if (!passwordActual || !passwordNueva || !confirmarPassword) {
+        alert('Por favor completa todos los campos');
+        return;
+      }
+
+      if (passwordNueva !== confirmarPassword) {
+        alert('Las nuevas contraseñas no coinciden');
+        return;
+      }
+
+      if (passwordNueva.length < 8) {
+        alert('La nueva contraseña debe tener al menos 8 caracteres');
+        return;
+      }
+
+      const data = {
+        passwordActual: passwordActual,
+        passwordNueva: passwordNueva,
+        confirmarPassword: confirmarPassword
+      };
+
+      fetch('/api/perfil/cambiar-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.text())
+      .then(data => {
+        alert(data);
+        if (data.includes('exitosamente')) {
+          document.getElementById('passwordForm').reset();
+          bootstrap.Modal.getInstance(document.getElementById('cambiarPasswordModal')).hide();
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error al cambiar contraseña');
+      });
+    }
   </script>
 </body>
 
