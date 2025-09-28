@@ -16,33 +16,33 @@ import Proyecto.Proyecto4.models.Usuario;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
-    
-    List<Reserva> findByUsuario(Usuario usuario);
-    
-    List<Reserva> findByUsuarioOrderByFechaReservaDesc(Usuario usuario);
-    
-    List<Reserva> findByEstado(EstadoReserva estado);
-    
-    Optional<Reserva> findByCodigoReserva(String codigoReserva);
-    
-    @Query("SELECT r FROM Reserva r WHERE r.habitacion = :habitacion AND " +
-           "((r.fechaEntrada <= :fechaSalida AND r.fechaSalida >= :fechaEntrada) AND " +
-           "(r.estado = 'CONFIRMADA' OR r.estado = 'PENDIENTE'))")
-    List<Reserva> findReservasConflictoFechas(@Param("habitacion") Habitacion habitacion,
-                                              @Param("fechaEntrada") LocalDate fechaEntrada,
-                                              @Param("fechaSalida") LocalDate fechaSalida);
-    
-    @Query("SELECT r FROM Reserva r WHERE r.fechaEntrada BETWEEN :fechaInicio AND :fechaFin")
-    List<Reserva> findReservasPorRangoFechas(@Param("fechaInicio") LocalDate fechaInicio,
-                                           @Param("fechaFin") LocalDate fechaFin);
-    
-    @Query("SELECT COUNT(r) FROM Reserva r WHERE r.habitacion.hotel = :hotel AND r.estado = :estado")
-    Long contarReservasPorHotelYEstado(@Param("hotel") String hotel, @Param("estado") EstadoReserva estado);
-    
-    @Query("SELECT SUM(r.montoTotal) FROM Reserva r WHERE r.estado = 'COMPLETADA' AND " +
-           "r.fechaEntrada BETWEEN :fechaInicio AND :fechaFin")
-    Double calcularIngresosEnPeriodo(@Param("fechaInicio") LocalDate fechaInicio,
-                                   @Param("fechaFin") LocalDate fechaFin);
-    
-    List<Reserva> findByHabitacion(Habitacion habitacion);
+
+       List<Reserva> findByUsuario(Usuario usuario);
+
+       List<Reserva> findByUsuarioOrderByFechaReservaDesc(Usuario usuario);
+
+       List<Reserva> findByEstado(EstadoReserva estado);
+
+       Optional<Reserva> findByCodigoReserva(String codigoReserva);
+
+       @Query("SELECT r FROM Reserva r WHERE r.habitacion = :habitacion AND " +
+                     "((r.fechaEntrada <= :fechaSalida AND r.fechaSalida >= :fechaEntrada) AND " +
+                     "(r.estado = 'CONFIRMADA' OR r.estado = 'PENDIENTE'))")
+       List<Reserva> findReservasConflictoFechas(@Param("habitacion") Habitacion habitacion,
+                     @Param("fechaEntrada") LocalDate fechaEntrada,
+                     @Param("fechaSalida") LocalDate fechaSalida);
+
+       @Query("SELECT r FROM Reserva r WHERE r.fechaEntrada BETWEEN :fechaInicio AND :fechaFin")
+       List<Reserva> findReservasPorRangoFechas(@Param("fechaInicio") LocalDate fechaInicio,
+                     @Param("fechaFin") LocalDate fechaFin);
+
+       @Query("SELECT COUNT(r) FROM Reserva r WHERE r.habitacion.hotel = :hotel AND r.estado = :estado")
+       Long contarReservasPorHotelYEstado(@Param("hotel") String hotel, @Param("estado") EstadoReserva estado);
+
+       @Query("SELECT SUM(r.montoTotal) FROM Reserva r WHERE r.estado = 'COMPLETADA' AND " +
+                     "r.fechaEntrada BETWEEN :fechaInicio AND :fechaFin")
+       Double calcularIngresosEnPeriodo(@Param("fechaInicio") LocalDate fechaInicio,
+                     @Param("fechaFin") LocalDate fechaFin);
+
+       List<Reserva> findByHabitacion(Habitacion habitacion);
 }
