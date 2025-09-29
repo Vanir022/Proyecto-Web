@@ -37,10 +37,11 @@ public class HomeController {
         return "html/Nosotros"; // Thymeleaf buscará templates/Nosotros.html
     }
     
-    @GetMapping("/contactos")
+    // Mantener la ruta original de contactos para evitar conflictos
+    /*@GetMapping("/contactos")
     public String contactos() {
-        return "html/Contactos"; // Thymeleaf buscará templates/Contactos.html
-    }
+        return "redirect:/contactos";
+    }*/
     
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error,

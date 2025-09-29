@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import Proyecto.Proyecto4.models.Administrador;
+import Proyecto.Proyecto4.models.DetallesPersona;
 import Proyecto.Proyecto4.models.Habitacion;
 import Proyecto.Proyecto4.models.Reserva;
+import Proyecto.Proyecto4.models.Usuario;
 import Proyecto.Proyecto4.services.AdministradorService;
 import Proyecto.Proyecto4.services.HabitacionService;
 import Proyecto.Proyecto4.services.ReservaService;
@@ -93,6 +95,119 @@ public class AdminDashboardController {
         return "html/admin/usuarios";
     }
     
+    @GetMapping("/usuarios/{id}/detalle")
+    @ResponseBody
+    public String obtenerDetalleUsuario(@PathVariable Long id, Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            Optional<Administrador> adminOpt = administradorService.buscarPorEmail(email);
+            
+            if (!adminOpt.isPresent()) {
+                return "<div class='alert alert-danger'>Error: Administrador no encontrado</div>";
+            }
+            
+            Optional<Usuario> usuarioOpt = usuarioService.buscarPorId(id);
+            if (!usuarioOpt.isPresent()) {
+                return "<div class='alert alert-danger'>Usuario no encontrado</div>";
+            }
+            
+            Usuario usuario = usuarioOpt.get();
+            List<Reserva> reservas = reservaService.obtenerReservasPorUsuario(usuario);
+            
+            StringBuilder html = new StringBuilder();
+            html.append("<div class='row'>");
+            
+            // Información personal del usuario
+            html.append("<div class='col-md-6'>");
+            html.append("<div class='card h-100'>");
+            html.append("<div class='card-header bg-info text-white'>");
+            html.append("<h6 class='mb-0'><i class='fas fa-user me-2'></i>Información Personal</h6>");
+            html.append("</div>");
+            html.append("<div class='card-body'>");
+            
+            if (usuario.getDetallesPersona() != null && usuario.getDetallesPersona().getFotoPerfil() != null) {
+                html.append("<div class='text-center mb-3'>");
+                html.append("<img src='/uploads/fotos/").append(usuario.getDetallesPersona().getFotoPerfil()).append("' ");
+                html.append("class='rounded-circle' style='width: 100px; height: 100px; object-fit: cover;'>");
+                html.append("</div>");
+            } else {
+                html.append("<div class='text-center mb-3'>");
+                html.append("<i class='fas fa-user-circle fa-5x text-secondary'></i>");
+                html.append("</div>");
+            }
+            
+            html.append("<table class='table table-borderless'>");
+            html.append("<tr><td><strong>ID:</strong></td><td>").append(usuario.getId()).append("</td></tr>");
+            html.append("<tr><td><strong>Nombre:</strong></td><td>").append(usuario.getNombre()).append("</td></tr>");
+            html.append("<tr><td><strong>Email:</strong></td><td>").append(usuario.getEmail()).append("</td></tr>");
+            html.append("<tr><td><strong>Rol:</strong></td><td><span class='badge bg-info'>").append(usuario.getRol()).append("</span></td></tr>");
+            
+            if (usuario.getDetallesPersona() != null) {
+                DetallesPersona detalles = usuario.getDetallesPersona();
+                html.append("<tr><td><strong>Apellidos:</strong></td><td>").append(detalles.getApellidos() != null ? detalles.getApellidos() : "No especificado").append("</td></tr>");
+                html.append("<tr><td><strong>DNI:</strong></td><td>").append(detalles.getDni() != null ? detalles.getDni() : "No especificado").append("</td></tr>");
+                html.append("<tr><td><strong>Teléfono:</strong></td><td>").append(detalles.getTelefono() != null ? detalles.getTelefono() : "No especificado").append("</td></tr>");
+                html.append("<tr><td><strong>Fecha Nac.:</strong></td><td>").append(detalles.getFechaNacimiento() != null ? detalles.getFechaNacimiento().toString() : "No especificado").append("</td></tr>");
+                html.append("<tr><td><strong>Intereses:</strong></td><td>").append(detalles.getIntereses() != null ? detalles.getIntereses() : "No especificado").append("</td></tr>");
+                html.append("<tr><td><strong>Marketing:</strong></td><td>").append(detalles.getAceptaMarketing() != null && detalles.getAceptaMarketing() ? "Sí" : "No").append("</td></tr>");
+            } else {
+                html.append("<tr><td colspan='2'><em class='text-muted'>No hay detalles personales registrados</em></td></tr>");
+            }
+            
+            html.append("</table>");
+            html.append("</div></div></div>");
+            
+            // Historial de reservas
+            html.append("<div class='col-md-6'>");
+            html.append("<div class='card h-100'>");
+            html.append("<div class='card-header bg-success text-white'>");
+            html.append("<h6 class='mb-0'><i class='fas fa-calendar-check me-2'></i>Historial de Reservas (").append(reservas.size()).append(")</h6>");
+            html.append("</div>");
+            html.append("<div class='card-body' style='max-height: 400px; overflow-y: auto;'>");
+            
+            if (!reservas.isEmpty()) {
+                for (Reserva reserva : reservas) {
+                    String estadoClass = "";
+                    switch (reserva.getEstado()) {
+                        case CONFIRMADA -> estadoClass = "bg-success";
+                        case PENDIENTE -> estadoClass = "bg-warning";
+                        case CANCELADA -> estadoClass = "bg-danger";
+                        case COMPLETADA -> estadoClass = "bg-info";
+                        default -> estadoClass = "bg-secondary";
+                    }
+                    
+                    html.append("<div class='card mb-2 border-left-").append(estadoClass.replace("bg-", "")).append("'>");
+                    html.append("<div class='card-body p-2'>");
+                    html.append("<div class='d-flex justify-content-between align-items-center'>");
+                    html.append("<h6 class='card-title mb-1'>").append(reserva.getCodigoReserva()).append("</h6>");
+                    html.append("<span class='badge ").append(estadoClass).append("'>").append(reserva.getEstado()).append("</span>");
+                    html.append("</div>");
+                    html.append("<p class='card-text mb-1'><small>");
+                    html.append("<strong>Hotel:</strong> ").append(reserva.getHabitacion().getHotel()).append("<br>");
+                    html.append("<strong>Habitación:</strong> ").append(reserva.getHabitacion().getNumero()).append(" (").append(reserva.getHabitacion().getTipo()).append(")<br>");
+                    html.append("<strong>Fechas:</strong> ").append(reserva.getFechaEntrada()).append(" - ").append(reserva.getFechaSalida()).append("<br>");
+                    html.append("<strong>Huéspedes:</strong> ").append(reserva.getNumeroHuespedes()).append("<br>");
+                    html.append("<strong>Total:</strong> S/ ").append(String.format("%.2f", reserva.getMontoTotal()));
+                    html.append("</small></p>");
+                    html.append("</div></div>");
+                }
+            } else {
+                html.append("<div class='text-center text-muted py-4'>");
+                html.append("<i class='fas fa-calendar-times fa-3x mb-3'></i>");
+                html.append("<p>Este usuario no tiene reservas registradas</p>");
+                html.append("</div>");
+            }
+            
+            html.append("</div></div></div>");
+            html.append("</div>");
+            
+            return html.toString();
+            
+        } catch (Exception e) {
+            return "<div class='alert alert-danger'>Error al cargar los detalles del usuario: " + e.getMessage() + "</div>";
+        }
+    }
+    
     @GetMapping("/habitaciones")
     public String gestionHabitaciones(Authentication authentication, Model model,
                                     @RequestParam(required = false) String hotel,
@@ -133,6 +248,33 @@ public class AdminDashboardController {
                     .filter(h -> h.getEstadoHabitacion().name().equals(estado))
                     .collect(java.util.stream.Collectors.toList());
             }
+            
+            // Ordenar habitaciones: primero por número (mayor a menor), luego por precio (mayor a menor)
+            habitaciones = habitaciones.stream()
+                .sorted((h1, h2) -> {
+                    // Convertir números de habitación a enteros para comparación numérica
+                    int num1 = 0, num2 = 0;
+                    try {
+                        num1 = Integer.parseInt(h1.getNumero().replaceAll("[^0-9]", ""));
+                    } catch (NumberFormatException e) {
+                        num1 = 0;
+                    }
+                    try {
+                        num2 = Integer.parseInt(h2.getNumero().replaceAll("[^0-9]", ""));
+                    } catch (NumberFormatException e) {
+                        num2 = 0;
+                    }
+                    
+                    // Ordenar por número (mayor a menor)
+                    int numeroComparison = Integer.compare(num2, num1);
+                    if (numeroComparison != 0) {
+                        return numeroComparison;
+                    }
+                    
+                    // Si los números son iguales, ordenar por precio (mayor a menor)
+                    return h2.getPrecio().compareTo(h1.getPrecio());
+                })
+                .collect(java.util.stream.Collectors.toList());
             
             model.addAttribute("habitaciones", habitaciones);
             model.addAttribute("hoteles", habitacionService.obtenerHotelesDisponibles());

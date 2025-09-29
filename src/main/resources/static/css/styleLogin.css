@@ -1,5 +1,5 @@
     .login-section {
-      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://media.staticontent.com/media/pictures/c0e7b5f8-f9c2-4d6d-b59a-bcd5ada3900f');
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../imagenes/edenIndex.png');
       background-size: cover;
       background-position: center;
       min-height: 100vh;

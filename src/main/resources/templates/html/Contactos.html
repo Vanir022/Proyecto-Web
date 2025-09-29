@@ -124,38 +124,56 @@
                             <h4 class="mb-0">Envíanos un Mensaje</h4>
                         </div>
                         <div class="card-body p-4">
-                            <form>
+                            <!-- Mostrar mensajes de éxito o error -->
+                            <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="bi bi-check-circle me-2"></i>
+                                <span th:text="${success}"></span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                            
+                            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                <span th:text="${error}"></span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                            
+                            <form th:action="@{/contactos/enviar}" method="post">
                                 <div class="mb-3">
-                                    <label for="nombre" class="form-label fw-bold">Nombre Completo</label>
-                                    <input type="text" class="form-control form-control-lg" id="nombre" required>
+                                    <label for="nombre" class="form-label fw-bold">Nombre Completo *</label>
+                                    <input type="text" class="form-control form-control-lg" id="nombre" name="nombre" 
+                                           placeholder="Ingresa tu nombre completo" required maxlength="100">
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="email" class="form-label fw-bold">Correo Electrónico</label>
-                                    <input type="email" class="form-control form-control-lg" id="email" required>
+                                    <label for="email" class="form-label fw-bold">Correo Electrónico *</label>
+                                    <input type="email" class="form-control form-control-lg" id="email" name="email" 
+                                           placeholder="tu.email@ejemplo.com" required maxlength="150">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="telefono" class="form-label fw-bold">Teléfono (Opcional)</label>
-                                    <input type="tel" class="form-control form-control-lg" id="telefono">
+                                    <input type="tel" class="form-control form-control-lg" id="telefono" name="telefono"
+                                           placeholder="+51 999 999 999" maxlength="20">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="hotel" class="form-label fw-bold">Hotel de Interés</label>
-                                    <select class="form-select form-select-lg" id="hotel">
-                                        <option value="">Selecciona un hotel</option>
-                                        <option value="sacred-valley">Eden Sacred Valley</option>
-                                        <option value="paracas">Eden Paracas Resort</option>
-                                        <option value="cusco">Eden Cusco Boutique</option>
-                                        <option value="colca">Eden Pueblito Encantado del Colca</option>
-                                        <option value="vichayito">Vichayito Bungalows</option>
+                                    <select class="form-select form-select-lg" id="hotel" name="hotel">
+                                        <option value="">Selecciona un hotel (opcional)</option>
+                                        <option value="Eden Sacred Valley Hotel">Eden Sacred Valley Hotel & Wellness</option>
+                                        <option value="Eden Paracas Resort">Eden Paracas Resort & Spa</option>
+                                        <option value="Eden Cusco Boutique">Eden Cusco Boutique Hotel</option>
+                                        <option value="Eden Pueblito Encantado">Eden Pueblito Encantado del Colca</option>
+                                        <option value="Vichayito Bungalows">Vichayito Bungalows & Carpas</option>
                                     </select>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label for="mensaje" class="form-label fw-bold">Mensaje</label>
-                                    <textarea class="form-control" id="mensaje" rows="5"
-                                        placeholder="Cuéntanos sobre tu consulta o solicitud..." required></textarea>
+                                    <label for="mensaje" class="form-label fw-bold">Mensaje *</label>
+                                    <textarea class="form-control" id="mensaje" name="mensaje" rows="5"
+                                        placeholder="Cuéntanos sobre tu consulta, solicitud de reserva, o cualquier pregunta que tengas..." 
+                                        required maxlength="1000"></textarea>
+                                    <div class="form-text">Máximo 1000 caracteres</div>
                                 </div>
 
                                 <div class="d-grid">

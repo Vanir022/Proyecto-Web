@@ -100,21 +100,21 @@
 
       <div class="row align-items-center">
         <div class="col-lg-6">
-          <h3 class="text-center mb-4" id="hotelName">Eden Resorts Resorts & Spa</h3>
+          <h3 class="text-center mb-4" id="hotelName">Eden Resorts & Spa</h3>
           <p class="lead text-justify" id="hotelDescription">Es una colección de hoteles que ofrece la más atractiva
             guía de destinos en el Perú. La combinación perfecta entre cultura y bienestar. Ubicados en paisajes
             emblemáticos como el Valle Sagrado de los Incas, Cusco, Arequipa y Paracas, cada propiedad está diseñada
             para brindar una experiencia auténtica, en armonía con la historia y la naturaleza del entorno.</p>
           <div class="text-center">
-            <button type="button" class="btn btn-outline-primary btn-lg" onclick="window.location.href='html/Nosotros.html'" aria-label="Conocer más sobre Eden Resorts">
+            <a th:href="@{/nosotros}" class="btn btn-outline-primary btn-lg" role="button" aria-label="Conocer más sobre Eden Resorts">
               <span class="me-2" id="conocerMas">Conocer más...</span>
               <i class="fas fa-arrow-circle-right" aria-hidden="true"></i>
-            </button>
+            </a>
           </div>
         </div>
         <div class="col-lg-6">
           <!-- #7: Imagen con mejor alt text descriptivo -->
-          <img src="imagenes/aranwa-paracas.png" alt="Vista exterior del hotel Eden Paracas Resort con arquitectura moderna frente al mar" class="img-fluid rounded shadow">
+          <img src="imagenes/eden-paracas.png" alt="Vista exterior del hotel Eden Paracas Resort con arquitectura moderna frente al mar" class="img-fluid rounded shadow">
         </div>
       </div>
     </div>
@@ -449,11 +449,10 @@
           <p class="lead mb-4" id="servicesDescription">En Eden Resorts nos esforzamos por brindar una experiencia
             completa de lujo y comodidad a nuestros huéspedes.</p>
           <!-- #14: Botón de servicios mejorado -->
-          <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='html/Contactos.html'"
-            id="servicesButton" aria-label="Contactar con Eden Resorts para más información">
+          <a th:href="@{/contactos}" class="btn btn-primary btn-lg" id="servicesButton" role="button" aria-label="Contactar con Eden Resorts para más información">
             <span id="servicesButtonText">Contacta con nosotros</span>
             <i class="fas fa-arrow-circle-right ms-2" aria-hidden="true"></i>
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -613,12 +612,12 @@
         <div class="col-lg-4 d-flex">
           <div class="card border-0 shadow-sm h-100 flex-fill">
             <div class="position-relative">
-              <img src="imagenes/aniversarioAranwa.png" alt="15° aniversario Eden Resort" class="card-img-custom">
+              <img src="imagenes/edenaniversario.png" alt="15° aniversario Eden Resort" class="card-img-custom">
               <span class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 m-2 rounded"
                 id="hotelLabel2">HOTEL</span>
             </div>
             <div class="card-body">
-              <h5 class="card-title" id="postTitle2">Eden Resorts Resorts & Spas celebra su 15° aniversario
+              <h5 class="card-title" id="postTitle2">Eden Resorts  & Spas celebra su 15° aniversario
                 “Convirtiendo viajes en leyenda” en 5 destinos de Perú</h5>
               <p class="card-text" id="postDescription2">Eden Resorts celebra su 15° aniversario ofreciendo
                 hospitalidad única en cinco destinos de Perú. La celebración central fue en su hotel Eden Sacred
@@ -694,12 +693,12 @@
       // Calcular noches
       const noches = Math.ceil((salida - llegada) / (1000 * 60 * 60 * 24));
       
-      alert(`🏨 BÚSQUEDA DE RESERVA\n\n` +
-            `📅 Llegada: ${fechaLlegada}\n` +
-            `📅 Salida: ${fechaSalida}\n` +
-            `🌙 Noches: ${noches}\n` +
-            `👥 Adultos: ${adultos}\n` +
-            `👶 Niños: ${ninos}\n\n` +
+      alert(`BÚSQUEDA DE RESERVA\n\n` +
+            `Llegada: ${fechaLlegada}\n` +
+            `Salida: ${fechaSalida}\n` +
+            `Noches: ${noches}\n` +
+            `Adultos: ${adultos}\n` +
+            `Niños: ${ninos}\n\n` +
             `Redirigiendo a resultados de búsqueda...`);
     }
     
@@ -712,14 +711,14 @@
       
       const habitacion = precios[tipoHabitacion];
       if (habitacion) {
-        alert(`🏨 ${habitacion.descripcion}\n\n` +
-              `💰 Precio: S/${habitacion.precio} por noche\n` +
-              `✨ Incluye desayuno buffet\n` +
-              `🏊 Acceso a piscina y spa\n` +
-              `📶 WiFi gratuito\n\n` +
+        alert(`${habitacion.descripcion}\n\n` +
+              `Precio: S/${habitacion.precio} por noche\n` +
+              `Incluye desayuno buffet\n` +
+              `Acceso a piscina y spa\n` +
+              `WiFi gratuito\n\n` +
               `¿Te gustaría hacer una reserva?\n` +
-              `📞 Llámanos: +51 1 234-5678\n` +
-              `📧 Email: reservas@edenresort.com`);
+              `Llámanos: +51 1 234-5678\n` +
+              `Email: reservas@edenresort.com`);
       }
     }
 

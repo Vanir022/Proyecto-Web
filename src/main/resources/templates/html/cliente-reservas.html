@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservas - EDEN RESORTS</title>
-      <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
 </head>
+
 <body>
     <!-- Header -->
     <div th:replace="~{fragments/header :: header}"></div>
@@ -23,7 +29,7 @@
                     <span th:text="${success}"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-                
+
                 <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
                     <i class="fas fa-exclamation-triangle me-2"></i>
                     <span th:text="${error}"></span>
@@ -52,10 +58,8 @@
                                     <label for="hotel" class="form-label">Hotel</label>
                                     <select class="form-select" name="hotel" id="hotel">
                                         <option value="">Todos los hoteles</option>
-                                        <option th:each="h : ${hoteles}" 
-                                                th:value="${h}" 
-                                                th:text="${h}"
-                                                th:selected="${h == hotel}">
+                                        <option th:each="h : ${hoteles}" th:value="${h}" th:text="${h}"
+                                            th:selected="${h == hotel}">
                                         </option>
                                     </select>
                                 </div>
@@ -66,18 +70,19 @@
                                         <option value="Standard" th:selected="${tipo == 'Standard'}">Standard</option>
                                         <option value="Superior" th:selected="${tipo == 'Superior'}">Superior</option>
                                         <option value="Suite" th:selected="${tipo == 'Suite'}">Suite</option>
-                                        <option value="Master Suite" th:selected="${tipo == 'Master Suite'}">Master Suite</option>
+                                        <option value="Master Suite" th:selected="${tipo == 'Master Suite'}">Master
+                                            Suite</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="fechaEntrada" class="form-label">Fecha de Entrada</label>
-                                    <input type="date" class="form-control" name="fechaEntrada" id="fechaEntrada" 
-                                           th:value="${fechaEntrada}" required>
+                                    <input type="date" class="form-control" name="fechaEntrada" id="fechaEntrada"
+                                        th:value="${fechaEntrada}" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="fechaSalida" class="form-label">Fecha de Salida</label>
-                                    <input type="date" class="form-control" name="fechaSalida" id="fechaSalida" 
-                                           th:value="${fechaSalida}" required>
+                                    <input type="date" class="form-control" name="fechaSalida" id="fechaSalida"
+                                        th:value="${fechaSalida}" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="capacidad" class="form-label">Huéspedes</label>
@@ -93,8 +98,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="precioMax" class="form-label">Precio Máximo (S/)</label>
-                                    <input type="number" class="form-control" name="precioMax" id="precioMax" 
-                                           th:value="${precioMax}" placeholder="Ingresa precio máximo" min="0" step="50">
+                                    <input type="number" class="form-control" name="precioMax" id="precioMax"
+                                        th:value="${precioMax}" placeholder="Ingresa precio máximo" min="0" step="50">
                                 </div>
                                 <div class="col-md-6 d-flex align-items-end">
                                     <button type="submit" class="btn btn-primary btn-lg w-100">
@@ -114,24 +119,24 @@
                 <h3 class="text-center mb-4">
                     <i class="fas fa-history me-2"></i>Mis Reservas
                 </h3>
-                
+
                 <div class="row g-3">
                     <div class="col-lg-4" th:each="reserva : ${misReservas}">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="fw-bold" th:text="${reserva.codigoReserva}"></span>
-                                <span class="badge" 
-                                      th:class="${reserva.estado == 'CONFIRMADA' ? 'bg-success' : (reserva.estado == 'CANCELADA' ? 'bg-danger' : 'bg-warning')}"
-                                      th:text="${reserva.estado}">
+                                <span class="badge"
+                                    th:class="${reserva.estado == 'CONFIRMADA' ? 'bg-success' : (reserva.estado == 'CANCELADA' ? 'bg-danger' : 'bg-warning')}"
+                                    th:text="${reserva.estado}">
                                 </span>
                             </div>
                             <div class="card-body">
-                                <h6 class="text-primary" 
+                                <h6 class="text-primary"
                                     th:text="'Habitación ' + ${reserva.habitacion.numero} + ' - ' + ${reserva.habitacion.hotel}">
                                 </h6>
                                 <p class="mb-1">
                                     <i class="fas fa-calendar me-1"></i>
-                                    <span th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}"></span> - 
+                                    <span th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}"></span> -
                                     <span th:text="${#temporals.format(reserva.fechaSalida, 'dd/MM/yyyy')}"></span>
                                 </p>
                                 <p class="mb-1">
@@ -143,12 +148,13 @@
                                     <span>DNI: </span><span th:text="${reserva.dniCliente}"></span>
                                 </p>
                                 <p class="mb-3">
-                                    <strong>Total: S/ <span th:text="${#numbers.formatDecimal(reserva.montoTotal, 0, 2)}"></span></strong>
+                                    <strong>Total: S/ <span
+                                            th:text="${#numbers.formatDecimal(reserva.montoTotal, 0, 2)}"></span></strong>
                                 </p>
-                                
+
                                 <div th:if="${reserva.estado == 'CONFIRMADA' || reserva.estado == 'PENDIENTE'}">
-                                    <form th:action="@{'/reservas/cancelar/' + ${reserva.id}}" method="post" 
-                                          onsubmit="return confirm('¿Estás seguro de cancelar esta reserva?')">
+                                    <form th:action="@{'/reservas/cancelar/' + ${reserva.id}}" method="post"
+                                        onsubmit="return confirm('¿Estás seguro de cancelar esta reserva?')">
                                         <button type="submit" class="btn btn-outline-danger btn-sm">
                                             <i class="fas fa-times me-1"></i>Cancelar Reserva
                                         </button>
@@ -197,19 +203,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Configurar fechas mínimas
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const hoy = new Date().toISOString().split('T')[0];
             const fechaEntrada = document.getElementById('fechaEntrada');
             const fechaSalida = document.getElementById('fechaSalida');
-            
+
             fechaEntrada.min = hoy;
             fechaSalida.min = hoy;
-            
-            fechaEntrada.addEventListener('change', function() {
+
+            fechaEntrada.addEventListener('change', function () {
                 const fechaSeleccionada = new Date(this.value);
                 fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
                 fechaSalida.min = fechaSeleccionada.toISOString().split('T')[0];
-                
+
                 if (fechaSalida.value && new Date(fechaSalida.value) <= new Date(this.value)) {
                     fechaSalida.value = fechaSeleccionada.toISOString().split('T')[0];
                 }
@@ -217,4 +223,5 @@
         });
     </script>
 </body>
+
 </html>

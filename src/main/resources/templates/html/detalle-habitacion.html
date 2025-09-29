@@ -185,7 +185,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <strong>Total Estimado:</strong>
-                                        <h5 class="text-success mb-0" id="totalEstimado">S/ 0</h5>
+                                        <h5 class="text-success mb-0" id="totalEstimado">S/ 0.00</h5>
                                     </div>
                                 </div>
                             </div>
@@ -297,28 +297,35 @@
 
             function calcularTotal() {
                 if (fechaEntrada.value && fechaSalida.value) {
-                    const entrada = new Date(fechaEntrada.value);
-                    const salida = new Date(fechaSalida.value);
+                    const entrada = new Date(fechaEntrada.value + 'T00:00:00');
+                    const salida = new Date(fechaSalida.value + 'T00:00:00');
                     
                     if (salida > entrada) {
-                        const noches = Math.ceil((salida - entrada) / (1000 * 60 * 60 * 24));
+                        const diferenciaTime = salida.getTime() - entrada.getTime();
+                        const noches = Math.ceil(diferenciaTime / (1000 * 60 * 60 * 24));
                         const total = noches * precioPorNoche;
                         
                         numeroNochesElement.textContent = noches + (noches === 1 ? ' noche' : ' noches');
-                        totalEstimadoElement.textContent = 'S/ ' + total.toLocaleString();
+                        totalEstimadoElement.textContent = 'S/ ' + total.toLocaleString('es-PE', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        });
                     } else {
                         numeroNochesElement.textContent = '-';
-                        totalEstimadoElement.textContent = 'S/ 0';
+                        totalEstimadoElement.textContent = 'S/ 0.00';
                     }
+                } else {
+                    numeroNochesElement.textContent = '-';
+                    totalEstimadoElement.textContent = 'S/ 0.00';
                 }
             }
 
             fechaEntrada.addEventListener('change', function() {
-                const fechaSeleccionada = new Date(this.value);
+                const fechaSeleccionada = new Date(this.value + 'T00:00:00');
                 fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
                 fechaSalida.min = fechaSeleccionada.toISOString().split('T')[0];
                 
-                if (fechaSalida.value && new Date(fechaSalida.value) <= new Date(this.value)) {
+                if (fechaSalida.value && new Date(fechaSalida.value + 'T00:00:00') <= new Date(this.value + 'T00:00:00')) {
                     fechaSalida.value = fechaSeleccionada.toISOString().split('T')[0];
                 }
                 
@@ -326,6 +333,9 @@
             });
 
             fechaSalida.addEventListener('change', calcularTotal);
+            
+            // Calcular total inicial en caso de que ya haya fechas seleccionadas
+            calcularTotal();
 
             // Validación del formulario
             document.getElementById('reservaForm').addEventListener('submit', function(e) {

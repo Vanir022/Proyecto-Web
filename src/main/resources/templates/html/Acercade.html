@@ -5,10 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EDEN RESORTS - Nuestro Equipo</title>
+    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons.min.css">
+
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 </head>
@@ -18,12 +22,11 @@
     <div th:replace="fragments/Header :: header"></div>
 
     <!-- Hero Section -->
-    <section class="hero-section d-flex align-items-center"
-        style="margin-top: 76px; background-image: url('https://cdn.pixabay.com/photo/2015/12/04/14/05/code-1076536_1280.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 100vh;">
-        " >
-        <div class="container text-center">
+    <section class="hero-section d-flex align-items-center" style="position:relative; margin-top:76px; background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 70vh;">
+        <div style="position:absolute; inset:0; background: rgba(0,0,0,0.45);"></div>
+        <div class="container text-center position-relative" style="z-index:2;">
             <h1 class="display-4 fw-bold mb-4 text-light">NUESTRO EQUIPO</h1>
-            <p class="lead mb-0 text-bg-light" >Los creadores detrás de la experiencia digital de Eden Resorts</p>
+            <p class="lead mb-0 text-light">Los creadores detrás de la experiencia digital de Eden Resorts</p>
         </div>
     </section>
 
@@ -65,7 +68,8 @@
                             <h4 class="card-title text-primary mb-2">Tineo Torres Vahit Bithely</h4>
                             <p class="text-muted mb-3">Estudiante</p>
                             <p class="card-text small">
-                                Encargado de la documentacion sobre el desarrollo del proyecto
+                                Encargado de la conexion de la base de datos y documentacion sobre el desarrollo del
+                                proyecto
                             </p>
                             <div class="d-flex justify-content-center gap-3 mt-3">
                                 <a href="#" class="social-icon text-primary">
@@ -124,7 +128,8 @@
                                 <i class="fas fa-user-circle fa-5x text-white opacity-75"></i>
                             </div>
                             <div class="position-absolute top-0 end-0 m-3">
-                                <span class="badge bg-white text-warning px-3 py-2 rounded-pill fw-bold">Dibujante de bocetos</span>
+                                <span class="badge bg-white text-warning px-3 py-2 rounded-pill fw-bold">Dibujante de
+                                    bocetos</span>
                             </div>
                         </div>
                         <div class="card-body text-center p-4">
@@ -298,25 +303,26 @@
                 <div class="col-lg-2 col-md-3 col-4 text-center">
                     <div class="bg-white p-4 rounded shadow-sm">
                         <i class="fab fa-html5 fa-3x text-danger mb-2"></i>
-                        <p class="mb-0 small fw-bold">HTML5</p>
+                        <p class="mb-0 small fw-bold">HTML</p>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-3 col-4 text-center">
                     <div class="bg-white p-4 rounded shadow-sm">
                         <i class="fab fa-css3-alt fa-3x text-primary mb-2"></i>
-                        <p class="mb-0 small fw-bold">CSS (18%)</p>
+                        <p class="mb-0 small fw-bold">CSS</p>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-3 col-4 text-center">
                     <div class="bg-white p-4 rounded shadow-sm">
                         <i class="fab fa-js-square fa-3x text-warning mb-2"></i>
-                        <p class="mb-0 small fw-bold">JavaScript (2%)</p>
+                        <p class="mb-0 small fw-bold">JavaScript </p>
                     </div>
                 </div>
+                <!--Que sea boostrap y purpura-->
                 <div class="col-lg-2 col-md-3 col-4 text-center">
                     <div class="bg-white p-4 rounded shadow-sm">
                         <i class="fab fa-bootstrap fa-3x text-purple mb-2"></i>
-                        <p class="mb-0 small fw-bold">Bootstrap (80%)</p>
+                        <p class="mb-0 small fw-bold">Bootstrap</p>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-3 col-4 text-center">
@@ -327,12 +333,24 @@
                 </div>
                 <div class="col-lg-2 col-md-3 col-4 text-center">
                     <div class="bg-white p-4 rounded shadow-sm">
-                        <i class="fas fa-database fa-3x text-info mb-2"></i>
-                        <p class="mb-0 small fw-bold">Database (proximamente)</p>
+                        <i class="fa fa-database fa-3x text-info mb-2"></i>
+                        <p class="mb-0 small fw-bold">MySQL</p>
+                    </div>
+                </div>
+                <!--Agregar el icono de visual studio code-->
+                <div class="col-lg-2 col-md-3 col-4 text-center">
+                    <div class="bg-white p-4 rounded shadow-sm">
+                        <i class="fa fa-code fa-3x text-dark mb-2"></i>
+                        <p class="mb-0 small fw-bold">VS Code</p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-4 text-center">
+                    <div class="bg-white p-4 rounded shadow-sm">
+                        <i class="fab fa-github fa-3x text-dark mb-2"></i>
+                        <p class="mb-0 small fw-bold">GitHub</p>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
     <!-- Contact Section -->

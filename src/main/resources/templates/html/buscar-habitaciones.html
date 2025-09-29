@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
 </head>
+
 <body>
     <!-- Header -->
     <div th:replace="~{fragments/header :: header}"></div>
@@ -29,10 +31,8 @@
                                     <label for="hotel" class="form-label">Hotel</label>
                                     <select class="form-select" name="hotel" id="hotel">
                                         <option value="">Todos los hoteles</option>
-                                        <option th:each="h : ${hoteles}" 
-                                                th:value="${h}" 
-                                                th:text="${h}"
-                                                th:selected="${h == hotel}">
+                                        <option th:each="h : ${hoteles}" th:value="${h}" th:text="${h}"
+                                            th:selected="${h == hotel}">
                                         </option>
                                     </select>
                                 </div>
@@ -43,7 +43,8 @@
                                         <option value="Standard" th:selected="${tipo == 'Standard'}">Standard</option>
                                         <option value="Superior" th:selected="${tipo == 'Superior'}">Superior</option>
                                         <option value="Suite" th:selected="${tipo == 'Suite'}">Suite</option>
-                                        <option value="Master Suite" th:selected="${tipo == 'Master Suite'}">Master Suite</option>
+                                        <option value="Master Suite" th:selected="${tipo == 'Master Suite'}">Master
+                                            Suite</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
@@ -60,20 +61,20 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label for="fechaEntrada" class="form-label">Entrada</label>
-                                    <input type="date" class="form-control" name="fechaEntrada" id="fechaEntrada" 
-                                           th:value="${fechaEntrada}">
+                                    <input type="date" class="form-control" name="fechaEntrada" id="fechaEntrada"
+                                        th:value="${fechaEntrada}">
                                 </div>
                                 <div class="col-md-2">
                                     <label for="fechaSalida" class="form-label">Salida</label>
-                                    <input type="date" class="form-control" name="fechaSalida" id="fechaSalida" 
-                                           th:value="${fechaSalida}">
+                                    <input type="date" class="form-control" name="fechaSalida" id="fechaSalida"
+                                        th:value="${fechaSalida}">
                                 </div>
                             </div>
                             <div class="row g-3 mt-2">
                                 <div class="col-md-6">
                                     <label for="precioMax" class="form-label">Precio Máximo (S/)</label>
-                                    <input type="number" class="form-control" name="precioMax" id="precioMax" 
-                                           th:value="${precioMax}" placeholder="Precio máximo" min="0" step="50">
+                                    <input type="number" class="form-control" name="precioMax" id="precioMax"
+                                        th:value="${precioMax}" placeholder="Precio máximo" min="0" step="50">
                                 </div>
                                 <div class="col-md-6 d-flex align-items-end">
                                     <button type="submit" class="btn btn-primary w-100">
@@ -94,7 +95,8 @@
                     <h2 class="text-primary mb-0">
                         <i class="fas fa-bed me-2"></i>Habitaciones Disponibles
                     </h2>
-                    <span class="badge bg-secondary fs-6" th:text="${habitaciones != null ? habitaciones.size() + ' encontradas' : '0 encontradas'}"></span>
+                    <span class="badge bg-secondary fs-6"
+                        th:text="${habitaciones != null ? habitaciones.size() + ' encontradas' : '0 encontradas'}"></span>
                 </div>
             </div>
         </div>
@@ -112,55 +114,58 @@
                         <div class="col-md-8">
                             <div class="card-body h-100 d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h5 class="card-title text-primary" th:text="'Habitación ' + ${habitacion.numero}"></h5>
+                                    <h5 class="card-title text-primary" th:text="'Habitación ' + ${habitacion.numero}">
+                                    </h5>
                                     <span class="badge bg-success" th:if="${habitacion.disponible}">Disponible</span>
-                                    <span class="badge bg-secondary" th:unless="${habitacion.disponible}">No Disponible</span>
+                                    <span class="badge bg-secondary" th:unless="${habitacion.disponible}">No
+                                        Disponible</span>
                                 </div>
-                                
+
                                 <div class="mb-2">
                                     <small class="text-muted">
                                         <i class="fas fa-map-marker-alt me-1"></i>
                                         <span th:text="${habitacion.hotel}"></span>
                                     </small>
                                 </div>
-                                
+
                                 <div class="mb-2">
                                     <span class="badge bg-info me-1" th:text="${habitacion.tipo}"></span>
-                                    <span class="badge bg-secondary me-1" th:text="${habitacion.capacidad + ' personas'}"></span>
-                                    <span th:if="${habitacion.metrosCuadrados}" 
-                                          class="badge bg-outline-secondary me-1" 
-                                          th:text="${habitacion.metrosCuadrados + ' m²'}"></span>
+                                    <span class="badge bg-secondary me-1"
+                                        th:text="${habitacion.capacidad + ' personas'}"></span>
+                                    <span th:if="${habitacion.metrosCuadrados}" class="badge bg-outline-secondary me-1"
+                                        th:text="${habitacion.metrosCuadrados + ' m²'}"></span>
                                 </div>
-                                
+
                                 <div th:if="${habitacion.vista}" class="mb-2">
                                     <small class="text-muted">
                                         <i class="fas fa-eye me-1"></i>
                                         <span th:text="${habitacion.vista}"></span>
                                     </small>
                                 </div>
-                                
+
                                 <div th:if="${habitacion.amenidades}" class="mb-2">
                                     <small class="text-muted">
                                         <i class="fas fa-star me-1"></i>
                                         <span th:text="${habitacion.amenidades}"></span>
                                     </small>
                                 </div>
-                                
+
                                 <div th:if="${habitacion.descripcion}" class="mb-3 flex-grow-1">
                                     <small th:text="${habitacion.descripcion}"></small>
                                 </div>
-                                
+
                                 <div class="mt-auto">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <h4 class="text-success mb-0">
-                                            S/ <span th:text="${#numbers.formatDecimal(habitacion.precio, 0, 0)}"></span>
+                                            S/ <span
+                                                th:text="${#numbers.formatDecimal(habitacion.precio, 0, 0)}"></span>
                                             <small class="text-muted">/noche</small>
                                         </h4>
                                     </div>
-                                    
+
                                     <div class="d-grid gap-2">
-                                        <a th:href="@{'/reservas/habitacion/' + ${habitacion.id}}" 
-                                           class="btn btn-primary" th:if="${habitacion.disponible}">
+                                        <a th:href="@{'/reservas/habitacion/' + ${habitacion.id}}"
+                                            class="btn btn-primary" th:if="${habitacion.disponible}">
                                             <i class="fas fa-calendar-check me-1"></i>Ver Detalles y Reservar
                                         </a>
                                         <button class="btn btn-secondary" th:unless="${habitacion.disponible}" disabled>
@@ -205,19 +210,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Configurar fechas mínimas
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const hoy = new Date().toISOString().split('T')[0];
             const fechaEntrada = document.getElementById('fechaEntrada');
             const fechaSalida = document.getElementById('fechaSalida');
-            
+
             fechaEntrada.min = hoy;
             fechaSalida.min = hoy;
-            
-            fechaEntrada.addEventListener('change', function() {
+
+            fechaEntrada.addEventListener('change', function () {
                 const fechaSeleccionada = new Date(this.value);
                 fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
                 fechaSalida.min = fechaSeleccionada.toISOString().split('T')[0];
-                
+
                 if (fechaSalida.value && new Date(fechaSalida.value) <= new Date(this.value)) {
                     fechaSalida.value = fechaSeleccionada.toISOString().split('T')[0];
                 }
@@ -225,4 +230,5 @@
         });
     </script>
 </body>
+
 </html>

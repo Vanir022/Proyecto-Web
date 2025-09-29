@@ -1,16 +1,43 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" 
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios - Resort Eden</title>
       <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
+    <!-- Modal Detalles Usuario -->
+    <div class="modal fade" id="detalleUsuarioModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fas fa-user me-2"></i>Detalles Completos del Usuario</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="detalleUsuarioContent">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <p class="mt-2">Cargando información del usuario...</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="btnEditarUsuarioDetalle" style="display: none;">
+                        <i class="fas fa-edit me-2"></i>Editar Usuario
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>on" href="imagenes/EDEN.ico">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
 </head>
+
 <body class="bg-light">
     <!-- Header -->
     <div th:replace="~{fragments/header :: header}"></div>
@@ -21,16 +48,15 @@
             <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar border-end">
                 <div class="position-sticky pt-3">
                     <div class="text-center mb-4">
-                        <img th:if="${admin.fotoPerfil != null}" 
-                             th:src="@{'/uploads/fotos/' + ${admin.fotoPerfil}}" 
-                             alt="Foto Admin" class="rounded-circle mb-2" 
-                             style="width: 60px; height: 60px; object-fit: cover;">
-                        <i th:unless="${admin.fotoPerfil != null}" 
-                           class="fas fa-user-shield fa-3x text-primary mb-2"></i>
+                        <img th:if="${admin.fotoPerfil != null}" th:src="@{'/uploads/fotos/' + ${admin.fotoPerfil}}"
+                            alt="Foto Admin" class="rounded-circle mb-2"
+                            style="width: 60px; height: 60px; object-fit: cover;">
+                        <i th:unless="${admin.fotoPerfil != null}"
+                            class="fas fa-user-shield fa-3x text-primary mb-2"></i>
                         <h6 th:text="${admin.nombres + ' ' + admin.apellidos}">Admin</h6>
                         <small class="text-muted" th:text="${admin.rol}">Rol</small>
                     </div>
-                    
+
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
                             <a th:href="@{/admin/dashboard}" class="nav-link text-dark">
@@ -69,16 +95,18 @@
                             </a>
                         </li>
                     </ul>
-                    
+
                     <hr>
                     <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" 
-                           data-bs-toggle="dropdown">
+                        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+                            data-bs-toggle="dropdown">
                             <strong>Opciones</strong>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Perfil</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" th:href="@{/logout}">Cerrar Sesión</a></li>
                         </ul>
                     </div>
@@ -87,7 +115,8 @@
 
             <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Gestión de Usuarios</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
@@ -95,7 +124,8 @@
                                 <i class="fas fa-download"></i> Exportar
                             </button>
                         </div>
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoUsuarioModal">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#nuevoUsuarioModal">
                             <i class="fas fa-plus"></i> Nuevo Usuario
                         </button>
                     </div>
@@ -156,24 +186,26 @@
                                     <tr th:each="usuario : ${usuarios}">
                                         <td th:text="${usuario.id}">1</td>
                                         <td>
-                                            <img th:if="${usuario.detallesPersona?.fotoPerfil != null}" 
-                                                 th:src="@{'/uploads/fotos/' + ${usuario.detallesPersona.fotoPerfil}}" 
-                                                 alt="Foto" class="rounded-circle" 
-                                                 style="width: 40px; height: 40px; object-fit: cover;">
-                                            <i th:unless="${usuario.detallesPersona?.fotoPerfil != null}" 
-                                               class="fas fa-user-circle fa-2x text-secondary"></i>
+                                            <img th:if="${usuario.detallesPersona?.fotoPerfil != null}"
+                                                th:src="@{'/uploads/fotos/' + ${usuario.detallesPersona.fotoPerfil}}"
+                                                alt="Foto" class="rounded-circle"
+                                                style="width: 40px; height: 40px; object-fit: cover;">
+                                            <i th:unless="${usuario.detallesPersona?.fotoPerfil != null}"
+                                                class="fas fa-user-circle fa-2x text-secondary"></i>
                                         </td>
                                         <td>
                                             <strong th:text="${usuario.nombre}">Nombre Usuario</strong>
                                             <br>
-                                            <small class="text-muted" th:text="${usuario.detallesPersona?.apellidos}">Apellidos</small>
+                                            <small class="text-muted"
+                                                th:text="${usuario.detallesPersona?.apellidos}">Apellidos</small>
                                         </td>
                                         <td th:text="${usuario.email}">usuario@email.com</td>
                                         <td>
-                                            <span th:if="${usuario.detallesPersona}">-</span>
-                                            <span th:unless="${usuario.detallesPersona}">No especificado</span>
+                                            <span th:if="${usuario.detallesPersona?.dni}" th:text="${usuario.detallesPersona.dni}">12345678</span>
+                                            <span th:unless="${usuario.detallesPersona?.dni}" class="text-muted">No especificado</span>
                                         </td>
-                                        <td th:text="${usuario.detallesPersona?.telefono ?: 'No especificado'}">987654321</td>
+                                        <td th:text="${usuario.detallesPersona?.telefono ?: 'No especificado'}">
+                                            987654321</td>
                                         <td>
                                             <span class="badge bg-info" th:text="${usuario.rol}">ROLE_USER</span>
                                         </td>
@@ -182,18 +214,17 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-sm btn-outline-primary" 
-                                                        th:onclick="'verDetalleUsuario(' + ${usuario.id} + ')'"
-                                                        title="Ver Detalles">
+                                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                                    th:onclick="'verDetalleUsuario(' + ${usuario.id} + ')'"
+                                                    title="Ver Detalles">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-sm btn-outline-warning"
-                                                        th:onclick="'editarUsuario(' + ${usuario.id} + ')'"
-                                                        title="Editar">
+                                                    th:onclick="'editarUsuario(' + ${usuario.id} + ')'" title="Editar">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-sm btn-outline-info"
-                                                        title="Resetear Contraseña">
+                                                    title="Resetear Contraseña">
                                                     <i class="fas fa-key"></i>
                                                 </button>
                                             </div>
@@ -210,14 +241,17 @@
                         <nav th:if="${totalPaginas > 1}">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item" th:classappend="${paginaActual == 0} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/admin/usuarios(page=${paginaActual - 1})}">Anterior</a>
+                                    <a class="page-link"
+                                        th:href="@{/admin/usuarios(page=${paginaActual - 1})}">Anterior</a>
                                 </li>
-                                <li th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}" 
-                                    class="page-item" th:classappend="${i == paginaActual} ? 'active'">
-                                    <a class="page-link" th:href="@{/admin/usuarios(page=${i})}" th:text="${i + 1}">1</a>
+                                <li th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}" class="page-item"
+                                    th:classappend="${i == paginaActual} ? 'active'">
+                                    <a class="page-link" th:href="@{/admin/usuarios(page=${i})}"
+                                        th:text="${i + 1}">1</a>
                                 </li>
                                 <li class="page-item" th:classappend="${paginaActual >= totalPaginas - 1} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/admin/usuarios(page=${paginaActual + 1})}">Siguiente</a>
+                                    <a class="page-link"
+                                        th:href="@{/admin/usuarios(page=${paginaActual + 1})}">Siguiente</a>
                                 </li>
                             </ul>
                         </nav>
@@ -320,17 +354,74 @@
         </div>
     </div>
 
+    <style>
+        .border-left-success {
+            border-left: 4px solid #28a745 !important;
+        }
+        .border-left-warning {
+            border-left: 4px solid #ffc107 !important;
+        }
+        .border-left-danger {
+            border-left: 4px solid #dc3545 !important;
+        }
+        .border-left-info {
+            border-left: 4px solid #17a2b8 !important;
+        }
+        .border-left-secondary {
+            border-left: 4px solid #6c757d !important;
+        }
+        
+        .modal-xl {
+            max-width: 90%;
+        }
+        
+        @media (max-width: 768px) {
+            .modal-xl {
+                max-width: 95%;
+            }
+        }
+    </style>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function verDetalleUsuario(idUsuario) {
+            // Mostrar spinner mientras carga
+            document.getElementById('detalleUsuarioContent').innerHTML = `
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <p class="mt-2">Cargando información completa del usuario...</p>
+                </div>
+            `;
+            
+            // Mostrar modal primero
+            const modal = new bootstrap.Modal(document.getElementById('detalleUsuarioModal'));
+            modal.show();
+            
             // Cargar detalles del usuario via AJAX
             fetch(`/admin/usuarios/${idUsuario}/detalle`)
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al cargar los datos');
+                    }
+                    return response.text();
+                })
                 .then(html => {
                     document.getElementById('detalleUsuarioContent').innerHTML = html;
-                    new bootstrap.Modal(document.getElementById('detalleUsuarioModal')).show();
+                    // Mostrar botón de editar
+                    document.getElementById('btnEditarUsuarioDetalle').style.display = 'inline-block';
+                    document.getElementById('btnEditarUsuarioDetalle').onclick = () => editarUsuario(idUsuario);
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('detalleUsuarioContent').innerHTML = `
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Error al cargar los detalles del usuario. Por favor, inténtelo de nuevo.
+                        </div>
+                    `;
+                });
         }
 
         function editarUsuario(idUsuario) {
@@ -347,44 +438,45 @@
                         'Content-Type': 'application/json',
                     }
                 })
-                .then(response => {
-                    if (response.ok) {
-                        location.reload();
-                    } else {
-                        alert('Error al cambiar el estado del usuario');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            alert('Error al cambiar el estado del usuario');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             }
         }
 
         // Manejar formulario de nuevo usuario
-        document.getElementById('formNuevoUsuario').addEventListener('submit', function(e) {
+        document.getElementById('formNuevoUsuario').addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             const formData = new FormData(this);
             const password = formData.get('password');
             const confirmarPassword = formData.get('confirmarPassword');
-            
+
             if (password !== confirmarPassword) {
                 alert('Las contraseñas no coinciden');
                 return;
             }
-            
+
             fetch('/admin/usuarios/crear', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => {
-                if (response.ok) {
-                    alert('Usuario creado exitosamente');
-                    location.reload();
-                } else {
-                    alert('Error al crear el usuario');
-                }
-            })
-            .catch(error => console.error('Error:', error));
+                .then(response => {
+                    if (response.ok) {
+                        alert('Usuario creado exitosamente');
+                        location.reload();
+                    } else {
+                        alert('Error al crear el usuario');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         });
     </script>
 </body>
+
 </html>
