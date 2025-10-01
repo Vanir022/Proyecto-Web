@@ -29,7 +29,23 @@ public class ReservaService {
     }
     
     public List<Reserva> obtenerTodasLasReservas() {
-        return reservaRepository.findAll();
+        List<Reserva> reservas = reservaRepository.findAll();
+        
+        // Forzar la carga de entidades relacionadas para evitar lazy loading issues
+        reservas.forEach(reserva -> {
+            if (reserva.getUsuario() != null) {
+                reserva.getUsuario().getNombre(); // Forzar carga
+                if (reserva.getUsuario().getDetallesPersona() != null) {
+                    reserva.getUsuario().getDetallesPersona().getNombres(); // Forzar carga
+                }
+            }
+            if (reserva.getHabitacion() != null) {
+                reserva.getHabitacion().getNumero(); // Forzar carga
+                reserva.getHabitacion().getHotel(); // Forzar carga
+            }
+        });
+        
+        return reservas;
     }
     
     public List<Reserva> obtenerReservasPorEstado(EstadoReserva estado) {

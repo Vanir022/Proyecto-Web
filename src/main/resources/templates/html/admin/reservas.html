@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" 
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Reservas - Resort Eden</title>
-      <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
 </head>
+
 <body class="bg-light">
     <!-- Header -->
     <div th:replace="~{fragments/header :: header}"></div>
@@ -21,16 +22,15 @@
             <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar border-end">
                 <div class="position-sticky pt-3">
                     <div class="text-center mb-4">
-                        <img th:if="${admin.fotoPerfil != null}" 
-                             th:src="@{'/uploads/fotos/' + ${admin.fotoPerfil}}" 
-                             alt="Foto Admin" class="rounded-circle mb-2" 
-                             style="width: 60px; height: 60px; object-fit: cover;">
-                        <i th:unless="${admin.fotoPerfil != null}" 
-                           class="fas fa-user-shield fa-3x text-primary mb-2"></i>
+                        <img th:if="${admin.fotoPerfil != null}" th:src="@{'/uploads/fotos/' + ${admin.fotoPerfil}}"
+                            alt="Foto Admin" class="rounded-circle mb-2"
+                            style="width: 60px; height: 60px; object-fit: cover;">
+                        <i th:unless="${admin.fotoPerfil != null}"
+                            class="fas fa-user-shield fa-3x text-primary mb-2"></i>
                         <h6 th:text="${admin.nombres + ' ' + admin.apellidos}">Admin</h6>
                         <small class="text-muted" th:text="${admin.rol}">Rol</small>
                     </div>
-                    
+
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
                             <a th:href="@{/admin/dashboard}" class="nav-link text-dark">
@@ -42,6 +42,12 @@
                             <a th:href="@{/admin/usuarios}" class="nav-link text-dark">
                                 <i class="fas fa-users me-2"></i>
                                 Gestión de Usuarios
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/habitaciones}" class="nav-link text-dark">
+                                <i class="fas fa-bed me-2"></i>
+                                Gestión de Habitaciones
                             </a>
                         </li>
                         <li>
@@ -63,16 +69,18 @@
                             </a>
                         </li>
                     </ul>
-                    
+
                     <hr>
                     <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" 
-                           data-bs-toggle="dropdown">
+                        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+                            data-bs-toggle="dropdown">
                             <strong>Opciones</strong>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Perfil</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" th:href="@{/logout}">Cerrar Sesión</a></li>
                         </ul>
                     </div>
@@ -81,7 +89,8 @@
 
             <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Gestión de Reservas</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
@@ -132,8 +141,8 @@
                         </form>
                         <div class="row mt-3">
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="busqueda" 
-                                       placeholder="Buscar por código, usuario o email...">
+                                <input type="text" class="form-control" name="busqueda"
+                                    placeholder="Buscar por código, usuario o email...">
                             </div>
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-primary">
@@ -203,6 +212,22 @@
                     </div>
                 </div>
 
+                <!-- DEBUG: Información de reservas -->
+                <div class="alert alert-info" th:if="${reservas != null and #lists.size(reservas) > 0}">
+                    <h6>Debug Info:</h6>
+                    <p>Total reservas: <strong th:text="${#lists.size(reservas)}">0</strong></p>
+                    <div th:if="${#lists.size(reservas) > 0}">
+                        <p>Primera reserva:</p>
+                        <ul>
+                            <li>Código: <span th:text="${reservas[0].codigoReserva}">-</span></li>
+                            <li>Usuario: <span th:text="${reservas[0].usuario != null ? reservas[0].usuario.nombre : 'NULL'}">-</span></li>
+                            <li>Habitación: <span th:text="${reservas[0].habitacion != null ? reservas[0].habitacion.numero : 'NULL'}">-</span></li>
+                            <li>Hotel: <span th:text="${reservas[0].habitacion != null ? reservas[0].habitacion.hotel : 'NULL'}">-</span></li>
+                            <li>Estado: <span th:text="${reservas[0].estado}">-</span></li>
+                        </ul>
+                    </div>
+                </div>
+
                 <!-- Tabla de Reservas -->
                 <div class="card shadow">
                     <div class="card-header py-3">
@@ -233,73 +258,94 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <img th:if="${reserva.usuario.fotoPerfil != null}" 
-                                                     th:src="@{'/uploads/fotos/' + ${reserva.usuario.fotoPerfil}}" 
-                                                     alt="Foto" class="rounded-circle me-2" 
-                                                     style="width: 30px; height: 30px; object-fit: cover;">
-                                                <i th:unless="${reserva.usuario.fotoPerfil != null}" 
-                                                   class="fas fa-user-circle me-2"></i>
+                                                <img th:if="${reserva.usuario.detallesPersona != null and reserva.usuario.detallesPersona.fotoPerfil != null}"
+                                                    th:src="@{'/uploads/fotos/' + ${reserva.usuario.detallesPersona.fotoPerfil}}"
+                                                    alt="Foto" class="rounded-circle me-2"
+                                                    style="width: 30px; height: 30px; object-fit: cover;">
+                                                <i th:unless="${reserva.usuario.detallesPersona != null and reserva.usuario.detallesPersona.fotoPerfil != null}"
+                                                    class="fas fa-user-circle me-2"></i>
                                                 <div>
-                                                    <strong th:text="${reserva.usuario.nombre}">Usuario</strong>
+                                                    <strong th:text="${reserva.usuario.detallesPersona != null ? reserva.usuario.detallesPersona.nombres : reserva.usuario.nombre}">Usuario</strong>
                                                     <br>
-                                                    <small class="text-muted" th:text="${reserva.usuario.email}">email</small>
+                                                    <small class="text-muted"
+                                                        th:text="${reserva.usuario.email}">email</small>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <strong th:text="'#' + ${reserva.habitacion.numero}">Habitación</strong>
-                                            <br>
-                                            <small class="text-muted" th:text="${reserva.habitacion.tipo}">Tipo</small>
-                                        </td>
-                                        <td th:text="${reserva.habitacion.hotel}">Hotel</td>
-                                        <td th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}">01/01/2023</td>
-                                        <td th:text="${#temporals.format(reserva.fechaSalida, 'dd/MM/yyyy')}">05/01/2023</td>
-                                        <td>
-                                            <span th:text="${#temporals.daysBetween(reserva.fechaEntrada, reserva.fechaSalida)}">4</span> días
+                                            <span th:if="${reserva.habitacion != null}">
+                                                <strong th:text="'#' + ${reserva.habitacion.numero}">Habitación</strong>
+                                                <br>
+                                                <small class="text-muted" th:text="${reserva.habitacion.tipo}">Tipo</small>
+                                            </span>
+                                            <span th:unless="${reserva.habitacion != null}" class="text-muted">Sin habitación</span>
                                         </td>
                                         <td>
-                                            <strong class="text-success" th:text="'S/. ' + ${#numbers.formatDecimal(reserva.montoTotal, 0, 2)}">S/. 1000.00</strong>
+                                            <span th:if="${reserva.habitacion != null}" th:text="${reserva.habitacion.hotel}">Hotel</span>
+                                            <span th:unless="${reserva.habitacion != null}" class="text-muted">Sin hotel</span>
                                         </td>
                                         <td>
-                                            <span class="badge" 
-                                                  th:class="'bg-' + 
-                                                      (${reserva.estado == 'Pendiente'} ? 'warning' : 
-                                                       ${reserva.estado == 'Confirmada'} ? 'success' : 
-                                                       ${reserva.estado == 'Cancelada'} ? 'danger' : 'info')"
-                                                  th:text="${reserva.estado}">Estado</span>
+                                            <span th:if="${reserva.fechaEntrada != null}" th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}">01/01/2023</span>
+                                            <span th:unless="${reserva.fechaEntrada != null}" class="text-muted">Sin fecha</span>
                                         </td>
-                                        <td th:text="${#temporals.format(reserva.fechaReserva, 'dd/MM/yyyy HH:mm')}">01/01/2023 10:30</td>
+                                        <td>
+                                            <span th:if="${reserva.fechaSalida != null}" th:text="${#temporals.format(reserva.fechaSalida, 'dd/MM/yyyy')}">05/01/2023</span>
+                                            <span th:unless="${reserva.fechaSalida != null}" class="text-muted">Sin fecha</span>
+                                        </td>
+                                        <td>
+                                            <span th:if="${reserva.fechaEntrada != null and reserva.fechaSalida != null}">
+                                                <span th:text="${#temporals.daysBetween(reserva.fechaEntrada, reserva.fechaSalida)}">4</span> días
+                                            </span>
+                                            <span th:unless="${reserva.fechaEntrada != null and reserva.fechaSalida != null}" class="text-muted">-</span>
+                                        </td>
+                                        <td>
+                                            <span th:if="${reserva.montoTotal != null}">
+                                                <strong class="text-success" th:text="'S/. ' + ${#numbers.formatDecimal(reserva.montoTotal, 0, 2)}">S/. 1000.00</strong>
+                                            </span>
+                                            <span th:unless="${reserva.montoTotal != null}" class="text-muted">Sin monto</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge" th:class="'bg-' + 
+                                                      (${reserva.estado.name() == 'PENDIENTE'} ? 'warning' : 
+                                                       ${reserva.estado.name() == 'CONFIRMADA'} ? 'success' : 
+                                                       ${reserva.estado.name() == 'CANCELADA'} ? 'danger' : 'info')"
+                                                th:text="${reserva.estado.name()}">Estado</span>
+                                        </td>
+                                        <td>
+                                            <span th:if="${reserva.fechaReserva != null}" th:text="${#temporals.format(reserva.fechaReserva, 'dd/MM/yyyy HH:mm')}">01/01/2023 10:30</span>
+                                            <span th:unless="${reserva.fechaReserva != null}" class="text-muted">Sin fecha</span>
+                                        </td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-sm btn-outline-primary" 
-                                                        th:onclick="'verDetalleReserva(' + ${reserva.idReserva} + ')'"
-                                                        title="Ver Detalles">
+                                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                                    th:onclick="'verDetalleReserva(' + ${reserva.id} + ')'"
+                                                    title="Ver Detalles">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
-                                                
+
                                                 <!-- Botones específicos por estado -->
-                                                <div th:if="${reserva.estado == 'Pendiente'}">
+                                                <div th:if="${reserva.estado.name() == 'PENDIENTE'}">
                                                     <button type="button" class="btn btn-sm btn-success"
-                                                            th:onclick="'aprobarReserva(' + ${reserva.idReserva} + ')'"
-                                                            title="Aprobar">
+                                                        th:onclick="'aprobarReserva(' + ${reserva.id} + ')'"
+                                                        title="Aprobar">
                                                         <i class="fas fa-check"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-sm btn-danger"
-                                                            th:onclick="'rechazarReserva(' + ${reserva.idReserva} + ')'"
-                                                            title="Rechazar">
+                                                        th:onclick="'rechazarReserva(' + ${reserva.id} + ')'"
+                                                        title="Rechazar">
                                                         <i class="fas fa-times"></i>
                                                     </button>
                                                 </div>
-                                                
-                                                <div th:if="${reserva.estado == 'Confirmada'}">
+
+                                                <div th:if="${reserva.estado.name() == 'CONFIRMADA'}">
                                                     <button type="button" class="btn btn-sm btn-info"
-                                                            th:onclick="'completarReserva(' + ${reserva.idReserva} + ')'"
-                                                            title="Marcar como Completada">
+                                                        th:onclick="'completarReserva(' + ${reserva.id} + ')'"
+                                                        title="Marcar como Completada">
                                                         <i class="fas fa-flag-checkered"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-sm btn-warning"
-                                                            th:onclick="'cancelarReserva(' + ${reserva.idReserva} + ')'"
-                                                            title="Cancelar">
+                                                        th:onclick="'cancelarReserva(' + ${reserva.id} + ')'"
+                                                        title="Cancelar">
                                                         <i class="fas fa-ban"></i>
                                                     </button>
                                                 </div>
@@ -317,14 +363,17 @@
                         <nav th:if="${totalPaginas > 1}">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item" th:classappend="${paginaActual == 0} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/admin/reservas(page=${paginaActual - 1})}">Anterior</a>
+                                    <a class="page-link"
+                                        th:href="@{/admin/reservas(page=${paginaActual - 1})}">Anterior</a>
                                 </li>
-                                <li th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}" 
-                                    class="page-item" th:classappend="${i == paginaActual} ? 'active'">
-                                    <a class="page-link" th:href="@{/admin/reservas(page=${i})}" th:text="${i + 1}">1</a>
+                                <li th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}" class="page-item"
+                                    th:classappend="${i == paginaActual} ? 'active'">
+                                    <a class="page-link" th:href="@{/admin/reservas(page=${i})}"
+                                        th:text="${i + 1}">1</a>
                                 </li>
                                 <li class="page-item" th:classappend="${paginaActual >= totalPaginas - 1} ? 'disabled'">
-                                    <a class="page-link" th:href="@{/admin/reservas(page=${paginaActual + 1})}">Siguiente</a>
+                                    <a class="page-link"
+                                        th:href="@{/admin/reservas(page=${paginaActual + 1})}">Siguiente</a>
                                 </li>
                             </ul>
                         </nav>
@@ -424,15 +473,15 @@
             document.getElementById('confirmarAccionTitulo').textContent = titulo;
             document.getElementById('confirmarAccionTexto').textContent = texto;
             document.getElementById('motivoContainer').style.display = mostrarMotivo ? 'block' : 'none';
-            
+
             accionPendiente = accion;
-            
+
             new bootstrap.Modal(document.getElementById('confirmarAccionModal')).show();
         }
 
         function cambiarEstadoReserva(idReserva, nuevoEstado) {
             const motivo = document.getElementById('motivoTexto').value;
-            
+
             fetch(`/admin/reservas/${idReserva}/cambiar-estado`, {
                 method: 'POST',
                 headers: {
@@ -443,18 +492,18 @@
                     motivo: motivo
                 })
             })
-            .then(response => {
-                if (response.ok) {
-                    location.reload();
-                } else {
-                    alert('Error al cambiar el estado de la reserva');
-                }
-            })
-            .catch(error => console.error('Error:', error));
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Error al cambiar el estado de la reserva');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         }
 
         // Event listener para el botón de confirmar
-        document.getElementById('confirmarAccionBtn').addEventListener('click', function() {
+        document.getElementById('confirmarAccionBtn').addEventListener('click', function () {
             if (accionPendiente) {
                 accionPendiente();
                 bootstrap.Modal.getInstance(document.getElementById('confirmarAccionModal')).hide();
@@ -470,4 +519,5 @@
         });
     </script>
 </body>
+
 </html>

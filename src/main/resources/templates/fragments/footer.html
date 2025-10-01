@@ -9,7 +9,8 @@
                 <div class="row mb-5">
                     <div class="col-12 col-md-10 col-lg-8 mx-auto text-center">
                         <h2 class="mb-3" id="subscribeTitle">Suscríbete</h2>
-                        <p class="mb-4" id="subscribeDescription">Recibe las últimas noticias y promociones directamente entu correo
+                        <p class="mb-4" id="subscribeDescription">Recibe las últimas noticias y promociones directamente
+                            entu correo
                         </p>
                         <form class="row g-2 justify-content-center">
                             <div class="col-12 col-sm-8 col-md-6">
@@ -26,18 +27,17 @@
 
                 <!-- Footer Content -->
                 <div class="row g-4">
-                    <div class="col-12 col-md-6 col-lg-3">
+                    <div class="col-12 col-md-6 col-lg-3 text-center text-md-start">
                         <div class="mb-4">
-                            <img src="imagenes/EDEN.png" alt="Logo de Resort Eden" class="img-fluid"
+                            <img th:src="@{/imagenes/EDEN.png}" alt="Logo de Resort Eden" class="img-fluid"
                                 style="max-height: 50px;">
                         </div>
-                        <div class="d-flex gap-3">
+                        <div class="d-flex gap-3 justify-content-center justify-content-md-start">
                             <a href="https://www.facebook.com/EdenResort/?locale=es_LA" target="_blank"
                                 class="text-white">
                                 <i class="fab fa-facebook-f fa-lg"></i>
                             </a>
-                            <a href="https://www.instagram.com/edenresort/?hl=es-la" target="_blank"
-                                class="text-white">
+                            <a href="https://www.instagram.com/edenresort/?hl=es-la" target="_blank" class="text-white">
                                 <i class="fab fa-instagram fa-lg"></i>
                             </a>
                             <a href="https://www.youtube.com/@EdenResort" target="_blank" class="text-white">
@@ -49,14 +49,14 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-6 col-lg-3">
+                    <div class="col-12 col-md-6 col-lg-3 text-center">
                         <h5 class="mb-3" id="resortEdenTitle">RESORT EDEN</h5>
-            <ul class="list-unstyled">
-                <li><a th:href="@{/nosotros}" class="text-white-50 text-decoration-none" id="aboutUsLink">
-                    <i class="fas fa-angle-double-right me-2"></i>Nosotros</a></li>
-                <li><a th:href="@{/acercade}" class="text-white-50 text-decoration-none" id="aboutUsLink">
-                    <i class="fas fa-angle-double-right me-2"></i>Acerca del Proyecto</a></li>
-            </ul>
+                        <ul class="list-unstyled">
+                            <li><a th:href="@{/nosotros}" class="text-white-50 text-decoration-none" id="aboutUsLink">
+                                    <i class="fas fa-angle-double-right me-2"></i>Nosotros</a></li>
+                            <li><a th:href="@{/acercade}" class="text-white-50 text-decoration-none" id="aboutUsLink">
+                                    <i class="fas fa-angle-double-right me-2"></i>Acerca del Proyecto</a></li>
+                        </ul>
 
                     </div>
 
@@ -76,49 +76,47 @@
                         </ul>
                     </div>-->
 
-                    <div class="col-12 col-md-6 col-lg-3">
+                    <div class="col-12 col-md-6 col-lg-3 text-center">
                         <h5 class="mb-3" id="servicesFooterTitle">SERVICIOS</h5>
-            <ul class="list-unstyled">
-                <li><a th:href="@{/eventos}" class="text-white-50 text-decoration-none" id="eventosLink">
-                    <i class="fas fa-angle-double-right me-2"></i>Eventos</a></li>
-                <li><a th:href="@{/spa}" class="text-white-50 text-decoration-none" id="spaLink">
-                    <i class="fas fa-angle-double-right me-2"></i>Spa</a></li>
-                <li><a th:href="@{/bodas}" class="text-white-50 text-decoration-none" id="bodasLink">
-                    <i class="fas fa-angle-double-right me-2"></i>Bodas</a></li>
-            </ul>
+                        <ul class="list-unstyled">
+                            <li><a th:href="@{/eventos}" class="text-white-50 text-decoration-none" id="eventosLink">
+                                    <i class="fas fa-angle-double-right me-2"></i>Eventos</a></li>
+                            <li><a th:href="@{/spa}" class="text-white-50 text-decoration-none" id="spaLink">
+                                    <i class="fas fa-angle-double-right me-2"></i>Spa</a></li>
+                            <li><a th:href="@{/bodas}" class="text-white-50 text-decoration-none" id="bodasLink">
+                                    <i class="fas fa-angle-double-right me-2"></i>Bodas</a></li>
+                        </ul>
                     </div>
 
-                    <div class="col-12 col-md-6 col-lg-3">
+                    <div class="col-12 col-md-6 col-lg-3 text-center">
                         <h5 class="mb-3" id="contactInfoTitle">Información de Contacto</h5>
 
-                        <div class="d-flex mb-3">
+                        <div class="d-flex justify-content-center align-items-center mb-3">
                             <div class="me-3">
                                 <i class="fas fa-map-marker-alt fa-lg text-primary"></i>
                             </div>
-                            <div>
+                            <div class="text-center">
                                 <h6 class="mb-1" id="corporateOfficesTitle">Oficinas Corporativas</h6>
                                 <p class="text-white-50 mb-0 small" id="corporateOfficesAddress">Av. Encalada 1420 of.
-                                    401,
-                                    Santiago de
-                                    Surco, Lima - Perú.</p>
+                                    401, Santiago de Surco, Lima - Perú.</p>
                             </div>
                         </div>
 
-                        <div class="d-flex mb-3">
+                        <div class="d-flex justify-content-center align-items-center mb-3">
                             <div class="me-3">
                                 <i class="fas fa-phone fa-lg text-primary"></i>
                             </div>
-                            <div>
+                            <div class="text-center">
                                 <h6 class="mb-1" id="reservationCenterTitle">Central de Reservas</h6>
                                 <p class="text-white-50 mb-0" id="reservationCenterNumber">511 207-0440</p>
                             </div>
                         </div>
 
-                        <div class="d-flex">
+                        <div class="d-flex justify-content-center align-items-start">
                             <div class="me-3">
                                 <i class="far fa-envelope fa-lg text-primary"></i>
                             </div>
-                            <div>
+                            <div class="text-center">
                                 <h6 class="mb-1" id="reservationEmailTitle">Correo de Reserva:</h6>
                                 <p class="text-white-50 mb-2 small" id="reservationEmail">reservas@resorteden.com</p>
                                 <h6 class="mb-1" id="contactEmailTitle">Correo de Contacto:</h6>
@@ -130,12 +128,34 @@
 
                 <!-- Footer Bottom -->
                 <hr class="my-4">
-                <div class="row">
-                    <div class="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
-                        <span class="text-white-50">Sitemap próximamente</span>
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-5">
+                        <div class="d-flex flex-column align-items-center align-items-md-start">
+                            <a href="https://www.figma.com/design/j3RzfrIGZYpq1OM8HPDbH1/EDEN-RESORTS?node-id=0-1&t=606rg0GsksIFKMF9-1"
+                                target="_blank" rel="noopener noreferrer"
+                                class="text-white-50 text-decoration-none mb-2 text-center text-md-start w-100 w-md-auto">
+                                Sitemap próximamente
+                            </a>
+
+                            <a href="https://www.canva.com/design/DAG0STCjToY/8OMUDXGiuEQnWgfxzogsCQ/edit?utm_content=DAG0STCjToY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+                                target="_blank" rel="noopener noreferrer"
+                                class="text-white-50 text-decoration-none mb-2 text-center text-md-start w-100 w-md-auto">
+                                Bocetos
+                            </a>
+
+                            <a href="https://github.com/Vanir022/Proyecto-Web/tree/Nuevo" target="_blank"
+                                rel="noopener noreferrer"
+                                class="text-white-50 text-decoration-none mb-2 text-center text-md-start w-100 w-md-auto">
+                                <i class="fab fa-github fa-lg text-light"></i>&nbsp;Repositorio GitHub
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-12 col-md-6 text-center text-md-end">
-                        <p class="text-white-50 mb-0">&copy; 2025 Resort Eden. Todos los derechos reservados.</p>
+
+                    <div class="col-12 col-md-7">
+                        <div class="d-flex justify-content-center justify-content-md-end">
+                            <p class="text-white-50 mb-0 text-center text-md-end">&copy; 2025 Grupo 5 Marcos y Desarrollo web, Todos los
+                                derechos reservados.</p>
+                        </div>
                     </div>
                 </div>
             </div>

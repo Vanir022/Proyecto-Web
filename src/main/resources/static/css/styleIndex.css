@@ -47,7 +47,7 @@
         }
 
         .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../video/IndexGif.gif');
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXgybGYyd2t3cXdkcHNpMjMyaHc4dnJrd3JvdGw2ZjRiMXJmNTJ0MiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8L2fwIWrVPZSXw6uZ1/giphy.gif');
             background-size: cover;
             background-position: center;
         }
