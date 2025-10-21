@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Habitaciones - Resort Eden Admin</title>
-      <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -15,6 +16,7 @@
         }
     </style>
 </head>
+
 <body class="bg-light">
     <!-- Header -->
     <div th:replace="~{fragments/Header :: header}"></div>
@@ -94,159 +96,175 @@
 
             <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2"><i class="fas fa-bed me-2"></i>Gestión de Habitaciones</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
                             <button type="button" class="btn btn-sm btn-outline-secondary">Exportar</button>
                         </div>
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevaHabitacion">
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#modalNuevaHabitacion">
                             <i class="fas fa-plus"></i> Nueva Habitación
                         </button>
                     </div>
                 </div>
 
-        <!-- Filtros -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Filtros de Búsqueda</h5>
-                        <form method="GET" action="/admin/habitaciones">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="form-label">Hotel:</label>
-                                    <select class="form-select" name="hotel">
-                                        <option value="">Todos los Hoteles</option>
-                                        <option th:each="hotel : ${hoteles}" 
-                                                th:value="${hotel}" 
-                                                th:text="${hotel}"
-                                                th:selected="${filtroHotel == hotel}">
-                                            Hotel
-                                        </option>
-                                    </select>
+                <!-- Filtros -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Filtros de Búsqueda</h5>
+                                <form method="GET" action="/admin/habitaciones">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="form-label">Hotel:</label>
+                                            <select class="form-select" name="hotel">
+                                                <option value="">Todos los Hoteles</option>
+                                                <option th:each="hotel : ${hoteles}" th:value="${hotel}"
+                                                    th:text="${hotel}" th:selected="${filtroHotel == hotel}">
+                                                    Hotel
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Tipo:</label>
+                                            <input type="text" class="form-control" name="tipo" th:value="${filtroTipo}"
+                                                placeholder="Buscar por tipo">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Estado:</label>
+                                            <select class="form-select" name="estado">
+                                                <option value="">Todos los Estados</option>
+                                                <option value="LIBRE" th:selected="${filtroEstado == 'LIBRE'}">Libre
+                                                </option>
+                                                <option value="OCUPADA" th:selected="${filtroEstado == 'OCUPADA'}">
+                                                    Ocupada</option>
+                                                <option value="MANTENIMIENTO"
+                                                    th:selected="${filtroEstado == 'MANTENIMIENTO'}">En Mantenimiento
+                                                </option>
+                                                <option value="BLOQUEADA" th:selected="${filtroEstado == 'BLOQUEADA'}">
+                                                    Bloqueada</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">&nbsp;</label>
+                                            <button type="submit" class="btn btn-primary d-block w-100">
+                                                <i class="fas fa-search"></i> Filtrar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cards de Habitaciones -->
+                <div class="row">
+                    <div th:each="habitacion : ${habitaciones}" class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-bed me-2"></i>
+                                    Habitación <span th:text="${habitacion.numero}">#101</span>
+                                </h5>
+                                <!-- Estado de la habitación -->
+                                <div>
+                                    <span th:if="${habitacion.estadoHabitacion.name() == 'LIBRE'}"
+                                        class="badge bg-success">Libre</span>
+                                    <span th:if="${habitacion.estadoHabitacion.name() == 'OCUPADA'}"
+                                        class="badge bg-danger">Ocupada</span>
+                                    <span th:if="${habitacion.estadoHabitacion.name() == 'MANTENIMIENTO'}"
+                                        class="badge bg-warning">Mantenimiento</span>
+                                    <span th:if="${habitacion.estadoHabitacion.name() == 'BLOQUEADA'}"
+                                        class="badge bg-secondary">Bloqueada</span>
                                 </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Tipo:</label>
-                                    <input type="text" class="form-control" name="tipo" 
-                                           th:value="${filtroTipo}" placeholder="Buscar por tipo">
+                            </div>
+
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-6"><strong>Hotel:</strong></div>
+                                    <div class="col-6" th:text="${habitacion.hotel}">Resort Eden</div>
                                 </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Estado:</label>
-                                    <select class="form-select" name="estado">
-                                        <option value="">Todos los Estados</option>
-                                        <option value="LIBRE" th:selected="${filtroEstado == 'LIBRE'}">Libre</option>
-                                        <option value="OCUPADA" th:selected="${filtroEstado == 'OCUPADA'}">Ocupada</option>
-                                        <option value="MANTENIMIENTO" th:selected="${filtroEstado == 'MANTENIMIENTO'}">En Mantenimiento</option>
-                                        <option value="BLOQUEADA" th:selected="${filtroEstado == 'BLOQUEADA'}">Bloqueada</option>
-                                    </select>
+                                <div class="row mb-2">
+                                    <div class="col-6"><strong>Tipo:</strong></div>
+                                    <div class="col-6" th:text="${habitacion.tipo}">Suite</div>
                                 </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">&nbsp;</label>
-                                    <button type="submit" class="btn btn-primary d-block w-100">
-                                        <i class="fas fa-search"></i> Filtrar
+                                <div class="row mb-2">
+                                    <div class="col-6"><strong>Estado:</strong></div>
+                                    <div class="col-6">
+                                        <span th:if="${habitacion.estadoHabitacion.name() == 'LIBRE'}"
+                                            class="badge bg-success">Libre</span>
+                                        <span th:if="${habitacion.estadoHabitacion.name() == 'OCUPADA'}"
+                                            class="badge bg-danger">Ocupada</span>
+                                        <span th:if="${habitacion.estadoHabitacion.name() == 'MANTENIMIENTO'}"
+                                            class="badge bg-warning">Mantenimiento</span>
+                                        <span th:if="${habitacion.estadoHabitacion.name() == 'BLOQUEADA'}"
+                                            class="badge bg-secondary">Bloqueada</span>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6"><strong>Capacidad:</strong></div>
+                                    <div class="col-6">
+                                        <i class="fas fa-user"></i> <span th:text="${habitacion.capacidad}">2</span>
+                                        personas
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6"><strong>Precio:</strong></div>
+                                    <div class="col-6 text-success">
+                                        <strong>S/. <span
+                                                th:text="${#numbers.formatDecimal(habitacion.precio, 0, 2)}">250.00</span></strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="btn-group w-100" role="group">
+                                    <button type="button" class="btn btn-outline-success btn-sm"
+                                        th:onclick="|cambiarEstadoEspecifico(${habitacion.id}, 'LIBRE')|">
+                                        <i class="fas fa-check-circle"></i> Libre
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning btn-sm"
+                                        th:onclick="|cambiarEstadoEspecifico(${habitacion.id}, 'MANTENIMIENTO')|">
+                                        <i class="fas fa-tools"></i> Mantenimiento
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        th:onclick="|cambiarEstadoEspecifico(${habitacion.id}, 'BLOQUEADA')|">
+                                        <i class="fas fa-ban"></i> Bloquear
                                     </button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Cards de Habitaciones -->
-        <div class="row">
-            <div th:each="habitacion : ${habitaciones}" class="col-lg-4 col-md-6 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">
-                            <i class="fas fa-bed me-2"></i>
-                            Habitación <span th:text="${habitacion.numero}">#101</span>
-                        </h5>
-                        <!-- Estado de la habitación -->
-                        <div>
-                            <span th:if="${habitacion.estadoHabitacion.name() == 'LIBRE'}" class="badge bg-success">Libre</span>
-                            <span th:if="${habitacion.estadoHabitacion.name() == 'OCUPADA'}" class="badge bg-danger">Ocupada</span>
-                            <span th:if="${habitacion.estadoHabitacion.name() == 'MANTENIMIENTO'}" class="badge bg-warning">Mantenimiento</span>
-                            <span th:if="${habitacion.estadoHabitacion.name() == 'BLOQUEADA'}" class="badge bg-secondary">Bloqueada</span>
-                        </div>
-                    </div>
-                    
-                    <div class="card-body">
-                        <div class="row mb-2">
-                            <div class="col-6"><strong>Hotel:</strong></div>
-                            <div class="col-6" th:text="${habitacion.hotel}">Resort Eden</div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-6"><strong>Tipo:</strong></div>
-                            <div class="col-6" th:text="${habitacion.tipo}">Suite</div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-6"><strong>Estado:</strong></div>
-                            <div class="col-6">
-                                <span th:if="${habitacion.estadoHabitacion.name() == 'LIBRE'}" class="badge bg-success">Libre</span>
-                                <span th:if="${habitacion.estadoHabitacion.name() == 'OCUPADA'}" class="badge bg-danger">Ocupada</span>
-                                <span th:if="${habitacion.estadoHabitacion.name() == 'MANTENIMIENTO'}" class="badge bg-warning">Mantenimiento</span>
-                                <span th:if="${habitacion.estadoHabitacion.name() == 'BLOQUEADA'}" class="badge bg-secondary">Bloqueada</span>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-6"><strong>Capacidad:</strong></div>
-                            <div class="col-6">
-                                <i class="fas fa-user"></i> <span th:text="${habitacion.capacidad}">2</span> personas
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-6"><strong>Precio:</strong></div>
-                            <div class="col-6 text-success">
-                                <strong>S/. <span th:text="${#numbers.formatDecimal(habitacion.precio, 0, 2)}">250.00</span></strong>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card-footer">
-                        <div class="btn-group w-100" role="group">
-                            <button type="button" class="btn btn-outline-success btn-sm"
-                                    th:onclick="|cambiarEstadoEspecifico(${habitacion.id}, 'LIBRE')|">
-                                <i class="fas fa-check-circle"></i> Libre
-                            </button>
-                            <button type="button" class="btn btn-outline-warning btn-sm"
-                                    th:onclick="|cambiarEstadoEspecifico(${habitacion.id}, 'MANTENIMIENTO')|">
-                                <i class="fas fa-tools"></i> Mantenimiento
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm"
-                                    th:onclick="|cambiarEstadoEspecifico(${habitacion.id}, 'BLOQUEADA')|">
-                                <i class="fas fa-ban"></i> Bloquear
-                            </button>
+                <!-- Mensaje si no hay habitaciones -->
+                <div th:if="${#lists.isEmpty(habitaciones)}" class="row">
+                    <div class="col-12">
+                        <div class="alert alert-info text-center">
+                            <h4><i class="fas fa-info-circle"></i> No hay habitaciones disponibles</h4>
+                            <p>No se encontraron habitaciones que coincidan con los filtros seleccionados.</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Mensaje si no hay habitaciones -->
-        <div th:if="${#lists.isEmpty(habitaciones)}" class="row">
-            <div class="col-12">
-                <div class="alert alert-info text-center">
-                    <h4><i class="fas fa-info-circle"></i> No hay habitaciones disponibles</h4>
-                    <p>No se encontraron habitaciones que coincidan con los filtros seleccionados.</p>
-                </div>
-            </div>
-        </div>
 
             </main>
         </div>
     </div>
 
     <!-- Modal para Nueva Habitación -->
-    <div class="modal fade" id="modalNuevaHabitacion" tabindex="-1" aria-labelledby="modalNuevaHabitacionLabel" aria-hidden="true">
+    <div class="modal fade" id="modalNuevaHabitacion" tabindex="-1" aria-labelledby="modalNuevaHabitacionLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
                     <h5 class="modal-title" id="modalNuevaHabitacionLabel">
                         <i class="fas fa-plus-circle me-2"></i>Agregar Nueva Habitación
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="formNuevaHabitacion">
                     <div class="modal-body">
@@ -254,8 +272,8 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label">Número de Habitación *</label>
-                                    <input type="text" class="form-control" name="numero" required 
-                                           placeholder="Ej: 101">
+                                    <input type="text" class="form-control" name="numero" required
+                                        placeholder="Ej: 101">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -272,7 +290,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -302,24 +320,24 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label">Precio por Noche (S/.) *</label>
-                                    <input type="number" class="form-control" name="precio" step="0.01" min="0" required 
-                                           placeholder="Ej: 250.00">
+                                    <input type="number" class="form-control" name="precio" step="0.01" min="0" required
+                                        placeholder="Ej: 250.00">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label">Metros Cuadrados *</label>
-                                    <input type="number" class="form-control" name="metrosCuadrados" min="1" required 
-                                           placeholder="Ej: 25">
+                                    <input type="number" class="form-control" name="metrosCuadrados" min="1" required
+                                        placeholder="Ej: 25">
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -348,74 +366,87 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label">Amenidades</label>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="amenidades" value="WiFi gratuito" id="amenidad_wifi">
+                                        <input class="form-check-input" type="checkbox" name="amenidades"
+                                            value="WiFi gratuito" id="amenidad_wifi">
                                         <label class="form-check-label" for="amenidad_wifi">WiFi gratuito</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="amenidades" value="TV LCD" id="amenidad_tv">
+                                        <input class="form-check-input" type="checkbox" name="amenidades" value="TV LCD"
+                                            id="amenidad_tv">
                                         <label class="form-check-label" for="amenidad_tv">TV LCD</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="amenidades" value="Aire acondicionado" id="amenidad_ac">
+                                        <input class="form-check-input" type="checkbox" name="amenidades"
+                                            value="Aire acondicionado" id="amenidad_ac">
                                         <label class="form-check-label" for="amenidad_ac">Aire acondicionado</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="amenidades" value="Calefacción" id="amenidad_calefaccion">
+                                        <input class="form-check-input" type="checkbox" name="amenidades"
+                                            value="Calefacción" id="amenidad_calefaccion">
                                         <label class="form-check-label" for="amenidad_calefaccion">Calefacción</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="amenidades" value="Caja fuerte" id="amenidad_caja">
+                                        <input class="form-check-input" type="checkbox" name="amenidades"
+                                            value="Caja fuerte" id="amenidad_caja">
                                         <label class="form-check-label" for="amenidad_caja">Caja fuerte</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="amenidades" value="Minibar" id="amenidad_minibar">
+                                        <input class="form-check-input" type="checkbox" name="amenidades"
+                                            value="Minibar" id="amenidad_minibar">
                                         <label class="form-check-label" for="amenidad_minibar">Minibar</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="amenidades" value="Balcón privado" id="amenidad_balcon">
+                                        <input class="form-check-input" type="checkbox" name="amenidades"
+                                            value="Balcón privado" id="amenidad_balcon">
                                         <label class="form-check-label" for="amenidad_balcon">Balcón privado</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="amenidades" value="Baño con tina" id="amenidad_tina">
+                                        <input class="form-check-input" type="checkbox" name="amenidades"
+                                            value="Baño con tina" id="amenidad_tina">
                                         <label class="form-check-label" for="amenidad_tina">Baño con tina</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="amenidades" value="Servicio a la habitación" id="amenidad_servicio">
-                                        <label class="form-check-label" for="amenidad_servicio">Servicio a la habitación</label>
+                                        <input class="form-check-input" type="checkbox" name="amenidades"
+                                            value="Servicio a la habitación" id="amenidad_servicio">
+                                        <label class="form-check-label" for="amenidad_servicio">Servicio a la
+                                            habitación</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="amenidades" value="Escritorio de trabajo" id="amenidad_escritorio">
-                                        <label class="form-check-label" for="amenidad_escritorio">Escritorio de trabajo</label>
+                                        <input class="form-check-input" type="checkbox" name="amenidades"
+                                            value="Escritorio de trabajo" id="amenidad_escritorio">
+                                        <label class="form-check-label" for="amenidad_escritorio">Escritorio de
+                                            trabajo</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label">Descripción</label>
-                            <textarea class="form-control" name="descripcion" rows="3" 
-                                      placeholder="Descripción detallada de la habitación"></textarea>
+                            <textarea class="form-control" name="descripcion" rows="3"
+                                placeholder="Descripción detallada de la habitación"></textarea>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="disponible" id="disponibleCheck" checked>
+                                    <input class="form-check-input" type="checkbox" name="disponible"
+                                        id="disponibleCheck" checked>
                                     <label class="form-check-label" for="disponibleCheck">
                                         Habitación disponible para reservas
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="alert alert-info mt-3">
                             <i class="fas fa-info-circle me-2"></i>
                             <strong>Nota:</strong> Todos los campos marcados con (*) son obligatorios.
@@ -439,11 +470,11 @@
     <script>
         // Función para cambiar estado específico de habitación
         function cambiarEstadoEspecifico(habitacionId, nuevoEstado) {
-            const estadoTexto = nuevoEstado === 'LIBRE' ? 'Libre' : 
-                               nuevoEstado === 'MANTENIMIENTO' ? 'Mantenimiento' : 'Bloqueada';
-            
+            const estadoTexto = nuevoEstado === 'LIBRE' ? 'Libre' :
+                nuevoEstado === 'MANTENIMIENTO' ? 'Mantenimiento' : 'Bloqueada';
+
             if (confirm('¿Está seguro de cambiar el estado de la habitación a ' + estadoTexto + '?')) {
-                
+
                 fetch(`/admin/habitaciones/${habitacionId}/estado`, {
                     method: 'POST',
                     headers: {
@@ -453,36 +484,36 @@
                         estado: nuevoEstado
                     })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message || data.success) {
-                        alert('Estado cambiado exitosamente');
-                        location.reload();
-                    } else if (data.error) {
-                        alert(data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al cambiar el estado de la habitación');
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message || data.success) {
+                            alert('Estado cambiado exitosamente');
+                            location.reload();
+                        } else if (data.error) {
+                            alert(data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al cambiar el estado de la habitación');
+                    });
             }
         }
 
         // Función para agregar nueva habitación
-        document.getElementById('formNuevaHabitacion').addEventListener('submit', function(e) {
+        document.getElementById('formNuevaHabitacion').addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             // Obtener datos del formulario
             const formData = new FormData(this);
-            
+
             // Obtener amenidades seleccionadas
             const amenidadesSeleccionadas = [];
             const checkboxesAmenidades = this.querySelectorAll('input[name="amenidades"]:checked');
             checkboxesAmenidades.forEach(checkbox => {
                 amenidadesSeleccionadas.push(checkbox.value);
             });
-            
+
             const habitacionData = {
                 numero: formData.get('numero'),
                 hotel: formData.get('hotel'),
@@ -498,7 +529,7 @@
             };
 
             // Validar datos requeridos
-            if (!habitacionData.numero || !habitacionData.hotel || !habitacionData.tipo || 
+            if (!habitacionData.numero || !habitacionData.hotel || !habitacionData.tipo ||
                 !habitacionData.capacidad || !habitacionData.precio || !habitacionData.metrosCuadrados ||
                 !habitacionData.vista || !habitacionData.cama) {
                 alert('Por favor, complete todos los campos obligatorios (marcados con *).');
@@ -519,34 +550,34 @@
                 },
                 body: JSON.stringify(habitacionData)
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message && !data.error) {
-                    // Cerrar modal
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('modalNuevaHabitacion'));
-                    modal.hide();
-                    
-                    // Resetear formulario
-                    this.reset();
-                    
-                    // Mostrar mensaje de éxito
-                    alert('Habitación creada exitosamente: ' + data.message);
-                    
-                    // Recargar página para mostrar la nueva habitación
-                    location.reload();
-                } else {
-                    alert(data.error || data.message || 'Error al crear la habitación');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error al crear la habitación. Por favor, intente nuevamente.');
-            })
-            .finally(() => {
-                // Habilitar botón de envío
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message && !data.error) {
+                        // Cerrar modal
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('modalNuevaHabitacion'));
+                        modal.hide();
+
+                        // Resetear formulario
+                        this.reset();
+
+                        // Mostrar mensaje de éxito
+                        alert('Habitación creada exitosamente: ' + data.message);
+
+                        // Recargar página para mostrar la nueva habitación
+                        location.reload();
+                    } else {
+                        alert(data.error || data.message || 'Error al crear la habitación');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al crear la habitación. Por favor, intente nuevamente.');
+                })
+                .finally(() => {
+                    // Habilitar botón de envío
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                });
         });
 
         // Limpiar formulario cuando se cierra el modal
@@ -555,4 +586,5 @@
         });
     </script>
 </body>
+
 </html>

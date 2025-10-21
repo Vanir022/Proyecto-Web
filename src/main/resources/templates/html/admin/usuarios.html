@@ -175,8 +175,10 @@
                                         </td>
                                         <td th:text="${usuario.email}">usuario@email.com</td>
                                         <td>
-                                            <span th:if="${usuario.detallesPersona?.dni}" th:text="${usuario.detallesPersona.dni}">12345678</span>
-                                            <span th:unless="${usuario.detallesPersona?.dni}" class="text-muted">No especificado</span>
+                                            <span th:if="${usuario.detallesPersona?.dni}"
+                                                th:text="${usuario.detallesPersona.dni}">12345678</span>
+                                            <span th:unless="${usuario.detallesPersona?.dni}" class="text-muted">No
+                                                especificado</span>
                                         </td>
                                         <td th:text="${usuario.detallesPersona?.telefono ?: 'No especificado'}">
                                             987654321</td>
@@ -202,7 +204,8 @@
                                                     <i class="fas fa-key"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-sm btn-outline-danger"
-                                                    th:onclick="'eliminarUsuario(' + ${usuario.id} + ')'" title="Eliminar">
+                                                    th:onclick="'eliminarUsuario(' + ${usuario.id} + ')'"
+                                                    title="Eliminar">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
@@ -243,7 +246,7 @@
     <div class="modal fade" id="nuevoUsuarioModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-success text-white">
+                <div class="modal-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
                     <h5 class="modal-title fw-bold"><i class="fas fa-user-plus me-2"></i>Crear Nuevo Usuario</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
@@ -323,7 +326,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-warning text-dark">
                     <h5 class="modal-title fw-bold"><i class="fas fa-user-edit me-2"></i>Editar Usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <form id="formEditarUsuario">
                     <input type="hidden" name="id" id="editUsuarioId">
@@ -346,13 +349,15 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label fw-bold text-dark">Nueva Contraseña (opcional)</label>
-                                    <input type="password" class="form-control" name="password" id="editPassword" placeholder="Dejar vacío para mantener la actual">
+                                    <input type="password" class="form-control" name="password" id="editPassword"
+                                        placeholder="Dejar vacío para mantener la actual">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label fw-bold text-dark">Confirmar Nueva Contraseña</label>
-                                    <input type="password" class="form-control" name="confirmarPassword" id="editConfirmarPassword">
+                                    <input type="password" class="form-control" name="confirmarPassword"
+                                        id="editConfirmarPassword">
                                 </div>
                             </div>
                         </div>
@@ -380,18 +385,22 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label class="form-label fw-bold text-dark">Fecha de Nacimiento</label>
-                                    <input type="date" class="form-control" name="fechaNacimiento" id="editFechaNacimiento">
+                                    <input type="date" class="form-control" name="fechaNacimiento"
+                                        id="editFechaNacimiento">
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold text-dark">Intereses</label>
-                            <textarea class="form-control" name="intereses" id="editIntereses" rows="2" placeholder="Intereses del usuario"></textarea>
+                            <textarea class="form-control" name="intereses" id="editIntereses" rows="2"
+                                placeholder="Intereses del usuario"></textarea>
                         </div>
                         <div class="mb-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="aceptaMarketing" id="editAceptaMarketing">
-                                <label class="form-check-label fw-bold text-dark">Acepta recibir comunicaciones de marketing</label>
+                                <input class="form-check-input" type="checkbox" name="aceptaMarketing"
+                                    id="editAceptaMarketing">
+                                <label class="form-check-label fw-bold text-dark">Acepta recibir comunicaciones de
+                                    marketing</label>
                             </div>
                         </div>
                     </div>
@@ -408,9 +417,9 @@
     <div class="modal fade" id="detalleUsuarioModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
                     <h5 class="modal-title">Detalles del Usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body" id="detalleUsuarioContent">
                     <!-- El contenido se cargará dinámicamente -->
@@ -423,23 +432,27 @@
         .border-left-success {
             border-left: 4px solid #28a745 !important;
         }
+
         .border-left-warning {
             border-left: 4px solid #ffc107 !important;
         }
+
         .border-left-danger {
             border-left: 4px solid #dc3545 !important;
         }
+
         .border-left-info {
             border-left: 4px solid #17a2b8 !important;
         }
+
         .border-left-secondary {
             border-left: 4px solid #6c757d !important;
         }
-        
+
         .modal-xl {
             max-width: 90%;
         }
-        
+
         @media (max-width: 768px) {
             .modal-xl {
                 max-width: 95%;
@@ -459,11 +472,11 @@
                     <p class="mt-2">Cargando información completa del usuario...</p>
                 </div>
             `;
-            
+
             // Mostrar modal primero
             const modal = new bootstrap.Modal(document.getElementById('detalleUsuarioModal'));
             modal.show();
-            
+
             // Cargar detalles del usuario via AJAX
             fetch(`/admin/usuarios/${idUsuario}/detalle`)
                 .then(response => {
