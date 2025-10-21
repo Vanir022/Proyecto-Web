@@ -6,13 +6,17 @@ import Proyecto.Proyecto4.services.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
     private final UsuarioService usuarioService;
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     public AuthController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
@@ -59,5 +63,13 @@ public class AuthController {
     @PostMapping("/registro-simple")
     public Usuario registrarSimple(@RequestBody Usuario usuario) {
         return usuarioService.registrar(usuario);
+    }
+
+    @GetMapping("/welcome")
+    public ResponseEntity<?> welcome(HttpServletRequest request) {
+        logger.info("Request received: {} {}", request.getMethod(), request.getRequestURI());
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Welcome to the Resort Eden API!");
+        return ResponseEntity.ok(response);
     }
 }
