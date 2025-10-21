@@ -105,8 +105,16 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
+    @Transactional
     public void eliminar(Long id) {
-        usuarioRepository.deleteById(id);
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            if (usuario.getDetallesPersona() != null) {
+                detallesPersonaRepository.deleteById(usuario.getDetallesPersona().getId());
+            }
+            usuarioRepository.deleteById(id);
+        }
     }
 
     public void cambiarPassword(Usuario usuario, String nuevaPassword) {
