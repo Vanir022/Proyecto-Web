@@ -19,9 +19,9 @@ public class UsuarioService {
     private final DetallesPersonaRepository detallesPersonaRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, 
-                         DetallesPersonaRepository detallesPersonaRepository,
-                         BCryptPasswordEncoder passwordEncoder) {
+    public UsuarioService(UsuarioRepository usuarioRepository,
+            DetallesPersonaRepository detallesPersonaRepository,
+            BCryptPasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.detallesPersonaRepository = detallesPersonaRepository;
         this.passwordEncoder = passwordEncoder;
@@ -36,7 +36,7 @@ public class UsuarioService {
         if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
             throw new RuntimeException("El email ya está registrado");
         }
-        
+
         // Encriptar contraseña y asignar rol por defecto
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuario.setRol("ROLE_USER");
@@ -49,16 +49,16 @@ public class UsuarioService {
         if (usuarioRepository.findByEmail(registroDTO.getEmail()).isPresent()) {
             throw new RuntimeException("El email ya está registrado");
         }
-        
+
         // Validar DNI
         if (registroDTO.getDni() == null || registroDTO.getDni().trim().isEmpty()) {
             throw new RuntimeException("El DNI es obligatorio");
         }
-        
+
         if (!registroDTO.getDni().matches("\\d{8}")) {
             throw new RuntimeException("El DNI debe tener exactamente 8 dígitos");
         }
-        
+
         // Verificar si el DNI ya existe
         if (detallesPersonaRepository.existsByDni(registroDTO.getDni())) {
             throw new RuntimeException("El DNI ya está registrado");
@@ -72,8 +72,9 @@ public class UsuarioService {
         detallesPersona.setTelefono(registroDTO.getPhone());
         detallesPersona.setFechaNacimiento(registroDTO.getBirthDate());
         detallesPersona.setIntereses(registroDTO.getInteresesAsString());
-        detallesPersona.setAceptaMarketing(registroDTO.getAcceptMarketing() != null ? registroDTO.getAcceptMarketing() : false);
-        
+        detallesPersona.setAceptaMarketing(
+                registroDTO.getAcceptMarketing() != null ? registroDTO.getAcceptMarketing() : false);
+
         // Guardar detalles primero
         detallesPersona = detallesPersonaRepository.save(detallesPersona);
 

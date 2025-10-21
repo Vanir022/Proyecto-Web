@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registrarse - EDEN RESORT</title>
-    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+  <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,7 +21,7 @@
   <!-- Register Section -->
   <section class="login-section d-flex align-items-center position-relative" style="margin-top: 76px;">
     <div class="floating-elements"></div>
-    
+
     <div class="container">
       <div class="row justify-content-center align-items-center min-vh-100">
         <!-- Información del Hotel (lado izquierdo) -->
@@ -31,7 +31,7 @@
               <h2 class="display-5 fw-bold mb-3">Únete al Eden</h2>
               <p class="lead">Crea tu cuenta y descubre experiencias únicas en el Perú</p>
             </div>
-            
+
             <div class="row g-4">
               <div class="col-md-6 text-center">
                 <div class="feature-icon">
@@ -82,7 +82,7 @@
                 <i class="fas fa-exclamation-triangle me-2"></i>
                 <span id="errorText"></span>
               </div>
-              
+
               <!-- Mostrar mensajes de éxito -->
               <div id="successMessage" class="alert alert-success mb-3" role="alert" style="display: none;">
                 <i class="fas fa-check-circle me-2"></i>
@@ -96,14 +96,14 @@
                     <i class="fas fa-user me-2 text-primary"></i>Nombre
                   </label>
                   <input type="text" class="form-control form-control-lg" id="firstName" name="firstName"
-                         placeholder="Ingrese su nombre" required>
+                    placeholder="Ingrese su nombre" required>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="lastName" class="form-label fw-semibold">
                     <i class="fas fa-user me-2 text-primary"></i>Apellido
                   </label>
                   <input type="text" class="form-control form-control-lg" id="lastName" name="lastName"
-                         placeholder="Ingrese su apellido" required>
+                    placeholder="Ingrese su apellido" required>
                 </div>
               </div>
 
@@ -112,7 +112,7 @@
                   <i class="fas fa-envelope me-2 text-primary"></i>Correo Electrónico
                 </label>
                 <input type="email" class="form-control form-control-lg" id="email" name="email"
-                       placeholder="Ingrese su correo electrónico" required>
+                  placeholder="Ingrese su correo electrónico" required>
               </div>
 
               <div class="row">
@@ -121,15 +121,14 @@
                     <i class="fas fa-phone me-2 text-primary"></i>Teléfono
                   </label>
                   <input type="tel" class="form-control form-control-lg" id="phone" name="phone"
-                         placeholder="+51 999 999 999" required>
+                    placeholder="+51 999 999 999" required>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="dni" class="form-label fw-semibold">
                     <i class="fas fa-id-card me-2 text-primary"></i>DNI
                   </label>
-                  <input type="text" class="form-control form-control-lg" id="dni" name="dni"
-                         placeholder="12345678" required pattern="[0-9]{8}" maxlength="8"
-                         title="Ingrese un DNI válido de 8 dígitos">
+                  <input type="text" class="form-control form-control-lg" id="dni" name="dni" placeholder="12345678"
+                    required pattern="[0-9]{8}" maxlength="8" title="Ingrese un DNI válido de 8 dígitos">
                 </div>
               </div>
 
@@ -147,9 +146,9 @@
                 </label>
                 <div class="position-relative">
                   <input type="password" class="form-control form-control-lg" id="password" name="password"
-                         placeholder="Mínimo 8 caracteres" required minlength="8">
-                  <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" 
-                          onclick="togglePassword('password')" style="z-index: 10; border: none;">
+                    placeholder="Mínimo 8 caracteres" required minlength="8">
+                  <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3"
+                    onclick="togglePassword('password')" style="z-index: 10; border: none;">
                     <i class="fas fa-eye" id="passwordToggle"></i>
                   </button>
                 </div>
@@ -166,10 +165,10 @@
                   <i class="fas fa-lock me-2 text-primary"></i>Confirmar Contraseña
                 </label>
                 <div class="position-relative">
-                  <input type="password" class="form-control form-control-lg" id="confirmPassword" name="confirmPassword"
-                         placeholder="Repita su contraseña" required>
-                  <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" 
-                          onclick="togglePassword('confirmPassword')" style="z-index: 10; border: none;">
+                  <input type="password" class="form-control form-control-lg" id="confirmPassword"
+                    name="confirmPassword" placeholder="Repita su contraseña" required>
+                  <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3"
+                    onclick="togglePassword('confirmPassword')" style="z-index: 10; border: none;">
                     <i class="fas fa-eye" id="confirmPasswordToggle"></i>
                   </button>
                 </div>
@@ -188,7 +187,8 @@
                       <label class="form-check-label" for="spa">Spa & Bienestar</label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="gastronomia" name="interests" value="gastronomia">
+                      <input class="form-check-input" type="checkbox" id="gastronomia" name="interests"
+                        value="gastronomia">
                       <label class="form-check-label" for="gastronomia">Gastronomía</label>
                     </div>
                     <div class="form-check">
@@ -218,7 +218,7 @@
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" id="acceptTerms" name="acceptTerms" required>
                   <label class="form-check-label" for="acceptTerms">
-                    Acepto los <a href="#" onclick="showTerms()" class="text-primary">Términos y Condiciones</a> 
+                    Acepto los <a href="#" onclick="showTerms()" class="text-primary">Términos y Condiciones</a>
                     y la <a href="#" onclick="showPrivacy()" class="text-primary">Política de Privacidad</a>
                   </label>
                 </div>
@@ -258,7 +258,7 @@
 
             <!-- Enlaces adicionales -->
             <div class="text-center login-links">
-              <p class="mb-0">¿Ya tienes una cuenta? 
+              <p class="mb-0">¿Ya tienes una cuenta?
                 <a th:href="@{/login}">
                   <strong>Inicia sesión aquí</strong>
                 </a>
@@ -306,7 +306,7 @@
     function togglePassword(fieldId) {
       const passwordField = document.getElementById(fieldId);
       const passwordToggle = document.getElementById(fieldId + 'Toggle');
-      
+
       if (passwordField.type === 'password') {
         passwordField.type = 'text';
         passwordToggle.className = 'fas fa-eye-slash';
@@ -320,17 +320,17 @@
     function checkPasswordStrength(password) {
       let strength = 0;
       let feedback = '';
-      
+
       // Criterios de validación
       if (password.length >= 8) strength++;
       if (/[a-z]/.test(password)) strength++;
       if (/[A-Z]/.test(password)) strength++;
       if (/[0-9]/.test(password)) strength++;
       if (/[^A-Za-z0-9]/.test(password)) strength++;
-      
+
       const strengthBar = document.getElementById('passwordStrengthBar');
       const strengthText = document.getElementById('passwordStrengthText');
-      
+
       switch (strength) {
         case 0:
         case 1:
@@ -359,7 +359,7 @@
           feedback = 'Muy fuerte';
           break;
       }
-      
+
       strengthText.textContent = feedback;
       return strength >= 3;
     }
@@ -369,12 +369,12 @@
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
       const matchText = document.getElementById('passwordMatchText');
-      
+
       if (confirmPassword === '') {
         matchText.textContent = '';
         return false;
       }
-      
+
       if (password === confirmPassword) {
         matchText.textContent = '✓ Las contraseñas coinciden';
         matchText.className = 'text-success';
@@ -387,7 +387,7 @@
     }
 
     // Event listeners para validaciones en tiempo real
-    document.getElementById('password').addEventListener('input', function() {
+    document.getElementById('password').addEventListener('input', function () {
       checkPasswordStrength(this.value);
       checkPasswordMatch();
     });
@@ -395,10 +395,10 @@
     document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
 
     // Validación de email en tiempo real
-    document.getElementById('email').addEventListener('blur', function() {
+    document.getElementById('email').addEventListener('blur', function () {
       const email = this.value;
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      
+
       if (email && !emailRegex.test(email)) {
         this.setCustomValidity('Por favor ingrese un email válido');
         this.reportValidity();
@@ -408,7 +408,7 @@
     });
 
     // Formateo de teléfono
-    document.getElementById('phone').addEventListener('input', function() {
+    document.getElementById('phone').addEventListener('input', function () {
       let value = this.value.replace(/\D/g, '');
       if (value.length > 0) {
         if (value.startsWith('51')) {
@@ -423,37 +423,37 @@
     });
 
     // Manejo del formulario de registro
-    document.getElementById('registerForm').addEventListener('submit', function(e) {
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
       e.preventDefault();
-      
+
       // Ocultar mensajes previos
       document.getElementById('errorMessage').style.display = 'none';
       document.getElementById('successMessage').style.display = 'none';
-      
+
       // Validaciones básicas
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
       const acceptTerms = document.getElementById('acceptTerms').checked;
-      
+
       if (!checkPasswordStrength(password)) {
         showError('La contraseña debe ser más fuerte. Incluya mayúsculas, minúsculas, números y caracteres especiales.');
         return;
       }
-      
+
       if (!checkPasswordMatch()) {
         showError('Las contraseñas no coinciden.');
         return;
       }
-      
+
       if (!acceptTerms) {
         showError('Debe aceptar los términos y condiciones.');
         return;
       }
-      
+
       // Recopilar intereses seleccionados
       const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked'))
-                             .map(checkbox => checkbox.value);
-      
+        .map(checkbox => checkbox.value);
+
       // Recopilar datos del formulario
       const formData = {
         firstName: document.getElementById('firstName').value,
@@ -468,13 +468,13 @@
         acceptTerms: acceptTerms,
         acceptMarketing: document.getElementById('acceptMarketing').checked
       };
-      
+
       // Mostrar mensaje de carga
       const submitBtn = e.target.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creando cuenta...';
       submitBtn.disabled = true;
-      
+
       // Enviar datos al servidor
       fetch('/auth/registro', {
         method: 'POST',
@@ -483,29 +483,29 @@
         },
         body: JSON.stringify(formData)
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.message) {
-          // Éxito
-          showSuccess('¡Bienvenido a Eden Resorts, ' + formData.firstName + '! Tu cuenta ha sido creada exitosamente. Redirigiendo al login...');
-          // Redireccionar al login después de 3 segundos
-          setTimeout(() => {
-            window.location.href = '/login';
-          }, 3000);
-        } else if (data.error) {
-          // Error del servidor
-          showError(data.error);
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        showError('Error de conexión. Por favor, inténtelo de nuevo.');
-      })
-      .finally(() => {
-        // Restaurar botón
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-      });
+        .then(response => response.json())
+        .then(data => {
+          if (data.message) {
+            // Éxito
+            showSuccess('¡Bienvenido a Eden Resorts, ' + formData.firstName + '! Tu cuenta ha sido creada exitosamente. Redirigiendo al login...');
+            // Redireccionar al login después de 3 segundos
+            setTimeout(() => {
+              window.location.href = '/login';
+            }, 3000);
+          } else if (data.error) {
+            // Error del servidor
+            showError(data.error);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          showError('Error de conexión. Por favor, inténtelo de nuevo.');
+        })
+        .finally(() => {
+          // Restaurar botón
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+        });
     });
 
     // Funciones helper para mostrar mensajes
@@ -528,40 +528,40 @@
     // Funciones para mostrar términos y políticas
     function showTerms() {
       alert('TÉRMINOS Y CONDICIONES - EDEN RESORTS\n\n' +
-            '1. Aceptación de términos\n' +
-            '2. Uso de la plataforma\n' +
-            '3. Privacidad de datos\n' +
-            '4. Reservas y pagos\n' +
-            '5. Cancelaciones\n' +
-            '6. Responsabilidades\n\n' +
-            '(Documento completo disponible próximamente)');
+        '1. Aceptación de términos\n' +
+        '2. Uso de la plataforma\n' +
+        '3. Privacidad de datos\n' +
+        '4. Reservas y pagos\n' +
+        '5. Cancelaciones\n' +
+        '6. Responsabilidades\n\n' +
+        '(Documento completo disponible próximamente)');
     }
 
     function showPrivacy() {
       alert('POLÍTICA DE PRIVACIDAD - EDEN RESORTS\n\n' +
-            'Protegemos tu información personal según estándares internacionales.\n\n' +
-            '• Recopilamos datos necesarios para brindarte el mejor servicio\n' +
-            '• No compartimos información con terceros sin autorización\n' +
-            '• Usamos encriptación para proteger tus datos\n' +
-            '• Puedes solicitar eliminar tu cuenta en cualquier momento\n\n' +
-            '(Política completa disponible próximamente)');
+        'Protegemos tu información personal según estándares internacionales.\n\n' +
+        '• Recopilamos datos necesarios para brindarte el mejor servicio\n' +
+        '• No compartimos información con terceros sin autorización\n' +
+        '• Usamos encriptación para proteger tus datos\n' +
+        '• Puedes solicitar eliminar tu cuenta en cualquier momento\n\n' +
+        '(Política completa disponible próximamente)');
     }
 
     // Registro con redes sociales
     function registerWithGoogle() {
       alert('Registro con Google\n\n' +
-            'Funcionalidad en desarrollo.\n' +
-            'Próximamente podrás registrarte con tu cuenta de Google.');
+        'Funcionalidad en desarrollo.\n' +
+        'Próximamente podrás registrarte con tu cuenta de Google.');
     }
 
     function registerWithFacebook() {
       alert('Registro con Facebook\n\n' +
-            'Funcionalidad en desarrollo.\n' +
-            'Próximamente podrás registrarte con tu cuenta de Facebook.');
+        'Funcionalidad en desarrollo.\n' +
+        'Próximamente podrás registrarte con tu cuenta de Facebook.');
     }
 
     // Animaciones al cargar
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
       const animatedElements = document.querySelectorAll('.animate-on-load');
       animatedElements.forEach((el, index) => {
         setTimeout(() => {
@@ -573,16 +573,16 @@
     // Validación y formato del DNI
     const dniInput = document.getElementById('dni');
     if (dniInput) {
-      dniInput.addEventListener('input', function(e) {
+      dniInput.addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         if (value.length > 8) {
           value = value.substring(0, 8);
         }
         e.target.value = value;
-        
+
         const isValid = value.length === 8;
         e.target.style.borderColor = isValid ? '#28a745' : (value.length > 0 ? '#dc3545' : '#ced4da');
-        
+
         const icon = e.target.parentElement.querySelector('.validation-icon');
         if (icon) {
           icon.style.color = isValid ? '#28a745' : '#dc3545';
@@ -595,12 +595,12 @@
     // Efectos de focus en inputs
     const inputs = document.querySelectorAll('.form-control');
     inputs.forEach(input => {
-      input.addEventListener('focus', function() {
+      input.addEventListener('focus', function () {
         this.parentElement.style.transform = 'scale(1.02)';
         this.parentElement.style.transition = 'transform 0.2s ease';
       });
-      
-      input.addEventListener('blur', function() {
+
+      input.addEventListener('blur', function () {
         this.parentElement.style.transform = 'scale(1)';
       });
     });

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
 </head>
+
 <body>
     <!-- Header -->
     <div th:replace="~{fragments/Header :: header}"></div>
@@ -19,7 +21,7 @@
             <span th:text="${success}"></span>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-        
+
         <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="fas fa-exclamation-triangle me-2"></i>
             <span th:text="${error}"></span>
@@ -40,7 +42,8 @@
                         <!-- Imagen de la habitación -->
                         <div class="row mb-4">
                             <div class="col-12">
-                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 300px;">
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                                    style="height: 300px;">
                                     <i class="fas fa-bed fa-5x text-primary"></i>
                                 </div>
                             </div>
@@ -51,11 +54,15 @@
                             <div class="col-md-6">
                                 <h5 class="text-primary">Información General</h5>
                                 <ul class="list-unstyled">
-                                    <li><strong>Tipo:</strong> <span class="badge bg-info" th:text="${habitacion.tipo}"></span></li>
-                                    <li><strong>Capacidad:</strong> <span th:text="${habitacion.capacidad}"></span> personas</li>
-                                    <li><strong>Estado:</strong> 
-                                        <span th:if="${habitacion.disponible}" class="badge bg-success">Disponible</span>
-                                        <span th:unless="${habitacion.disponible}" class="badge bg-danger">No Disponible</span>
+                                    <li><strong>Tipo:</strong> <span class="badge bg-info"
+                                            th:text="${habitacion.tipo}"></span></li>
+                                    <li><strong>Capacidad:</strong> <span th:text="${habitacion.capacidad}"></span>
+                                        personas</li>
+                                    <li><strong>Estado:</strong>
+                                        <span th:if="${habitacion.disponible}"
+                                            class="badge bg-success">Disponible</span>
+                                        <span th:unless="${habitacion.disponible}" class="badge bg-danger">No
+                                            Disponible</span>
                                     </li>
                                 </ul>
                             </div>
@@ -63,7 +70,8 @@
                                 <h5 class="text-primary">Características</h5>
                                 <ul class="list-unstyled">
                                     <li th:if="${habitacion.metrosCuadrados}">
-                                        <strong>Tamaño:</strong> <span th:text="${habitacion.metrosCuadrados}"></span> m²
+                                        <strong>Tamaño:</strong> <span th:text="${habitacion.metrosCuadrados}"></span>
+                                        m²
                                     </li>
                                     <li th:if="${habitacion.vista}">
                                         <strong>Vista:</strong> <span th:text="${habitacion.vista}"></span>
@@ -121,52 +129,51 @@
                     <div class="card-body">
                         <form action="/reservas/crear" method="post" id="reservaForm">
                             <input type="hidden" name="habitacionId" th:value="${habitacion.id}">
-                            
+
                             <div class="mb-3">
                                 <label for="fechaEntrada" class="form-label">Fecha de Entrada *</label>
                                 <input type="date" class="form-control" name="fechaEntrada" id="fechaEntrada" required>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label for="fechaSalida" class="form-label">Fecha de Salida *</label>
                                 <input type="date" class="form-control" name="fechaSalida" id="fechaSalida" required>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label for="numeroHuespedes" class="form-label">Número de Huéspedes *</label>
                                 <select class="form-select" name="numeroHuespedes" id="numeroHuespedes" required>
                                     <option value="">Selecciona</option>
-                                    <option th:each="i : ${#numbers.sequence(1, habitacion.capacidad)}" 
-                                            th:value="${i}" 
-                                            th:text="${i + (i == 1 ? ' huésped' : ' huéspedes')}">
+                                    <option th:each="i : ${#numbers.sequence(1, habitacion.capacidad)}" th:value="${i}"
+                                        th:text="${i + (i == 1 ? ' huésped' : ' huéspedes')}">
                                     </option>
                                 </select>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label for="dniCliente" class="form-label">DNI del Cliente *</label>
                                 <input type="text" class="form-control" name="dniCliente" id="dniCliente" required
-                                       pattern="[0-9]{8}" maxlength="8" placeholder="12345678"
-                                       title="Ingresa un DNI válido de 8 dígitos">
+                                    pattern="[0-9]{8}" maxlength="8" placeholder="12345678"
+                                    title="Ingresa un DNI válido de 8 dígitos">
                                 <div class="form-text">Ingresa el DNI de 8 dígitos del cliente que se hospedará</div>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label for="telefonoContacto" class="form-label">Teléfono de Contacto</label>
-                                <input type="tel" class="form-control" name="telefonoContacto" id="telefonoContacto" 
-                                       placeholder="Ej: +51 999 123 456">
+                                <input type="tel" class="form-control" name="telefonoContacto" id="telefonoContacto"
+                                    placeholder="Ej: +51 999 123 456">
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label for="comentarios" class="form-label">Comentarios</label>
-                                <textarea class="form-control" name="comentarios" id="comentarios" rows="3" 
-                                          placeholder="Comentarios adicionales sobre tu reserva"></textarea>
+                                <textarea class="form-control" name="comentarios" id="comentarios" rows="3"
+                                    placeholder="Comentarios adicionales sobre tu reserva"></textarea>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label for="solicitudesEspeciales" class="form-label">Solicitudes Especiales</label>
-                                <textarea class="form-control" name="solicitudesEspeciales" id="solicitudesEspeciales" rows="2" 
-                                          placeholder="Ej: Cama extra, dieta especial, cumpleaños, etc."></textarea>
+                                <textarea class="form-control" name="solicitudesEspeciales" id="solicitudesEspeciales"
+                                    rows="2" placeholder="Ej: Cama extra, dieta especial, cumpleaños, etc."></textarea>
                             </div>
 
                             <!-- Cálculo de precio -->
@@ -174,7 +181,8 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <small>Precio por noche:</small>
-                                        <p class="mb-1" th:text="'S/ ' + ${#numbers.formatDecimal(habitacion.precio, 0, 0)}"></p>
+                                        <p class="mb-1"
+                                            th:text="'S/ ' + ${#numbers.formatDecimal(habitacion.precio, 0, 0)}"></p>
                                     </div>
                                     <div class="col-6">
                                         <small>Noches:</small>
@@ -260,7 +268,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script th:inline="javascript">
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const precioPorNoche = /*[[${habitacion.precio}]]*/ 0;
             const fechaEntrada = document.getElementById('fechaEntrada');
             const fechaSalida = document.getElementById('fechaSalida');
@@ -272,17 +280,17 @@
             const hoy = new Date().toISOString().split('T')[0];
             fechaEntrada.min = hoy;
             fechaSalida.min = hoy;
-            
+
             // Validación del DNI
             if (dniCliente) {
-                dniCliente.addEventListener('input', function() {
+                dniCliente.addEventListener('input', function () {
                     // Solo permitir números
                     this.value = this.value.replace(/[^0-9]/g, '');
-                    
+
                     if (this.value.length > 8) {
                         this.value = this.value.slice(0, 8);
                     }
-                    
+
                     if (this.value.length === 8) {
                         this.classList.remove('is-invalid');
                         this.classList.add('is-valid');
@@ -320,7 +328,7 @@
                 }
             }
 
-            fechaEntrada.addEventListener('change', function() {
+            fechaEntrada.addEventListener('change', function () {
                 const fechaSeleccionada = new Date(this.value + 'T00:00:00');
                 fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
                 fechaSalida.min = fechaSeleccionada.toISOString().split('T')[0];
@@ -335,12 +343,12 @@
             fechaEntrada.addEventListener('input', calcularTotal);
             fechaSalida.addEventListener('change', calcularTotal);
             fechaSalida.addEventListener('input', calcularTotal);
-            
+
             // Calcular total inicial en caso de que ya haya fechas seleccionadas
             calcularTotal();
 
             // Validación del formulario
-            document.getElementById('reservaForm').addEventListener('submit', function(e) {
+            document.getElementById('reservaForm').addEventListener('submit', function (e) {
                 if (!fechaEntrada.value || !fechaSalida.value) {
                     e.preventDefault();
                     alert('Por favor, selecciona las fechas de entrada y salida.');
@@ -372,4 +380,5 @@
         });
     </script>
 </body>
+
 </html>

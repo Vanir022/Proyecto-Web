@@ -4,18 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Spa y Bienestar en Eden Resort - Tratamientos de relajación, masajes terapéuticos, circuitos de aguas y terapias holísticas en un entorno de lujo y tranquilidad.">
-  <meta name="keywords" content="spa, bienestar, masajes, relajación, Eden Resort, tratamientos, terapias, aguas termales">
-  
+  <meta name="description"
+    content="Spa y Bienestar en Eden Resort - Tratamientos de relajación, masajes terapéuticos, circuitos de aguas y terapias holísticas en un entorno de lujo y tranquilidad.">
+  <meta name="keywords"
+    content="spa, bienestar, masajes, relajación, Eden Resort, tratamientos, terapias, aguas termales">
+
   <title>Spa y Bienestar - EDEN RESORT</title>
-    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+  <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
 
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
   <link rel="stylesheet" th:href="@{../../css/styleIndex.css}">
-    <link rel="stylesheet" th:href="@{../../css/styleSpa.css}">
+  <link rel="stylesheet" th:href="@{../../css/styleSpa.css}">
 
 
 </head>
@@ -34,8 +36,10 @@
     </div>
     <div class="container text-center">
       <h1 class="display-3 fw-bold mb-4">Spa & Bienestar</h1>
-      <p class="lead mb-5">Descubre un oasis de tranquilidad donde el cuerpo, mente y espíritu encuentran su equilibrio perfecto</p>
-      <button type="button" class="btn btn-success btn-lg" onclick="document.getElementById('reservaForm').scrollIntoView({behavior: 'smooth'})">
+      <p class="lead mb-5">Descubre un oasis de tranquilidad donde el cuerpo, mente y espíritu encuentran su equilibrio
+        perfecto</p>
+      <button type="button" class="btn btn-success btn-lg"
+        onclick="document.getElementById('reservaForm').scrollIntoView({behavior: 'smooth'})">
         <i class="fas fa-leaf me-2"></i>Reserva tu Sesión
       </button>
     </div>
@@ -47,31 +51,37 @@
       <div class="row align-items-center">
         <div class="col-lg-6">
           <h2 class="display-5 text-success mb-4">Nuestra Filosofía</h2>
-          <p class="lead mb-4">En el Spa Eden creemos que el bienestar verdadero surge de la armonía entre tradiciones ancestrales andinas y técnicas modernas de relajación.</p>
-          
+          <p class="lead mb-4">En el Spa Eden creemos que el bienestar verdadero surge de la armonía entre tradiciones
+            ancestrales andinas y técnicas modernas de relajación.</p>
+
           <div class="benefit-item">
             <h5 class="text-success mb-2">
               <i class="fas fa-mountain me-2"></i>Tradición Andina
             </h5>
-            <p class="mb-0">Incorporamos elementos naturales de los Andes peruanos en nuestros tratamientos, honrando las tradiciones de bienestar de nuestros antepasados.</p>
+            <p class="mb-0">Incorporamos elementos naturales de los Andes peruanos en nuestros tratamientos, honrando
+              las tradiciones de bienestar de nuestros antepasados.</p>
           </div>
-          
+
           <div class="benefit-item">
             <h5 class="text-success mb-2">
               <i class="fas fa-seedling me-2"></i>Ingredientes Naturales
             </h5>
-            <p class="mb-0">Utilizamos productos orgánicos y plantas medicinales de la región, como quinua, coca, muña y eucalipto para potenciar los efectos terapéuticos.</p>
+            <p class="mb-0">Utilizamos productos orgánicos y plantas medicinales de la región, como quinua, coca, muña y
+              eucalipto para potenciar los efectos terapéuticos.</p>
           </div>
-          
+
           <div class="benefit-item">
             <h5 class="text-success mb-2">
               <i class="fas fa-hands-helping me-2"></i>Enfoque Holístico
             </h5>
-            <p class="mb-0">Cada tratamiento está diseñado para restaurar el equilibrio energético y promover la sanación integral de cuerpo, mente y espíritu.</p>
+            <p class="mb-0">Cada tratamiento está diseñado para restaurar el equilibrio energético y promover la
+              sanación integral de cuerpo, mente y espíritu.</p>
           </div>
         </div>
         <div class="col-lg-6">
-          <img src="../../imagenes/aranwa-paracas-spa.png" alt="Sala de tratamientos del Spa Eden con ambiente relajante y decoración natural" class="img-fluid rounded shadow-lg">
+          <img src="../../imagenes/aranwa-paracas-spa.png"
+            alt="Sala de tratamientos del Spa Eden con ambiente relajante y decoración natural"
+            class="img-fluid rounded shadow-lg">
         </div>
       </div>
     </div>
@@ -95,16 +105,18 @@
               </div>
               <h5 class="card-title text-success mb-3">Masajes Terapéuticos</h5>
               <span class="duration-badge mb-3 d-inline-block">60 - 90 min</span>
-              <p class="card-text text-muted mb-4">Masajes especializados que combinan técnicas orientales y andinas para aliviar tensiones y restaurar la energía vital.</p>
-              
+              <p class="card-text text-muted mb-4">Masajes especializados que combinan técnicas orientales y andinas
+                para aliviar tensiones y restaurar la energía vital.</p>
+
               <ul class="list-unstyled text-start mb-4">
                 <li><i class="fas fa-check text-success me-2"></i>Masaje de Piedras Calientes</li>
                 <li><i class="fas fa-check text-success me-2"></i>Masaje Relajante Andino</li>
                 <li><i class="fas fa-check text-success me-2"></i>Masaje Descontracturante</li>
                 <li><i class="fas fa-check text-success me-2"></i>Reflexología Podal</li>
               </ul>
-              
-              <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none" role="button" aria-label="Reservar Masajes Terapéuticos Desde S/180">Desde S/180</a>
+
+              <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none"
+                role="button" aria-label="Reservar Masajes Terapéuticos Desde S/180">Desde S/180</a>
             </div>
           </div>
         </div>
@@ -118,16 +130,18 @@
               </div>
               <h5 class="card-title text-success mb-3">Tratamientos Faciales</h5>
               <span class="duration-badge mb-3 d-inline-block">45 - 75 min</span>
-              <p class="card-text text-muted mb-4">Cuidado facial especializado con productos naturales andinos para rejuvenecer y nutrir tu piel.</p>
-              
+              <p class="card-text text-muted mb-4">Cuidado facial especializado con productos naturales andinos para
+                rejuvenecer y nutrir tu piel.</p>
+
               <ul class="list-unstyled text-start mb-4">
                 <li><i class="fas fa-check text-success me-2"></i>Facial Hidratante con Quinua</li>
                 <li><i class="fas fa-check text-success me-2"></i>Limpieza Profunda</li>
                 <li><i class="fas fa-check text-success me-2"></i>Anti-edad con Colágeno</li>
                 <li><i class="fas fa-check text-success me-2"></i>Mascarilla de Arcilla Andina</li>
               </ul>
-              
-              <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none" role="button" aria-label="Reservar Tratamientos Faciales Desde S/150">Desde S/150</a>
+
+              <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none"
+                role="button" aria-label="Reservar Tratamientos Faciales Desde S/150">Desde S/150</a>
             </div>
           </div>
         </div>
@@ -141,16 +155,18 @@
               </div>
               <h5 class="card-title text-success mb-3">Terapias Corporales</h5>
               <span class="duration-badge mb-3 d-inline-block">75 - 120 min</span>
-              <p class="card-text text-muted mb-4">Experiencias completas de bienestar que revitalizan todo tu cuerpo con ingredientes naturales.</p>
-              
+              <p class="card-text text-muted mb-4">Experiencias completas de bienestar que revitalizan todo tu cuerpo
+                con ingredientes naturales.</p>
+
               <ul class="list-unstyled text-start mb-4">
                 <li><i class="fas fa-check text-success me-2"></i>Envolvimientos Corporales</li>
                 <li><i class="fas fa-check text-success me-2"></i>Exfoliación con Sal del Cusco</li>
                 <li><i class="fas fa-check text-success me-2"></i>Hidroterapia</li>
                 <li><i class="fas fa-check text-success me-2"></i>Drenaje Linfático</li>
               </ul>
-              
-              <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none" role="button" aria-label="Reservar Terapias Corporales Desde S/220">Desde S/220</a>
+
+              <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none"
+                role="button" aria-label="Reservar Terapias Corporales Desde S/220">Desde S/220</a>
             </div>
           </div>
         </div>
@@ -164,16 +180,18 @@
               </div>
               <h5 class="card-title text-success mb-3">Circuito de Aguas</h5>
               <span class="duration-badge mb-3 d-inline-block">90 min</span>
-              <p class="card-text text-muted mb-4">Experiencia termal completa con piscinas de diferentes temperaturas, saunas y jacuzzis.</p>
-              
+              <p class="card-text text-muted mb-4">Experiencia termal completa con piscinas de diferentes temperaturas,
+                saunas y jacuzzis.</p>
+
               <ul class="list-unstyled text-start mb-4">
                 <li><i class="fas fa-check text-success me-2"></i>Piscina Termal</li>
                 <li><i class="fas fa-check text-success me-2"></i>Sauna Finlandés</li>
                 <li><i class="fas fa-check text-success me-2"></i>Baño Turco</li>
                 <li><i class="fas fa-check text-success me-2"></i>Jacuzzi Exterior</li>
               </ul>
-              
-              <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none" role="button" aria-label="Reservar Circuito de Aguas S/120">S/120</a>
+
+              <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none"
+                role="button" aria-label="Reservar Circuito de Aguas S/120">S/120</a>
             </div>
           </div>
         </div>
@@ -187,16 +205,18 @@
               </div>
               <h5 class="card-title text-success mb-3">Aromaterapia</h5>
               <span class="duration-badge mb-3 d-inline-block">60 min</span>
-              <p class="card-text text-muted mb-4">Sesiones terapéuticas que utilizan aceites esenciales andinos para equilibrar las emociones.</p>
-              
+              <p class="card-text text-muted mb-4">Sesiones terapéuticas que utilizan aceites esenciales andinos para
+                equilibrar las emociones.</p>
+
               <ul class="list-unstyled text-start mb-4">
                 <li><i class="fas fa-check text-success me-2"></i>Sesión Anti-estrés</li>
                 <li><i class="fas fa-check text-success me-2"></i>Energización Matutina</li>
                 <li><i class="fas fa-check text-success me-2"></i>Relajación Nocturna</li>
                 <li><i class="fas fa-check text-success me-2"></i>Equilibrio Emocional</li>
               </ul>
-              
-              <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none" role="button" aria-label="Reservar Aromaterapia S/140">S/140</a>
+
+              <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none"
+                role="button" aria-label="Reservar Aromaterapia S/140">S/140</a>
             </div>
           </div>
         </div>
@@ -210,16 +230,18 @@
               </div>
               <h5 class="card-title text-success mb-3">Rituales de Pareja</h5>
               <span class="duration-badge mb-3 d-inline-block">120 min</span>
-              <p class="card-text text-muted mb-4">Experiencias románticas diseñadas para compartir momentos únicos de relajación en pareja.</p>
-              
+              <p class="card-text text-muted mb-4">Experiencias románticas diseñadas para compartir momentos únicos de
+                relajación en pareja.</p>
+
               <ul class="list-unstyled text-start mb-4">
                 <li><i class="fas fa-check text-success me-2"></i>Suite Privada</li>
                 <li><i class="fas fa-check text-success me-2"></i>Masaje Sincronizado</li>
                 <li><i class="fas fa-check text-success me-2"></i>Baño de Rosas</li>
                 <li><i class="fas fa-check text-success me-2"></i>Cóctel de Bienvenida</li>
               </ul>
-              
-              <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none" role="button" aria-label="Reservar Rituales de Pareja S/480">S/480</a>
+
+              <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none"
+                role="button" aria-label="Reservar Rituales de Pareja S/480">S/480</a>
             </div>
           </div>
         </div>
@@ -246,7 +268,7 @@
                 <h4 class="text-success">Día de Spa Completo</h4>
                 <p class="text-muted">La experiencia definitiva de bienestar</p>
               </div>
-              
+
               <ul class="list-unstyled mb-4">
                 <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Circuito de Aguas (90 min)</li>
                 <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Masaje Relajante (60 min)</li>
@@ -255,10 +277,11 @@
                 <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Té de Hierbas Andinas</li>
                 <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Uso de instalaciones todo el día</li>
               </ul>
-              
+
               <div class="text-center">
                 <div class="text-muted mb-2">Precio individual: S/450</div>
-                <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none" role="button" aria-label="Reservar Día de Spa Completo Paquete S/380">Paquete: S/380</a>
+                <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none"
+                  role="button" aria-label="Reservar Día de Spa Completo Paquete S/380">Paquete: S/380</a>
                 <small class="text-success fw-bold">¡Ahorra S/70!</small>
               </div>
             </div>
@@ -275,7 +298,7 @@
                 <h4 class="text-success">Escape Romántico</h4>
                 <p class="text-muted">Perfecto para parejas</p>
               </div>
-              
+
               <ul class="list-unstyled mb-4">
                 <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Suite Privada (3 horas)</li>
                 <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Masaje de Pareja (90 min)</li>
@@ -284,10 +307,11 @@
                 <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Frutas y Chocolates</li>
                 <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Pétalos de Rosa</li>
               </ul>
-              
+
               <div class="text-center">
                 <div class="text-muted mb-2">Precio individual: S/580</div>
-                <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none" role="button" aria-label="Reservar Escape Romántico Paquete S/520">Paquete: S/520</a>
+                <a th:href="@{'/reservas?tipoReserva=spa'}" class="btn btn-outline-success text-decoration-none"
+                  role="button" aria-label="Reservar Escape Romántico Paquete S/520">Paquete: S/520</a>
                 <small class="text-success fw-bold">¡Ahorra S/60!</small>
               </div>
             </div>
@@ -365,7 +389,8 @@
                   </div>
                   <div class="col-12">
                     <label for="mensajeSpa" class="form-label">Solicitudes Especiales</label>
-                    <textarea class="form-control" id="mensajeSpa" rows="3" placeholder="¿Alguna preferencia especial, condición médica o alergia que debamos conocer?"></textarea>
+                    <textarea class="form-control" id="mensajeSpa" rows="3"
+                      placeholder="¿Alguna preferencia especial, condición médica o alergia que debamos conocer?"></textarea>
                   </div>
                 </div>
 
@@ -390,9 +415,9 @@
 
   <script>
     // Formulario de spa
-    document.getElementById('spaForm').addEventListener('submit', function(e) {
+    document.getElementById('spaForm').addEventListener('submit', function (e) {
       e.preventDefault();
-      
+
       const formData = {
         nombre: document.getElementById('nombreSpa').value,
         telefono: document.getElementById('telefonoSpa').value,
@@ -403,21 +428,21 @@
         hora: document.getElementById('horaSpa').value,
         mensaje: document.getElementById('mensajeSpa').value
       };
-      
+
       const tratamientoText = document.getElementById('tratamiento').options[document.getElementById('tratamiento').selectedIndex].text;
-      
+
       alert('🌿 RESERVA CONFIRMADA\n\n' +
-            `Gracias ${formData.nombre}, tu reserva ha sido registrada:\n\n` +
-            `📅 Fecha: ${formData.fecha}\n` +
-            `🕐 Hora: ${formData.hora}\n` +
-            `💆 Tratamiento: ${tratamientoText}\n` +
-            `👥 Personas: ${formData.personas}\n\n` +
-            '📞 Te contactaremos para confirmar disponibilidad en las próximas 2 horas.\n\n' +
-            '✨ ¡Prepárate para una experiencia única de relajación!');
+        `Gracias ${formData.nombre}, tu reserva ha sido registrada:\n\n` +
+        `📅 Fecha: ${formData.fecha}\n` +
+        `🕐 Hora: ${formData.hora}\n` +
+        `💆 Tratamiento: ${tratamientoText}\n` +
+        `👥 Personas: ${formData.personas}\n\n` +
+        '📞 Te contactaremos para confirmar disponibilidad en las próximas 2 horas.\n\n' +
+        '✨ ¡Prepárate para una experiencia única de relajación!');
     });
 
     // Establecer fecha mínima como hoy
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const hoy = new Date().toISOString().split('T')[0];
       document.getElementById('fechaSpa').min = hoy;
     });
