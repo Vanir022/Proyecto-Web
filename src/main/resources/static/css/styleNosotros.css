@@ -1,0 +1,632 @@
+/* ==========================
+   OVERRIDES PARA COLOR VERDE #1B5E20 - NOSOTROS.HTML
+========================== */
+
+.btn {
+    background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
+    border-color: #1B5E20 !important;
+    color: white !important;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #0F4A17, #1B5E20) !important;
+    border-color: #0F4A17 !important;
+    color: white !important;
+}
+
+.btn-primary {
+    background-color: #1B5E20 !important;
+    border-color: #1B5E20 !important;
+}
+
+.btn-primary:hover {
+    background-color: #0F4A17 !important;
+    border-color: #0F4A17 !important;
+}
+
+.text-primary {
+    color: #1B5E20 !important;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
+}
+
+.bg-info {
+    background-color: #1B5E20 !important;
+}
+
+.bg-success {
+    background-color: #0F4A17 !important;
+}
+
+.bg-warning {
+    background-color: #1B5E20 !important;
+}
+
+.bg-danger {
+    background-color: #1B5E20 !important;
+}
+
+/* Colores específicos para títulos en secciones de Nosotros */
+.mission h2,
+.vision h2,
+.principles h2,
+.health-card h2 {
+    color: #1B5E20 !important;
+}
+
+/* ==========================
+   SECCIÓN HERO PROFESIONAL
+========================== */
+
+.hero {
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-top: 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../imagenes/eden-paracas.png') no-repeat center center/cover;
+    filter: blur(8px) brightness(0.4);
+    z-index: -1;
+    transform: scale(1.1);
+}
+
+.hero .container {
+    max-width: 1200px;
+    padding: 0 20px;
+    z-index: 1;
+    position: relative;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+.hero .btn {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    display: inline-block;
+}
+
+.hero .btn:hover {
+    background: linear-gradient(135deg, #45a049, #4CAF50);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+/* ==========================
+   SECCIÓN SOBRE NOSOTROS PROFESIONAL
+========================== */
+
+.about {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    position: relative;
+}
+
+.about .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.about-text h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.about-text h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    border-radius: 2px;
+}
+
+.about-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+.about-text .btn {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    display: inline-block;
+}
+
+.about-text .btn:hover {
+    background: linear-gradient(135deg, #45a049, #4CAF50);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.about-image {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.about-image:hover {
+    transform: translateY(-5px);
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ==========================
+   CARRUSEL DE IMÁGENES PROFESIONAL
+========================== */
+
+.carousel {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.carousel input[type="radio"] {
+    display: none;
+}
+
+.carousel-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+#slide1:checked~.carousel-image:nth-child(4),
+#slide2:checked~.carousel-image:nth-child(5),
+#slide3:checked~.carousel-image:nth-child(6) {
+    opacity: 1;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 10;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.carousel-btn:hover {
+    background: #4CAF50;
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn.prev {
+    left: 20px;
+}
+
+.carousel-btn.next {
+    right: 20px;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 35%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+#slide1:checked~.carousel-indicators .indicator:nth-child(1),
+#slide2:checked~.carousel-indicators .indicator:nth-child(2),
+#slide3:checked~.carousel-indicators .indicator:nth-child(3) {
+    background: #4CAF50;
+    transform: scale(1.2);
+}
+
+/* ==========================
+   SECCIÓN MISIÓN Y VISIÓN
+========================== */
+
+.mission-vision {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    position: relative;
+}
+
+.mission-vision .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.mission-vision-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.mission,
+.vision {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 300px;
+}
+
+.mission:hover,
+.vision:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.mission h2,
+.vision h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #4CAF50;
+    margin-bottom: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.mission h2::after,
+.vision h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: #4CAF50;
+    border-radius: 2px;
+}
+
+.mission p,
+.vision p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    text-align: justify;
+}
+
+.principles {
+    grid-column: 1 / -1;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.principles:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.principles h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #4CAF50;
+    margin-bottom: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.principles h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: #4CAF50;
+    border-radius: 2px;
+}
+
+.principles .list-group {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.principles .list-group-item {
+    border: none;
+    background: transparent;
+    padding: 15px 0;
+    font-size: 1.1rem;
+    color: #555;
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.principles .checkmark {
+    color: #4CAF50;
+    font-size: 1.5rem;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: -2px;
+}
+
+.principles .principle-text {
+    text-align: justify;
+    line-height: 1.6;
+}
+
+/* ==========================
+   SECCIÓN SALUD Y BIENESTAR
+========================== */
+
+.health-wellness {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    position: relative;
+}
+
+.health-wellness .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.health-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.health-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.health-card h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #4CAF50;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.health-card h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: #4CAF50;
+    border-radius: 2px;
+}
+
+.health-card p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    text-align: justify;
+    margin-bottom: 1.5rem;
+}
+
+/* ==========================
+   GALERÍA DE IMÁGENES EN SALUD Y BIENESTAR
+========================== */
+
+.health-card .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+.health-card .gallery img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.health-card .gallery img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================
+   RESPONSIVE DESIGN
+========================== */
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1.1rem;
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .about-text h2 {
+        font-size: 2rem;
+    }
+
+    .carousel {
+        height: 300px;
+    }
+
+    .mission-vision-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .mission,
+    .vision,
+    .principles {
+        padding: 30px;
+    }
+
+    .mission h2,
+    .vision h2,
+    .principles h2 {
+        font-size: 1.8rem;
+    }
+
+    .mission p,
+    .vision p {
+        font-size: 1rem;
+    }
+
+    .principles .list-group-item {
+        font-size: 1rem;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .principles .checkmark {
+        font-size: 1.2rem;
+    }
+
+    .principles .principle-text {
+        text-align: justify;
+    }
+
+    .health-card {
+        padding: 30px;
+    }
+
+    .health-card h2 {
+        font-size: 1.8rem;
+    }
+
+    .health-card p {
+        font-size: 1rem;
+    }
+
+    .health-card .gallery {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .health-card .gallery img {
+        height: 150px;
+    }
+}
