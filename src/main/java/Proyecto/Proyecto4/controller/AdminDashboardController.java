@@ -900,7 +900,10 @@ public class AdminDashboardController {
                 return ResponseEntity.badRequest().body(Map.of("error", "Administrador no encontrado"));
             }
 
-            Administrador admin = adminOpt.get();
+            // No need to create unused admin variable
+            if (!adminOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Administrador no encontrado")); 
+            }
 
             Map<String, Integer> estadisticas = Map.of(
                     "libres", habitacionService.obtenerHabitacionesLibres().size(),
