@@ -220,9 +220,15 @@
                         <p>Primera reserva:</p>
                         <ul>
                             <li>Código: <span th:text="${reservas[0].codigoReserva}">-</span></li>
-                            <li>Usuario: <span th:text="${reservas[0].usuario != null ? reservas[0].usuario.nombre : 'NULL'}">-</span></li>
-                            <li>Habitación: <span th:text="${reservas[0].habitacion != null ? reservas[0].habitacion.numero : 'NULL'}">-</span></li>
-                            <li>Hotel: <span th:text="${reservas[0].habitacion != null ? reservas[0].habitacion.hotel : 'NULL'}">-</span></li>
+                            <li>Usuario: <span
+                                    th:text="${reservas[0].usuario != null ? reservas[0].usuario.nombre : 'NULL'}">-</span>
+                            </li>
+                            <li>Habitación: <span
+                                    th:text="${reservas[0].habitacion != null ? reservas[0].habitacion.numero : 'NULL'}">-</span>
+                            </li>
+                            <li>Hotel: <span
+                                    th:text="${reservas[0].habitacion != null ? reservas[0].habitacion.hotel : 'NULL'}">-</span>
+                            </li>
                             <li>Estado: <span th:text="${reservas[0].estado}">-</span></li>
                         </ul>
                     </div>
@@ -265,7 +271,8 @@
                                                 <i th:unless="${reserva.usuario.detallesPersona != null and reserva.usuario.detallesPersona.fotoPerfil != null}"
                                                     class="fas fa-user-circle me-2"></i>
                                                 <div>
-                                                    <strong th:text="${reserva.usuario.detallesPersona != null ? reserva.usuario.detallesPersona.nombres : reserva.usuario.nombre}">Usuario</strong>
+                                                    <strong
+                                                        th:text="${reserva.usuario.detallesPersona != null ? reserva.usuario.detallesPersona.nombres : reserva.usuario.nombre}">Usuario</strong>
                                                     <br>
                                                     <small class="text-muted"
                                                         th:text="${reserva.usuario.email}">email</small>
@@ -276,33 +283,49 @@
                                             <span th:if="${reserva.habitacion != null}">
                                                 <strong th:text="'#' + ${reserva.habitacion.numero}">Habitación</strong>
                                                 <br>
-                                                <small class="text-muted" th:text="${reserva.habitacion.tipo}">Tipo</small>
+                                                <small class="text-muted"
+                                                    th:text="${reserva.habitacion.tipo}">Tipo</small>
                                             </span>
-                                            <span th:unless="${reserva.habitacion != null}" class="text-muted">Sin habitación</span>
+                                            <span th:unless="${reserva.habitacion != null}" class="text-muted">Sin
+                                                habitación</span>
                                         </td>
                                         <td>
-                                            <span th:if="${reserva.habitacion != null}" th:text="${reserva.habitacion.hotel}">Hotel</span>
-                                            <span th:unless="${reserva.habitacion != null}" class="text-muted">Sin hotel</span>
+                                            <span th:if="${reserva.habitacion != null}"
+                                                th:text="${reserva.habitacion.hotel}">Hotel</span>
+                                            <span th:unless="${reserva.habitacion != null}" class="text-muted">Sin
+                                                hotel</span>
                                         </td>
                                         <td>
-                                            <span th:if="${reserva.fechaEntrada != null}" th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}">01/01/2023</span>
-                                            <span th:unless="${reserva.fechaEntrada != null}" class="text-muted">Sin fecha</span>
+                                            <span th:if="${reserva.fechaEntrada != null}"
+                                                th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}">01/01/2023</span>
+                                            <span th:unless="${reserva.fechaEntrada != null}" class="text-muted">Sin
+                                                fecha</span>
                                         </td>
                                         <td>
-                                            <span th:if="${reserva.fechaSalida != null}" th:text="${#temporals.format(reserva.fechaSalida, 'dd/MM/yyyy')}">05/01/2023</span>
-                                            <span th:unless="${reserva.fechaSalida != null}" class="text-muted">Sin fecha</span>
+                                            <span th:if="${reserva.fechaSalida != null}"
+                                                th:text="${#temporals.format(reserva.fechaSalida, 'dd/MM/yyyy')}">05/01/2023</span>
+                                            <span th:unless="${reserva.fechaSalida != null}" class="text-muted">Sin
+                                                fecha</span>
                                         </td>
                                         <td>
-                                            <span th:if="${reserva.fechaEntrada != null and reserva.fechaSalida != null}">
-                                                <span th:text="${#temporals.daysBetween(reserva.fechaEntrada, reserva.fechaSalida)}">4</span> días
+                                            <span
+                                                th:if="${reserva.fechaEntrada != null and reserva.fechaSalida != null}">
+                                                <span
+                                                    th:text="${#temporals.daysBetween(reserva.fechaEntrada, reserva.fechaSalida)}">4</span>
+                                                días
                                             </span>
-                                            <span th:unless="${reserva.fechaEntrada != null and reserva.fechaSalida != null}" class="text-muted">-</span>
+                                            <span
+                                                th:unless="${reserva.fechaEntrada != null and reserva.fechaSalida != null}"
+                                                class="text-muted">-</span>
                                         </td>
                                         <td>
                                             <span th:if="${reserva.montoTotal != null}">
-                                                <strong class="text-success" th:text="'S/. ' + ${#numbers.formatDecimal(reserva.montoTotal, 0, 2)}">S/. 1000.00</strong>
+                                                <strong class="text-success"
+                                                    th:text="'S/. ' + ${#numbers.formatDecimal(reserva.montoTotal, 0, 2)}">S/.
+                                                    1000.00</strong>
                                             </span>
-                                            <span th:unless="${reserva.montoTotal != null}" class="text-muted">Sin monto</span>
+                                            <span th:unless="${reserva.montoTotal != null}" class="text-muted">Sin
+                                                monto</span>
                                         </td>
                                         <td>
                                             <span class="badge" th:class="'bg-' + 
@@ -312,8 +335,11 @@
                                                 th:text="${reserva.estado.name()}">Estado</span>
                                         </td>
                                         <td>
-                                            <span th:if="${reserva.fechaReserva != null}" th:text="${#temporals.format(reserva.fechaReserva, 'dd/MM/yyyy HH:mm')}">01/01/2023 10:30</span>
-                                            <span th:unless="${reserva.fechaReserva != null}" class="text-muted">Sin fecha</span>
+                                            <span th:if="${reserva.fechaReserva != null}"
+                                                th:text="${#temporals.format(reserva.fechaReserva, 'dd/MM/yyyy HH:mm')}">01/01/2023
+                                                10:30</span>
+                                            <span th:unless="${reserva.fechaReserva != null}" class="text-muted">Sin
+                                                fecha</span>
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
@@ -387,9 +413,9 @@
     <div class="modal fade" id="detalleReservaModal" tabindex="-1">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
                     <h5 class="modal-title">Detalles de la Reserva</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body" id="detalleReservaContent">
                     <!-- El contenido se cargará dinámicamente -->
@@ -402,9 +428,9 @@
     <div class="modal fade" id="confirmarAccionModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
                     <h5 class="modal-title" id="confirmarAccionTitulo">Confirmar Acción</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <p id="confirmarAccionTexto">¿Está seguro de realizar esta acción?</p>
