@@ -1,0 +1,49 @@
+/* ==========================
+   OVERRIDES PARA COLOR VERDE #1B5E20 - CONTACTOS.HTML
+========================== */
+
+.btn {
+    background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
+    border-color: #1B5E20 !important;
+    color: white !important;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #0F4A17, #1B5E20) !important;
+    border-color: #0F4A17 !important;
+    color: white !important;
+}
+
+.btn-primary {
+    background-color: #1B5E20 !important;
+    border-color: #1B5E20 !important;
+}
+
+.btn-primary:hover {
+    background-color: #0F4A17 !important;
+    border-color: #0F4A17 !important;
+}
+
+.text-primary {
+    color: #1B5E20 !important;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
+}
+
+.bg-info {
+    background-color: #1B5E20 !important;
+}
+
+.bg-success {
+    background-color: #0F4A17 !important;
+}
+
+.bg-warning {
+    background-color: #1B5E20 !important;
+}
+
+.bg-danger {
+    background-color: #1B5E20 !important;
+}
