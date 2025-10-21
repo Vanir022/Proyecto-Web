@@ -2,9 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-    <div th:fragment="footer">
-        <footer class="bg-dark text-white py-5">
-            <div class="container">
+    <div th:fragment="footer" class="w-100">
+        <footer class="bg-dark text-white py-5 mt-auto">
+            <div class="container-fluid px-0">
+                <div class="container">
                 <!-- Newsletter -->
                 <div class="row mb-5">
                     <div class="col-12 col-md-10 col-lg-8 mx-auto text-center">
@@ -158,10 +159,29 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
         </footer>
     </div>
 
+    <style>
+        footer {
+            margin-bottom: 0 !important;
+            width: 100% !important;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100vw;
+            right: -100vw;
+            bottom: 0;
+            background-color: #212529; /* mismo color que bg-dark */
+            z-index: -1;
+        }
+    </style>
 </body>
 
 </html>
