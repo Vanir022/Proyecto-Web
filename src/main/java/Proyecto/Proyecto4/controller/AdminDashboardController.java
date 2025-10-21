@@ -54,6 +54,37 @@ public class AdminDashboardController {
     @Autowired
     private ReservaService reservaService;
 
+    @GetMapping("/export")
+    public ResponseEntity<byte[]> exportDashboardData(Authentication authentication) {
+        String email = authentication.getName();
+        StringBuilder csvData = new StringBuilder();
+        
+        // Encabezados
+        csvData.append("Métrica,Valor\n");
+        
+        // Estadísticas generales
+        int totalUsuarios = usuarioService.listar().size();
+        int totalHabitaciones = habitacionService.obtenerTodasLasHabitaciones().size();
+        int habitacionesDisponibles = habitacionService.obtenerTodasLasHabitaciones().size();
+        List<Reserva> reservasPendientes = reservaService.obtenerReservasPorEstado(Reserva.EstadoReserva.PENDIENTE);
+        List<Reserva> reservasConfirmadas = reservaService.obtenerReservasPorEstado(Reserva.EstadoReserva.CONFIRMADA);
+        
+        // Agregar datos al CSV
+        csvData.append("Total Usuarios,").append(totalUsuarios).append("\n");
+        csvData.append("Total Habitaciones,").append(totalHabitaciones).append("\n");
+        csvData.append("Habitaciones Disponibles,").append(habitacionesDisponibles).append("\n");
+        csvData.append("Reservas Pendientes,").append(reservasPendientes.size()).append("\n");
+        csvData.append("Reservas Confirmadas,").append(reservasConfirmadas.size()).append("\n");
+        
+        // Configurar la respuesta HTTP
+        byte[] bytes = csvData.toString().getBytes();
+        return ResponseEntity
+            .ok()
+            .header("Content-Type", "text/csv")
+            .header("Content-Disposition", "attachment; filename=dashboard_stats.csv")
+            .body(bytes);
+    }
+
     @GetMapping("/dashboard")
     public String dashboardAdmin(Authentication authentication, Model model) {
         String email = authentication.getName();
