@@ -50,10 +50,11 @@
       <div class="text-center mb-4">
         <a th:href="@{/reservas}" class="btn btn-primary btn-lg">Reservar Aquí</a>
       </div>
-      <!-- Crea un boton para q me redirija a Login-->
+      <!-- Crea un enlace dinámico para ver reservaciones -->
       <div class="text-center mb-4">
-        <a th:href="@{/auth/login}" class="text-light">Si eres cliente puedes ver tus reservaciones
-          ingresando sesión</a>
+        <a th:href="@{${#authorization.expression('isAuthenticated()') ? '/dashboard' : '/auth/login'}}"
+          th:text="${#authorization.expression('isAuthenticated()') ? 'Ver mis reservaciones' : 'Si eres cliente puedes ver tus reservaciones ingresando sesión'}"
+          class="text-light"></a>
       </div>
 
       <!--<form class="reservation-form" role="search" aria-label="Formulario de reserva de hotel">

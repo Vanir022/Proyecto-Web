@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-    
+
     @Autowired
     private AdministradorRepository administradorRepository;
 
@@ -35,24 +35,24 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     .authorities(usuario.getRol())
                     .build();
         }
-        
+
         // Si no se encuentra como usuario, buscar como administrador
         Optional<Administrador> adminOpt = administradorRepository.findByEmail(email);
         if (adminOpt.isPresent()) {
             Administrador admin = adminOpt.get();
-            
+
             // Verificar que esté activo
             if (!admin.getActivo()) {
                 throw new UsernameNotFoundException("Administrador desactivado: " + email);
             }
-            
+
             return User.builder()
                     .username(admin.getEmail())
                     .password(admin.getPassword())
                     .authorities("ROLE_ADMIN") // Todos los administradores tienen ROLE_ADMIN
                     .build();
         }
-        
+
         throw new UsernameNotFoundException("Usuario/Administrador no encontrado con email: " + email);
     }
 }

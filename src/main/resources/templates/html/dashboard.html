@@ -5,15 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - EDEN RESORTS</title>
-    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+  <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
-  
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
   <link rel="stylesheet" th:href="@{/css/styleIndex.css}">
-    <link rel="stylesheet" th:href="@{/css/styleDashb.css}">
+  <link rel="stylesheet" th:href="@{/css/styleDashb.css}">
 
-  
+
 </head>
 
 <body>
@@ -51,7 +51,8 @@
             </div>
           </div>
           <div class="col-md-9">
-            <h2 class="mb-3">¡Bienvenido de nuevo<span th:if="${detalles != null}">, <span th:text="${detalles.nombres}">Usuario</span></span>!</h2>
+            <h2 class="mb-3">¡Bienvenido de nuevo<span th:if="${detalles != null}">, <span
+                  th:text="${detalles.nombres}">Usuario</span></span>!</h2>
             <p class="lead mb-2">
               <i class="fas fa-envelope text-primary me-2"></i>
               <strong>Email:</strong> <span th:text="${email}">usuario@example.com</span>
@@ -67,7 +68,7 @@
               </p>
             </div>
             <p class="text-muted mb-3">
-              Nos alegra verte de nuevo en Eden Resorts. Desde aquí puedes gestionar tus reservas, 
+              Nos alegra verte de nuevo en Eden Resorts. Desde aquí puedes gestionar tus reservas,
               ver tu historial y acceder a servicios exclusivos.
             </p>
             <small class="text-muted">
@@ -129,7 +130,7 @@
                   <strong>Teléfono:</strong> <span th:text="${detalles.telefono}">N/A</span>
                 </p>
                 <p th:if="${detalles != null && detalles.fechaNacimiento != null}">
-                  <strong>Fecha de Nacimiento:</strong> 
+                  <strong>Fecha de Nacimiento:</strong>
                   <span th:text="${#temporals.format(detalles.fechaNacimiento, 'dd/MM/yyyy')}">N/A</span>
                 </p>
                 <p th:if="${detalles != null && detalles.intereses != null && !detalles.intereses.isEmpty()}">
@@ -156,7 +157,7 @@
 
           <div class="info-card">
             <h5><i class="fas fa-calendar-check me-2"></i>Mis Reservas</h5>
-            
+
             <!-- Si no tiene reservas -->
             <div th:if="${reservas == null or #lists.size(reservas) == 0}" class="text-center py-4">
               <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
@@ -166,7 +167,7 @@
                 <i class="fas fa-plus me-2"></i>Nueva Reserva
               </a>
             </div>
-            
+
             <!-- Si tiene reservas -->
             <div th:if="${reservas != null and #lists.size(reservas) > 0}">
               <div class="row g-2 mb-3">
@@ -189,14 +190,13 @@
                   </div>
                 </div>
               </div>
-              
+
               <!-- Lista de reservas recientes -->
               <div class="row">
                 <div class="col-12">
                   <h6 class="text-muted mb-3">Reservas Recientes</h6>
                   <div th:each="reserva, iterStat : ${reservas}" th:if="${iterStat.index < 3}">
-                    <div class="card mb-2" style="border-left: 3px solid" 
-                         th:style="'border-left-color: ' + 
+                    <div class="card mb-2" style="border-left: 3px solid" th:style="'border-left-color: ' + 
                                    (${reserva.estado.name() == 'CONFIRMADA'} ? '#28a745' : 
                                    (${reserva.estado.name() == 'PENDIENTE'} ? '#ffc107' : 
                                    (${reserva.estado.name() == 'COMPLETADA'} ? '#17a2b8' : '#dc3545')))">
@@ -205,11 +205,10 @@
                           <div>
                             <h6 class="mb-1">
                               <span class="text-primary" th:text="'Habitación ' + ${reserva.habitacion.numero}"></span>
-                              <span class="badge ms-2" 
-                                    th:class="${reserva.estado.name() == 'CONFIRMADA' ? 'bg-success' : 
+                              <span class="badge ms-2" th:class="${reserva.estado.name() == 'CONFIRMADA' ? 'bg-success' : 
                                                (reserva.estado.name() == 'PENDIENTE' ? 'bg-warning' : 
                                                (reserva.estado.name() == 'COMPLETADA' ? 'bg-info' : 'bg-danger'))}"
-                                    th:text="${reserva.estado}">
+                                th:text="${reserva.estado}">
                               </span>
                             </h6>
                             <small class="text-muted">
@@ -219,7 +218,7 @@
                             <br>
                             <small class="text-muted">
                               <i class="fas fa-calendar me-1"></i>
-                              <span th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}"></span> - 
+                              <span th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}"></span> -
                               <span th:text="${#temporals.format(reserva.fechaSalida, 'dd/MM/yyyy')}"></span>
                             </small>
                           </div>
@@ -234,7 +233,7 @@
                       </div>
                     </div>
                   </div>
-                  
+
                   <div class="text-center mt-3">
                     <a th:href="@{/reservas}" class="btn btn-outline-primary btn-sm">
                       <i class="fas fa-list me-1"></i>Ver Todas las Reservas
@@ -273,7 +272,7 @@
             <h5><i class="fas fa-gift me-2"></i>Ofertas Especiales</h5>
             <div class="alert alert-success">
               <i class="fas fa-star me-2"></i>
-              <strong>¡Bienvenido!</strong> 
+              <strong>¡Bienvenido!</strong>
               <br>Como nuevo cliente, disfruta de un 10% de descuento en tu primera reserva.
             </div>
             <div class="text-center">
@@ -300,7 +299,7 @@
     </div>
   </section>
 
-    <!-- Footer -->
+  <!-- Footer -->
   <div th:replace="~{fragments/footer :: footer}"></div>
 
   <!-- Modal para cambiar foto -->
@@ -319,7 +318,8 @@
               <div class="form-text">Formatos permitidos: JPG, PNG, GIF. Máximo 5MB.</div>
             </div>
             <div class="text-center">
-              <img id="preview" src="#" alt="Vista previa" style="max-width: 200px; max-height: 200px; display: none;" class="img-thumbnail mb-3">
+              <img id="preview" src="#" alt="Vista previa" style="max-width: 200px; max-height: 200px; display: none;"
+                class="img-thumbnail mb-3">
             </div>
           </form>
         </div>
@@ -398,14 +398,14 @@
     });
 
     // Efectos de animación al cargar
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
       const cards = document.querySelectorAll('.info-card, .welcome-card');
       cards.forEach((card, index) => {
         setTimeout(() => {
           card.style.opacity = '0';
           card.style.transform = 'translateY(20px)';
           card.style.transition = 'all 0.5s ease';
-          
+
           setTimeout(() => {
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
@@ -425,11 +425,11 @@
     });
 
     // Preview de imagen al seleccionar archivo
-    document.getElementById('foto').addEventListener('change', function(e) {
+    document.getElementById('foto').addEventListener('change', function (e) {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
           document.getElementById('preview').src = e.target.result;
           document.getElementById('preview').style.display = 'block';
         };
@@ -441,7 +441,7 @@
     function subirFoto() {
       const formData = new FormData();
       const fotoInput = document.getElementById('foto');
-      
+
       if (!fotoInput.files[0]) {
         alert('Por favor selecciona una foto');
         return;
@@ -453,19 +453,19 @@
         method: 'POST',
         body: formData
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.message) {
-          alert('Foto subida exitosamente');
-          location.reload(); // Recargar para mostrar la nueva foto
-        } else {
-          alert('Error: ' + data);
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Error al subir la foto');
-      });
+        .then(response => response.json())
+        .then(data => {
+          if (data.message) {
+            alert('Foto subida exitosamente');
+            location.reload(); // Recargar para mostrar la nueva foto
+          } else {
+            alert('Error: ' + data);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al subir la foto');
+        });
     }
 
     // Función para cambiar contraseña
@@ -502,18 +502,18 @@
         },
         body: JSON.stringify(data)
       })
-      .then(response => response.text())
-      .then(data => {
-        alert(data);
-        if (data.includes('exitosamente')) {
-          document.getElementById('passwordForm').reset();
-          bootstrap.Modal.getInstance(document.getElementById('cambiarPasswordModal')).hide();
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Error al cambiar contraseña');
-      });
+        .then(response => response.text())
+        .then(data => {
+          alert(data);
+          if (data.includes('exitosamente')) {
+            document.getElementById('passwordForm').reset();
+            bootstrap.Modal.getInstance(document.getElementById('cambiarPasswordModal')).hide();
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al cambiar contraseña');
+        });
     }
   </script>
 </body>

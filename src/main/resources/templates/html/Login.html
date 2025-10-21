@@ -1,11 +1,11 @@
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iniciar Sesión - EDEN RESORTS</title>
-    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+  <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -22,7 +22,7 @@
   <!-- Login Section -->
   <section class="login-section d-flex align-items-center position-relative" style="margin-top: 76px;">
     <div class="floating-elements"></div>
-    
+
     <div class="container">
       <div class="row justify-content-center align-items-center min-vh-100">
         <!-- Información del Hotel (lado izquierdo) -->
@@ -32,7 +32,7 @@
               <h2 class="display-5 fw-bold mb-3">Bienvenido al Eden</h2>
               <p class="lead">Donde tus recuerdos más preciados comienzan a escribirse</p>
             </div>
-            
+
             <div class="row g-4">
               <div class="col-md-6 text-center">
                 <div class="feature-icon">
@@ -83,18 +83,18 @@
                 <i class="fas fa-exclamation-triangle me-2"></i>
                 <span th:text="${errorMessage}"></span>
               </div>
-              
+
               <div th:if="${logoutMessage}" class="alert alert-success mb-3" role="alert">
                 <i class="fas fa-check-circle me-2"></i>
                 <span th:text="${logoutMessage}"></span>
               </div>
-              
+
               <div class="mb-4">
                 <label for="email" class="form-label fw-semibold">
                   <i class="fas fa-envelope me-2 text-primary"></i>Correo Electrónico
                 </label>
                 <input type="email" class="form-control form-control-lg" id="email" name="email"
-                       placeholder="Ingrese su correo electrónico" required>
+                  placeholder="Ingrese su correo electrónico" required>
               </div>
 
               <div class="mb-4">
@@ -103,9 +103,9 @@
                 </label>
                 <div class="position-relative">
                   <input type="password" class="form-control form-control-lg" id="password" name="password"
-                         placeholder="Ingrese su contraseña" required>
-                  <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" 
-                          onclick="togglePassword()" style="z-index: 10; border: none;">
+                    placeholder="Ingrese su contraseña" required>
+                  <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3"
+                    onclick="togglePassword()" style="z-index: 10; border: none;">
                     <i class="fas fa-eye" id="passwordToggle"></i>
                   </button>
                 </div>
@@ -152,7 +152,7 @@
 
             <!-- Enlaces adicionales -->
             <div class="text-center login-links">
-              <p class="mb-0">¿No tienes una cuenta? 
+              <p class="mb-0">¿No tienes una cuenta?
                 <a th:href="@{/register}" onclick="showRegister()">
                   <strong>Regístrate aquí</strong>
                 </a>
@@ -191,7 +191,7 @@
   </section>
 
   <!-- Footer -->
-  
+
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -201,7 +201,7 @@
     function togglePassword() {
       const passwordField = document.getElementById('password');
       const passwordToggle = document.getElementById('passwordToggle');
-      
+
       if (passwordField.type === 'password') {
         passwordField.type = 'text';
         passwordToggle.className = 'fas fa-eye-slash';
@@ -249,7 +249,7 @@
       const email = prompt('Ingrese su correo electrónico para recuperar su contraseña:');
       if (email) {
         alert('Se ha enviado un enlace de recuperación a: ' + email + '\n\n' +
-              '(Funcionalidad en desarrollo)');
+          '(Funcionalidad en desarrollo)');
       }
     }
 
@@ -261,19 +261,19 @@
     // Login con Google
     function loginWithGoogle() {
       alert('Inicio de sesión con Google\n\n' +
-            'Funcionalidad en desarrollo.\n' +
-            'Próximamente podrás acceder con tu cuenta de Google.');
+        'Funcionalidad en desarrollo.\n' +
+        'Próximamente podrás acceder con tu cuenta de Google.');
     }
 
     // Login con Facebook  
     function loginWithFacebook() {
       alert('Inicio de sesión con Facebook\n\n' +
-            'Funcionalidad en desarrollo.\n' +
-            'Próximamente podrás acceder con tu cuenta de Facebook.');
+        'Funcionalidad en desarrollo.\n' +
+        'Próximamente podrás acceder con tu cuenta de Facebook.');
     }
 
     // Animaciones al cargar
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
       const animatedElements = document.querySelectorAll('.animate-on-load');
       animatedElements.forEach((el, index) => {
         setTimeout(() => {
@@ -285,12 +285,12 @@
     // Efectos de focus en inputs
     const inputs = document.querySelectorAll('.form-control');
     inputs.forEach(input => {
-      input.addEventListener('focus', function() {
+      input.addEventListener('focus', function () {
         this.parentElement.style.transform = 'scale(1.02)';
         this.parentElement.style.transition = 'transform 0.2s ease';
       });
-      
-      input.addEventListener('blur', function() {
+
+      input.addEventListener('blur', function () {
         this.parentElement.style.transform = 'scale(1)';
       });
     });

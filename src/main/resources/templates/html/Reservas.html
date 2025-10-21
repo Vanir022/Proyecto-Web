@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Reservas en Eden Resorts - Reserva habitaciones de lujo y servicios exclusivos como Spa, Bodas y Eventos en los mejores destinos del Perú.">
-    <meta name="keywords" content="reservas, habitaciones, Eden Resorts, spa, bodas, eventos, turismo Peru, hoteles lujo">
+    <meta name="description"
+        content="Reservas en Eden Resorts - Reserva habitaciones de lujo y servicios exclusivos como Spa, Bodas y Eventos en los mejores destinos del Perú.">
+    <meta name="keywords"
+        content="reservas, habitaciones, Eden Resorts, spa, bodas, eventos, turismo Peru, hoteles lujo">
     <meta name="author" content="Eden Resorts & Spas">
 
     <title>Reservas - EDEN RESORT</title>
-      <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
 
     <!-- Preconnect para mejorar performance -->
@@ -24,13 +26,14 @@
 
 <body>
     <!-- Header -->
-  <div th:replace="~{fragments/Header :: header}"></div>
+    <div th:replace="~{fragments/Header :: header}"></div>
 
     <!-- Hero Section -->
     <section class="hero-section d-flex align-items-center" style="margin-top: 76px;" role="banner">
         <div class="container text-center">
             <h1 class="display-3 fw-bold mb-4">Reservas</h1>
-            <p class="lead mb-5">Descubre nuestras habitaciones de lujo y servicios exclusivos para una experiencia inolvidable</p>
+            <p class="lead mb-5">Descubre nuestras habitaciones de lujo y servicios exclusivos para una experiencia
+                inolvidable</p>
 
             <!-- Formulario de Reserva Mejorado -->
             <form class="reservation-form" role="search" aria-label="Formulario de reserva de hotel">
@@ -38,29 +41,34 @@
                     <div class="col-lg-2 col-md-4 col-6">
                         <div class="bg-white p-3 rounded shadow-sm text-dark">
                             <label for="fechaLlegada" class="d-block mb-2 fw-bold small">FECHA DE LLEGADA</label>
-                            <input type="date" class="form-control border-0" id="fechaLlegada" name="fechaLlegada" aria-label="Seleccionar fecha de llegada">
+                            <input type="date" class="form-control border-0" id="fechaLlegada" name="fechaLlegada"
+                                aria-label="Seleccionar fecha de llegada">
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-4 col-6">
                         <div class="bg-white p-3 rounded shadow-sm text-dark">
                             <label for="fechaSalida" class="d-block mb-2 fw-bold small">FECHA DE SALIDA</label>
-                            <input type="date" class="form-control border-0" id="fechaSalida" name="fechaSalida" aria-label="Seleccionar fecha de salida">
+                            <input type="date" class="form-control border-0" id="fechaSalida" name="fechaSalida"
+                                aria-label="Seleccionar fecha de salida">
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-4 col-6">
                         <div class="bg-white p-3 rounded shadow-sm text-dark">
                             <label for="adultos" class="d-block mb-2 fw-bold small">ADULTOS</label>
-                            <input type="number" class="form-control border-0" id="adultos" name="adultos" placeholder="01" min="1" max="10" aria-label="Número de adultos">
+                            <input type="number" class="form-control border-0" id="adultos" name="adultos"
+                                placeholder="01" min="1" max="10" aria-label="Número de adultos">
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-4 col-6">
                         <div class="bg-white p-3 rounded shadow-sm text-dark">
                             <label for="ninos" class="d-block mb-2 fw-bold small">NIÑOS</label>
-                            <input type="number" class="form-control border-0" id="ninos" name="ninos" placeholder="00" min="0" max="10" aria-label="Número de niños">
+                            <input type="number" class="form-control border-0" id="ninos" name="ninos" placeholder="00"
+                                min="0" max="10" aria-label="Número de niños">
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-4 col-12">
-                        <button type="button" class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center"
+                        <button type="button"
+                            class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center"
                             onclick="buscarDisponibilidad()" aria-label="Buscar disponibilidad de reserva">
                             <span class="me-2">BUSCAR</span>
                             <i class="fas fa-search" aria-hidden="true"></i>
@@ -85,8 +93,8 @@
                     <div class="card border-0 shadow h-100">
                         <div class="row g-0">
                             <div class="col-md-5">
-                                <img src="../imagenes/duplex1.png" alt="Habitación Deluxe con cama King size" 
-                                     class="img-fluid h-100 w-100 object-fit-cover rounded-start">
+                                <img src="../imagenes/duplex1.png" alt="Habitación Deluxe con cama King size"
+                                    class="img-fluid h-100 w-100 object-fit-cover rounded-start">
                             </div>
                             <div class="col-md-7">
                                 <div class="card-body h-100 d-flex flex-column">
@@ -98,7 +106,7 @@
                                         <i class="fas fa-star text-warning"></i>
                                         <i class="fas fa-star text-warning"></i>
                                     </div>
-                                    
+
                                     <!-- Amenidades -->
                                     <div class="row g-2 mb-3 flex-grow-1">
                                         <div class="col-6">
@@ -133,9 +141,9 @@
 
                                     <div class="mt-auto">
                                         <h5 class="text-primary mb-3 text-center">S/800 / Noche</h5>
-                                        <button type="button" class="btn btn-primary w-100" 
-                                                onclick="mostrarDetallesHabitacion('deluxe-king')"
-                                                aria-label="Ver detalles de habitación Deluxe King">
+                                        <button type="button" class="btn btn-primary w-100"
+                                            onclick="mostrarDetallesHabitacion('deluxe-king')"
+                                            aria-label="Ver detalles de habitación Deluxe King">
                                             <span>Ver Detalles y Reservar</span>
                                             <i class="fas fa-arrow-circle-right ms-2"></i>
                                         </button>
@@ -151,8 +159,8 @@
                     <div class="card border-0 shadow h-100">
                         <div class="row g-0">
                             <div class="col-md-5">
-                                <img src="../imagenes/duplex2.png" alt="Habitación Deluxe Matrimonial" 
-                                     class="img-fluid h-100 w-100 object-fit-cover rounded-start">
+                                <img src="../imagenes/duplex2.png" alt="Habitación Deluxe Matrimonial"
+                                    class="img-fluid h-100 w-100 object-fit-cover rounded-start">
                             </div>
                             <div class="col-md-7">
                                 <div class="card-body h-100 d-flex flex-column">
@@ -164,7 +172,7 @@
                                         <i class="fas fa-star text-warning"></i>
                                         <i class="fas fa-star text-warning"></i>
                                     </div>
-                                    
+
                                     <!-- Amenidades -->
                                     <div class="row g-2 mb-3 flex-grow-1">
                                         <div class="col-6">
@@ -199,9 +207,9 @@
 
                                     <div class="mt-auto">
                                         <h5 class="text-primary mb-3 text-center">S/622 / Noche</h5>
-                                        <button type="button" class="btn btn-primary w-100" 
-                                                onclick="mostrarDetallesHabitacion('deluxe-matrimonial')"
-                                                aria-label="Ver detalles de habitación Deluxe Matrimonial">
+                                        <button type="button" class="btn btn-primary w-100"
+                                            onclick="mostrarDetallesHabitacion('deluxe-matrimonial')"
+                                            aria-label="Ver detalles de habitación Deluxe Matrimonial">
                                             <span>Ver Detalles y Reservar</span>
                                             <i class="fas fa-arrow-circle-right ms-2"></i>
                                         </button>
@@ -217,8 +225,8 @@
                     <div class="card border-0 shadow h-100">
                         <div class="row g-0">
                             <div class="col-md-5">
-                                <img src="../imagenes/Habitacion4.png" alt="Suite Presidential de lujo" 
-                                     class="img-fluid h-100 w-100 object-fit-cover rounded-start">
+                                <img src="../imagenes/Habitacion4.png" alt="Suite Presidential de lujo"
+                                    class="img-fluid h-100 w-100 object-fit-cover rounded-start">
                             </div>
                             <div class="col-md-7">
                                 <div class="card-body h-100 d-flex flex-column">
@@ -231,7 +239,7 @@
                                         <i class="fas fa-star text-warning"></i>
                                         <span class="badge bg-warning text-dark ms-2">PREMIUM</span>
                                     </div>
-                                    
+
                                     <!-- Amenidades -->
                                     <div class="row g-2 mb-3 flex-grow-1">
                                         <div class="col-6">
@@ -266,9 +274,9 @@
 
                                     <div class="mt-auto">
                                         <h5 class="text-primary mb-3 text-center">S/1,450 / Noche</h5>
-                                        <button type="button" class="btn btn-primary w-100" 
-                                                onclick="mostrarDetallesHabitacion('suite-presidential')"
-                                                aria-label="Ver detalles de Suite Presidential">
+                                        <button type="button" class="btn btn-primary w-100"
+                                            onclick="mostrarDetallesHabitacion('suite-presidential')"
+                                            aria-label="Ver detalles de Suite Presidential">
                                             <span>Ver Detalles y Reservar</span>
                                             <i class="fas fa-arrow-circle-right ms-2"></i>
                                         </button>
@@ -284,8 +292,9 @@
                     <div class="card border-0 shadow h-100">
                         <div class="row g-0">
                             <div class="col-md-5">
-                                <img src="../imagenes/aranwa-cusco-habitaciones-01.png" alt="Habitación Estándar confortable" 
-                                     class="img-fluid h-100 w-100 object-fit-cover rounded-start">
+                                <img src="../imagenes/aranwa-cusco-habitaciones-01.png"
+                                    alt="Habitación Estándar confortable"
+                                    class="img-fluid h-100 w-100 object-fit-cover rounded-start">
                             </div>
                             <div class="col-md-7">
                                 <div class="card-body h-100 d-flex flex-column">
@@ -298,7 +307,7 @@
                                         <i class="fas fa-star text-secondary"></i>
                                         <span class="badge bg-success text-white ms-2">POPULAR</span>
                                     </div>
-                                    
+
                                     <!-- Amenidades -->
                                     <div class="row g-2 mb-3 flex-grow-1">
                                         <div class="col-6">
@@ -333,9 +342,9 @@
 
                                     <div class="mt-auto">
                                         <h5 class="text-primary mb-3 text-center">S/420 / Noche</h5>
-                                        <button type="button" class="btn btn-primary w-100" 
-                                                onclick="mostrarDetallesHabitacion('estandar')"
-                                                aria-label="Ver detalles de Habitación Estándar">
+                                        <button type="button" class="btn btn-primary w-100"
+                                            onclick="mostrarDetallesHabitacion('estandar')"
+                                            aria-label="Ver detalles de Habitación Estándar">
                                             <span>Ver Detalles y Reservar</span>
                                             <i class="fas fa-arrow-circle-right ms-2"></i>
                                         </button>
@@ -361,24 +370,28 @@
                 <!-- Servicio de Spa -->
                 <div class="col-lg-4">
                     <div class="card border-0 shadow-sm h-100">
-                        <img src="../imagenes/aranwa-paracas-spa.png" alt="Spa y Bienestar en Eden" class="card-img-top">
+                        <img src="../imagenes/aranwa-paracas-spa.png" alt="Spa y Bienestar en Eden"
+                            class="card-img-top">
                         <div class="card-body d-flex flex-column">
                             <div class="d-flex align-items-center mb-3">
                                 <i class="fas fa-spa fa-2x text-success me-3"></i>
                                 <h4 class="card-title text-primary mb-0">Spa & Bienestar</h4>
                             </div>
-                            <p class="card-text flex-grow-1">Disfruta de tratamientos relajantes, masajes terapéuticos y circuitos de aguas termales en un ambiente de total tranquilidad.</p>
-                            
+                            <p class="card-text flex-grow-1">Disfruta de tratamientos relajantes, masajes terapéuticos y
+                                circuitos de aguas termales en un ambiente de total tranquilidad.</p>
+
                             <div class="mb-3">
                                 <h6 class="text-muted">Servicios incluidos:</h6>
                                 <ul class="list-unstyled">
-                                    <li><i class="fas fa-check text-success me-2"></i>Masajes relajantes y terapéuticos</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Masajes relajantes y terapéuticos
+                                    </li>
                                     <li><i class="fas fa-check text-success me-2"></i>Circuito de aguas termales</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Tratamientos faciales y corporales</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Tratamientos faciales y corporales
+                                    </li>
                                     <li><i class="fas fa-check text-success me-2"></i>Yoga y meditación</li>
                                 </ul>
                             </div>
-                            
+
                             <div class="mt-auto">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <span class="text-primary fw-bold">Desde S/180</span>
@@ -395,30 +408,36 @@
                 <!-- Servicio de Bodas -->
                 <div class="col-lg-4">
                     <div class="card border-0 shadow-sm h-100">
-                        <img src="../imagenes/aranwa-sacred-valley-bodas.png" alt="Bodas en Eden Resort" class="card-img-top">
+                        <img src="../imagenes/aranwa-sacred-valley-bodas.png" alt="Bodas en Eden Resort"
+                            class="card-img-top">
                         <div class="card-body d-flex flex-column">
                             <div class="d-flex align-items-center mb-3">
                                 <i class="fas fa-heart fa-2x text-danger me-3"></i>
                                 <h4 class="card-title text-primary mb-0">Bodas & Matrimonios</h4>
                             </div>
-                            <p class="card-text flex-grow-1">Celebra el día más importante de tu vida en destinos únicos con paquetes completos que incluyen todo lo necesario.</p>
-                            
+                            <p class="card-text flex-grow-1">Celebra el día más importante de tu vida en destinos únicos
+                                con paquetes completos que incluyen todo lo necesario.</p>
+
                             <div class="mb-3">
                                 <h6 class="text-muted">Paquetes disponibles:</h6>
                                 <ul class="list-unstyled">
-                                    <li><i class="fas fa-check text-success me-2"></i>Ceremonia Íntima (hasta 30 invitados)</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Celebración Elegante (hasta 80 invitados)</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Boda de Lujo (hasta 150 invitados)</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Ceremonia Íntima (hasta 30
+                                        invitados)</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Celebración Elegante (hasta 80
+                                        invitados)</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Boda de Lujo (hasta 150 invitados)
+                                    </li>
                                     <li><i class="fas fa-check text-success me-2"></i>Wedding planner incluido</li>
                                 </ul>
                             </div>
-                            
+
                             <div class="mt-auto">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <span class="text-primary fw-bold">Desde S/8,500</span>
                                     <small class="text-muted">paquete completo</small>
                                 </div>
-                                <button type="button" class="btn btn-outline-danger w-100" onclick="reservarServicio('bodas')">
+                                <button type="button" class="btn btn-outline-danger w-100"
+                                    onclick="reservarServicio('bodas')">
                                     <i class="fas fa-heart me-2"></i>Cotizar Boda
                                 </button>
                             </div>
@@ -429,30 +448,35 @@
                 <!-- Servicio de Eventos -->
                 <div class="col-lg-4">
                     <div class="card border-0 shadow-sm h-100">
-                        <img src="../imagenes/aranwa-cusco-eventos-01.png" alt="Eventos corporativos en Eden" class="card-img-top">
+                        <img src="../imagenes/aranwa-cusco-eventos-01.png" alt="Eventos corporativos en Eden"
+                            class="card-img-top">
                         <div class="card-body d-flex flex-column">
                             <div class="d-flex align-items-center mb-3">
                                 <i class="fas fa-calendar-alt fa-2x text-warning me-3"></i>
                                 <h4 class="card-title text-primary mb-0">Eventos Corporativos</h4>
                             </div>
-                            <p class="card-text flex-grow-1">Organiza conferencias, seminarios, celebraciones corporativas y eventos especiales en nuestros espacios únicos.</p>
-                            
+                            <p class="card-text flex-grow-1">Organiza conferencias, seminarios, celebraciones
+                                corporativas y eventos especiales en nuestros espacios únicos.</p>
+
                             <div class="mb-3">
                                 <h6 class="text-muted">Servicios incluidos:</h6>
                                 <ul class="list-unstyled">
-                                    <li><i class="fas fa-check text-success me-2"></i>Salones equipados con tecnología</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Servicio de catering personalizado</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Salones equipados con tecnología
+                                    </li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Servicio de catering personalizado
+                                    </li>
                                     <li><i class="fas fa-check text-success me-2"></i>Coordinador de eventos</li>
                                     <li><i class="fas fa-check text-success me-2"></i>Actividades de team building</li>
                                 </ul>
                             </div>
-                            
+
                             <div class="mt-auto">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <span class="text-primary fw-bold">Desde S/2,800</span>
                                     <small class="text-muted">por evento</small>
                                 </div>
-                                <button type="button" class="btn btn-outline-warning w-100" onclick="reservarServicio('eventos')">
+                                <button type="button" class="btn btn-outline-warning w-100"
+                                    onclick="reservarServicio('eventos')">
                                     <i class="fas fa-calendar-alt me-2"></i>Cotizar Evento
                                 </button>
                             </div>
@@ -479,7 +503,8 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label for="nombreCompleto" class="form-label">Nombre Completo *</label>
-                                        <input type="text" class="form-control form-control-lg" id="nombreCompleto" required>
+                                        <input type="text" class="form-control form-control-lg" id="nombreCompleto"
+                                            required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="email" class="form-label">Correo Electrónico *</label>
@@ -507,26 +532,30 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="huespedes" class="form-label">Número de Huéspedes</label>
-                                        <input type="number" class="form-control form-control-lg" id="huespedes" min="1" max="200">
+                                        <input type="number" class="form-control form-control-lg" id="huespedes" min="1"
+                                            max="200">
                                     </div>
                                     <div class="col-12">
                                         <label for="serviciosInteres" class="form-label">Servicios de Interés</label>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="spaServicio" value="spa">
+                                                    <input class="form-check-input" type="checkbox" id="spaServicio"
+                                                        value="spa">
                                                     <label class="form-check-label" for="spaServicio">
                                                         Servicios de Spa y Bienestar
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="restaurante" value="restaurante">
+                                                    <input class="form-check-input" type="checkbox" id="restaurante"
+                                                        value="restaurante">
                                                     <label class="form-check-label" for="restaurante">
                                                         Reservas en Restaurante
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="transporte" value="transporte">
+                                                    <input class="form-check-input" type="checkbox" id="transporte"
+                                                        value="transporte">
                                                     <label class="form-check-label" for="transporte">
                                                         Transporte desde el aeropuerto
                                                     </label>
@@ -534,19 +563,22 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="tours" value="tours">
+                                                    <input class="form-check-input" type="checkbox" id="tours"
+                                                        value="tours">
                                                     <label class="form-check-label" for="tours">
                                                         Tours y Excursiones
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="eventos" value="eventos">
+                                                    <input class="form-check-input" type="checkbox" id="eventos"
+                                                        value="eventos">
                                                     <label class="form-check-label" for="eventos">
                                                         Organización de Eventos
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="celebracion" value="celebracion">
+                                                    <input class="form-check-input" type="checkbox" id="celebracion"
+                                                        value="celebracion">
                                                     <label class="form-check-label" for="celebracion">
                                                         Celebraciones Especiales
                                                     </label>
@@ -555,8 +587,10 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <label for="comentarios" class="form-label">Comentarios o Solicitudes Especiales</label>
-                                        <textarea class="form-control" id="comentarios" rows="4" placeholder="Cuéntanos sobre tu viaje ideal, preferencias alimenticias, ocasiones especiales, o cualquier solicitud particular..."></textarea>
+                                        <label for="comentarios" class="form-label">Comentarios o Solicitudes
+                                            Especiales</label>
+                                        <textarea class="form-control" id="comentarios" rows="4"
+                                            placeholder="Cuéntanos sobre tu viaje ideal, preferencias alimenticias, ocasiones especiales, o cualquier solicitud particular..."></textarea>
                                     </div>
                                 </div>
 
@@ -586,38 +620,38 @@
             const fechaSalida = document.getElementById('fechaSalida').value;
             const adultos = document.getElementById('adultos').value || 1;
             const ninos = document.getElementById('ninos').value || 0;
-            
+
             // Validaciones básicas
             if (!fechaLlegada || !fechaSalida) {
                 alert('Por favor, selecciona las fechas de llegada y salida.');
                 return;
             }
-            
+
             const llegada = new Date(fechaLlegada);
             const salida = new Date(fechaSalida);
             const hoy = new Date();
             hoy.setHours(0, 0, 0, 0);
-            
+
             if (llegada < hoy) {
                 alert('La fecha de llegada debe ser hoy o posterior.');
                 return;
             }
-            
+
             if (salida <= llegada) {
                 alert('La fecha de salida debe ser posterior a la fecha de llegada.');
                 return;
             }
-            
+
             // Calcular noches
             const noches = Math.ceil((salida - llegada) / (1000 * 60 * 60 * 24));
-            
+
             alert(`🔍 BÚSQUEDA COMPLETADA\n\n` +
-                  `📅 Llegada: ${fechaLlegada}\n` +
-                  `📅 Salida: ${fechaSalida}\n` +
-                  `🌙 ${noches} noche(s)\n` +
-                  `👥 ${adultos} adulto(s), ${ninos} niño(s)\n\n` +
-                  `✅ Habitaciones disponibles mostradas abajo\n` +
-                  `💡 Selecciona la habitación de tu preferencia`);
+                `📅 Llegada: ${fechaLlegada}\n` +
+                `📅 Salida: ${fechaSalida}\n` +
+                `🌙 ${noches} noche(s)\n` +
+                `👥 ${adultos} adulto(s), ${ninos} niño(s)\n\n` +
+                `✅ Habitaciones disponibles mostradas abajo\n` +
+                `💡 Selecciona la habitación de tu preferencia`);
         }
 
         // Función para mostrar detalles de habitación
@@ -652,7 +686,7 @@
             const habitacion = habitaciones[tipo];
             if (habitacion) {
                 const amenidadesTexto = habitacion.amenidades.map(a => `• ${a}`).join('\n');
-                
+
                 const confirmar = confirm(
                     `🏨 ${habitacion.nombre}\n\n` +
                     `${habitacion.descripcion}\n\n` +
@@ -663,10 +697,10 @@
 
                 if (confirmar) {
                     alert(`✅ RESERVA INICIADA\n\n` +
-                          `Habitación: ${habitacion.nombre}\n` +
-                          `Precio: S/${habitacion.precio}/noche\n\n` +
-                          `📞 Nuestro equipo de reservas se contactará contigo para confirmar los detalles.\n\n` +
-                          `📧 También puedes llamarnos al +51 912345678`);
+                        `Habitación: ${habitacion.nombre}\n` +
+                        `Precio: S/${habitacion.precio}/noche\n\n` +
+                        `📞 Nuestro equipo de reservas se contactará contigo para confirmar los detalles.\n\n` +
+                        `📧 También puedes llamarnos al +51 912345678`);
                 }
             }
         }
@@ -694,16 +728,16 @@
             const servicioData = servicios[servicio];
             if (servicioData) {
                 alert(`🎯 SERVICIO SELECCIONADO\n\n` +
-                      `${servicioData.nombre}\n` +
-                      `${servicioData.descripcion}\n\n` +
-                      `💰 ${servicioData.precio}\n\n` +
-                      `📞 Te contactaremos para coordinar los detalles\n` +
-                      `📧 O escríbenos a: reservas@edenresorts.com`);
+                    `${servicioData.nombre}\n` +
+                    `${servicioData.descripcion}\n\n` +
+                    `💰 ${servicioData.precio}\n\n` +
+                    `📞 Te contactaremos para coordinar los detalles\n` +
+                    `📧 O escríbenos a: reservas@edenresorts.com`);
             }
         }
 
         // Formulario de reserva personalizada
-        document.getElementById('reservaPersonalizadaForm').addEventListener('submit', function(e) {
+        document.getElementById('reservaPersonalizadaForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
             const formData = {
@@ -724,34 +758,34 @@
             const tipoTexto = document.getElementById('tipoReserva').options[document.getElementById('tipoReserva').selectedIndex].text;
 
             alert(`📋 SOLICITUD ENVIADA EXITOSAMENTE\n\n` +
-                  `Estimado(a) ${formData.nombre}:\n\n` +
-                  `📋 Tipo de reserva: ${tipoTexto}\n` +
-                  `📅 Fecha preferida: ${formData.fecha || 'Por definir'}\n` +
-                  `👥 Huéspedes: ${formData.huespedes || 'Por definir'}\n\n` +
-                  `📞 Te contactaremos en las próximas 2 horas al ${formData.telefono}\n` +
-                  `📧 Email: ${formData.email}\n\n` +
-                  `✨ ¡Gracias por elegir Eden Resorts!`);
+                `Estimado(a) ${formData.nombre}:\n\n` +
+                `📋 Tipo de reserva: ${tipoTexto}\n` +
+                `📅 Fecha preferida: ${formData.fecha || 'Por definir'}\n` +
+                `👥 Huéspedes: ${formData.huespedes || 'Por definir'}\n\n` +
+                `📞 Te contactaremos en las próximas 2 horas al ${formData.telefono}\n` +
+                `📧 Email: ${formData.email}\n\n` +
+                `✨ ¡Gracias por elegir Eden Resorts!`);
         });
 
         // Inicialización
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Establecer fecha mínima como hoy
             const hoy = new Date().toISOString().split('T')[0];
             const fechaLlegadaInput = document.getElementById('fechaLlegada');
             const fechaSalidaInput = document.getElementById('fechaSalida');
             const fechaPreferidaInput = document.getElementById('fechaPreferida');
-            
+
             if (fechaLlegadaInput) fechaLlegadaInput.min = hoy;
             if (fechaSalidaInput) fechaSalidaInput.min = hoy;
             if (fechaPreferidaInput) fechaPreferidaInput.min = hoy;
-            
+
             // Auto-actualizar fecha de salida cuando cambie la llegada
             if (fechaLlegadaInput && fechaSalidaInput) {
-                fechaLlegadaInput.addEventListener('change', function() {
+                fechaLlegadaInput.addEventListener('change', function () {
                     const fechaLlegada = new Date(this.value);
                     fechaLlegada.setDate(fechaLlegada.getDate() + 1);
                     fechaSalidaInput.min = fechaLlegada.toISOString().split('T')[0];
-                    
+
                     if (fechaSalidaInput.value && new Date(fechaSalidaInput.value) <= new Date(this.value)) {
                         fechaSalidaInput.value = fechaLlegada.toISOString().split('T')[0];
                     }
@@ -770,4 +804,5 @@
         });
     </script>
 </body>
+
 </html>

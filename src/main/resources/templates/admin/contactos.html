@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
     <div class="container-fluid py-4">
         <div class="row">
@@ -14,7 +16,7 @@
                 <h1 class="text-center mb-4">
                     <i class="fas fa-envelope me-2"></i>Panel de Mensajes de Contacto
                 </h1>
-                
+
                 <!-- Estadísticas -->
                 <div class="row mb-4">
                     <div class="col-md-4">
@@ -42,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Lista de mensajes -->
                 <div class="card">
                     <div class="card-header">
@@ -65,33 +67,33 @@
                                     </thead>
                                     <tbody>
                                         <tr th:each="contacto : ${contactos}">
-                                            <td th:text="${#temporals.format(contacto.fechaEnvio, 'dd/MM/yyyy HH:mm')}"></td>
+                                            <td th:text="${#temporals.format(contacto.fechaEnvio, 'dd/MM/yyyy HH:mm')}">
+                                            </td>
                                             <td th:text="${contacto.nombre}"></td>
                                             <td th:text="${contacto.email}"></td>
                                             <td th:text="${contacto.hotel ?: 'No especificado'}"></td>
                                             <td>
-                                                <span th:class="${contacto.estado == 'NUEVO' ? 'badge bg-warning' : 
+                                                <span
+                                                    th:class="${contacto.estado == 'NUEVO' ? 'badge bg-warning' : 
                                                                (contacto.estado == 'LEIDO' ? 'badge bg-info' : 'badge bg-success')}"
-                                                      th:text="${contacto.estado}">
+                                                    th:text="${contacto.estado}">
                                                 </span>
                                             </td>
                                             <td>
-                                                <button class="btn btn-sm btn-outline-primary" 
-                                                        data-bs-toggle="modal" 
-                                                        th:data-bs-target="'#modal' + ${contacto.id}">
+                                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                                    th:data-bs-target="'#modal' + ${contacto.id}">
                                                     Ver mensaje
                                                 </button>
                                             </td>
                                             <td>
                                                 <div class="btn-group btn-group-sm">
-                                                    <button th:if="${contacto.estado == 'NUEVO'}" 
-                                                            class="btn btn-info"
-                                                            th:onclick="'marcarLeido(' + ${contacto.id} + ')'">
+                                                    <button th:if="${contacto.estado == 'NUEVO'}" class="btn btn-info"
+                                                        th:onclick="'marcarLeido(' + ${contacto.id} + ')'">
                                                         Marcar Leído
                                                     </button>
-                                                    <button th:if="${contacto.estado != 'RESPONDIDO'}" 
-                                                            class="btn btn-success"
-                                                            th:onclick="'marcarRespondido(' + ${contacto.id} + ')'">
+                                                    <button th:if="${contacto.estado != 'RESPONDIDO'}"
+                                                        class="btn btn-success"
+                                                        th:onclick="'marcarRespondido(' + ${contacto.id} + ')'">
                                                         Respondido
                                                     </button>
                                                 </div>
@@ -109,7 +111,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Modales para ver mensajes -->
     <div th:each="contacto : ${contactos}">
         <div class="modal fade" th:id="'modal' + ${contacto.id}" tabindex="-1">
@@ -121,9 +123,12 @@
                     </div>
                     <div class="modal-body">
                         <p><strong>Email:</strong> <span th:text="${contacto.email}"></span></p>
-                        <p th:if="${contacto.telefono}"><strong>Teléfono:</strong> <span th:text="${contacto.telefono}"></span></p>
-                        <p th:if="${contacto.hotel}"><strong>Hotel:</strong> <span th:text="${contacto.hotel}"></span></p>
-                        <p><strong>Fecha:</strong> <span th:text="${#temporals.format(contacto.fechaEnvio, 'dd/MM/yyyy HH:mm')}"></span></p>
+                        <p th:if="${contacto.telefono}"><strong>Teléfono:</strong> <span
+                                th:text="${contacto.telefono}"></span></p>
+                        <p th:if="${contacto.hotel}"><strong>Hotel:</strong> <span th:text="${contacto.hotel}"></span>
+                        </p>
+                        <p><strong>Fecha:</strong> <span
+                                th:text="${#temporals.format(contacto.fechaEnvio, 'dd/MM/yyyy HH:mm')}"></span></p>
                         <hr>
                         <p><strong>Mensaje:</strong></p>
                         <p th:text="${contacto.mensaje}" style="white-space: pre-line;"></p>
@@ -136,7 +141,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function marcarLeido(id) {
-            fetch('/contactos/marcar-leido/' + id, {method: 'POST'})
+            fetch('/contactos/marcar-leido/' + id, { method: 'POST' })
                 .then(response => response.text())
                 .then(data => {
                     if (data === 'success') {
@@ -146,9 +151,9 @@
                     }
                 });
         }
-        
+
         function marcarRespondido(id) {
-            fetch('/contactos/marcar-respondido/' + id, {method: 'POST'})
+            fetch('/contactos/marcar-respondido/' + id, { method: 'POST' })
                 .then(response => response.text())
                 .then(data => {
                     if (data === 'success') {
@@ -160,4 +165,5 @@
         }
     </script>
 </body>
+
 </html>
