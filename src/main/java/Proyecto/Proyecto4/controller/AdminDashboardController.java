@@ -1,6 +1,7 @@
 package Proyecto.Proyecto4.controller;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -95,6 +96,133 @@ public class AdminDashboardController {
         }
 
         return "html/admin/usuarios";
+    }
+
+    @GetMapping("/usuarios/{id}/datos")
+    @ResponseBody
+    public ResponseEntity<?> obtenerDatosUsuario(@PathVariable Long id, Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            Optional<Administrador> adminOpt = administradorService.buscarPorEmail(email);
+
+            if (!adminOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Administrador no encontrado"));
+            }
+
+            Optional<Usuario> usuarioOpt = usuarioService.buscarPorId(id);
+            if (!usuarioOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Usuario no encontrado"));
+            }
+
+            Usuario usuario = usuarioOpt.get();
+            DetallesPersona detalles = usuario.getDetallesPersona();
+
+            Map<String, Object> response = Map.of(
+                    "id", usuario.getId(),
+                    "nombre", usuario.getNombre(),
+                    "email", usuario.getEmail(),
+                    "apellidos", detalles != null ? detalles.getApellidos() : "",
+                    "dni", detalles != null ? detalles.getDni() : "",
+                    "telefono", detalles != null ? detalles.getTelefono() : "",
+                    "fechaNacimiento", detalles != null && detalles.getFechaNacimiento() != null ? detalles.getFechaNacimiento().toString() : "",
+                    "intereses", detalles != null ? detalles.getIntereses() : "",
+                    "aceptaMarketing", detalles != null ? detalles.getAceptaMarketing() : false);
+
+            return ResponseEntity.ok().body(response);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Error al obtener datos del usuario: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/usuarios/{id}/editar")
+    @ResponseBody
+    public ResponseEntity<?> editarUsuario(@PathVariable Long id, @RequestBody Map<String, Object> datos, Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            Optional<Administrador> adminOpt = administradorService.buscarPorEmail(email);
+
+            if (!adminOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Administrador no encontrado"));
+            }
+
+            Optional<Usuario> usuarioOpt = usuarioService.buscarPorId(id);
+            if (!usuarioOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Usuario no encontrado"));
+            }
+
+            Usuario usuario = usuarioOpt.get();
+
+            // Actualizar datos básicos del usuario
+            if (datos.containsKey("nombre") && datos.get("nombre") != null) {
+                usuario.setNombre((String) datos.get("nombre"));
+            }
+            if (datos.containsKey("email") && datos.get("email") != null) {
+                String nuevoEmail = (String) datos.get("email");
+                // Verificar si el email ya existe en otro usuario
+                Optional<Usuario> usuarioExistente = usuarioService.buscarPorEmail(nuevoEmail);
+                if (usuarioExistente.isPresent() && !usuarioExistente.get().getId().equals(id)) {
+                    return ResponseEntity.badRequest().body(Map.of("error", "El email ya está registrado por otro usuario"));
+                }
+                usuario.setEmail(nuevoEmail);
+            }
+
+            // Manejar cambio de contraseña
+            if (datos.containsKey("password") && datos.get("password") != null && !((String) datos.get("password")).trim().isEmpty()) {
+                String nuevaPassword = (String) datos.get("password");
+                String confirmarPassword = (String) datos.get("confirmarPassword");
+
+                if (!nuevaPassword.equals(confirmarPassword)) {
+                    return ResponseEntity.badRequest().body(Map.of("error", "Las contraseñas no coinciden"));
+                }
+
+                usuarioService.cambiarPassword(usuario, nuevaPassword);
+            }
+
+            // Actualizar detalles personales
+            DetallesPersona detalles = usuario.getDetallesPersona();
+            if (detalles == null) {
+                detalles = new DetallesPersona();
+                usuario.setDetallesPersona(detalles);
+            }
+
+            if (datos.containsKey("apellidos")) {
+                detalles.setApellidos((String) datos.get("apellidos"));
+            }
+            if (datos.containsKey("dni")) {
+                String nuevoDni = (String) datos.get("dni");
+                if (nuevoDni != null && !nuevoDni.trim().isEmpty()) {
+                    // Verificar si el DNI ya existe en otro usuario
+                    // Nota: Aquí necesitarías un método en el servicio para verificar DNI único
+                    detalles.setDni(nuevoDni);
+                }
+            }
+            if (datos.containsKey("telefono")) {
+                detalles.setTelefono((String) datos.get("telefono"));
+            }
+            if (datos.containsKey("fechaNacimiento")) {
+                String fechaStr = (String) datos.get("fechaNacimiento");
+                if (fechaStr != null && !fechaStr.trim().isEmpty()) {
+                    detalles.setFechaNacimiento(java.sql.Date.valueOf(fechaStr));
+                }
+            }
+            if (datos.containsKey("intereses")) {
+                detalles.setIntereses((String) datos.get("intereses"));
+            }
+            if (datos.containsKey("aceptaMarketing")) {
+                detalles.setAceptaMarketing(Boolean.parseBoolean(datos.get("aceptaMarketing").toString()));
+            }
+
+            // Guardar cambios
+            usuarioService.guardar(usuario);
+
+            return ResponseEntity.ok().body(Map.of(
+                    "message", "Usuario actualizado exitosamente",
+                    "id", usuario.getId()));
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Error al actualizar usuario: " + e.getMessage()));
+        }
     }
 
     @GetMapping("/usuarios/{id}/detalle")
