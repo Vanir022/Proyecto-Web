@@ -106,3 +106,92 @@
         border-top-left-radius: 0.5rem;
         border-top-right-radius: 0.5rem;
     }
+
+    /* ==========================
+       OVERRIDES PARA COLOR VERDE #1B5E20 EN TODOS LOS HTML
+    =========================== */
+
+    .btn {
+        background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
+        border-color: #1B5E20 !important;
+        color: white !important;
+    }
+
+    .btn:hover {
+        background: linear-gradient(135deg, #0F4A17, #1B5E20) !important;
+        border-color: #0F4A17 !important;
+        color: white !important;
+    }
+
+    .btn-primary {
+        background-color: #1B5E20 !important;
+        border-color: #1B5E20 !important;
+    }
+
+    .btn-primary:hover {
+        background-color: #0F4A17 !important;
+        border-color: #0F4A17 !important;
+    }
+
+    .text-primary {
+        color: #1B5E20 !important;
+    }
+
+    /* Overrides para fondos celestes/azules en páginas específicas */
+    .card-header.bg-primary {
+        background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
+    }
+
+    .bg-primary {
+        background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
+    }
+
+    .bg-light {
+        background-color: #f8f9fa !important;
+    }
+
+    /* Overrides para clases de colores Bootstrap que podrían ser celestes */
+    .bg-info {
+        background-color: #1B5E20 !important;
+    }
+
+    .bg-success {
+        background-color: #0F4A17 !important;
+    }
+
+    .bg-warning {
+        background-color: #1B5E20 !important;
+    }
+
+    .bg-danger {
+        background-color: #1B5E20 !important;
+    }
+
+    /* Overrides para badges */
+    .badge.bg-info {
+        background-color: #1B5E20 !important;
+    }
+
+    .badge.bg-success {
+        background-color: #0F4A17 !important;
+    }
+
+    .badge.bg-warning {
+        background-color: #1B5E20 !important;
+    }
+
+    .badge.bg-danger {
+        background-color: #1B5E20 !important;
+    }
+
+    /* Footer styles to remove white spaces */
+    footer {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    footer .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+    }

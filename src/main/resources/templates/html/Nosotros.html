@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nosotros - EDEN RESORTS</title>
-      <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-      <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/styleNosotros.css}">
 </head>
 
 <body>
     <!-- Header -->
-    <div th:replace="~{fragments/Header :: header}"></div>
+    <div th:replace="fragments/Header :: header"></div>
 
-    <!-- Hero -->
-    <section class="d-flex align-items-center justify-content-center text-white text-center"
-        style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/42980148.jpg?k=4a7dc0f63d2989d1d8609b7fda9d9b9752769e43aea542ea5b0b81b3dd562966&o=&hp=1') center/cover no-repeat; min-height: 60vh; margin-top: 56px;">
-        <div class="container">
-            <h1 class="display-4 fw-bold">DONDE TUS RECUERDOS COMIENZAN</h1>
-            <p class="lead">Descubre el lugar donde divertirte y disfrutar mucho</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>NUESTRA HISTORIA</h1>
+            <p>Descubre la esencia de Eden Resorts: donde la tradición peruana se encuentra con el lujo moderno</p>
+            <a href="reservas.html" class="btn">Conoce Nuestros Hoteles</a>
         </div>
     </section>
 
-    <!-- Nosotros -->
-    <section class="py-5">
-        <div class="container text-center">
-            <h2 class="text-primary mb-4">Nosotros</h2>
-            <div class="card border-0 shadow-sm mx-auto" style="max-width: 900px;">
-                <div class="card-body p-4 text-start">
-                    <p class="lead" style="text-align: justify;">Eden Resort Resorts & Spas es una colección de
+    <!-- Sobre Nosotros -->
+    <section class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Sobre Nosotros</h2>
+                    <p>Eden Resort Resorts & Spas es una colección de
                         hoteles que ofrece la más atractiva
                         guía de
                         destinos en el Perú. Siendo la combinación perfecta de cultura y bienestar, así como de las
@@ -42,109 +46,181 @@
                         uno de
                         nuestros hoteles.</p>
 
-                    <p class="lead" style="text-align: justify;">«Eden» en quechua significa «leyenda». Una palabra
+                    <p>«Eden» en quechua significa «leyenda». Una palabra
                         que captura la historia y el mito, el
                         encanto y el
                         misterio, la belleza de lo natural y la sofisticación de la modernidad, todas estas sensaciones
                         que nuestros
                         huéspedes pueden experimentar de manera única en nuestros hoteles.</p>
 
-                    <p class="lead" style="text-align: justify;">En octubre de 2008 se inauguró el primer hotel, Eden
+                    <p>En octubre de 2008 se inauguró el primer hotel, Eden
                         Sacred Valley Hotel & Wellness, ubicado en
                         el Valle
                         de Urubamba. Este hotel ha sido construido en una hacienda colonial del siglo XVII restaurada, y
                         cuenta con
                         uno de los Spas más grandes de Sudamérica con 2500m².</p>
 
-                    <p class="lead fw-bold" style="text-align: justify;">Actualmente, ofrecemos cinco destinos dentro
+                    <p>Actualmente, ofrecemos cinco destinos dentro
                         del Perú: Cusco, Valle Sagrado, Colca, Paracas y
                         Vichayito.</p>
+                    <a href="reservas.html" class="btn">Reservar Ahora</a>
+                </div>
+                <div class="about-image">
+                    <div class="carousel">
+                        <input type="radio" name="carousel" id="slide1" checked>
+                        <input type="radio" name="carousel" id="slide2">
+                        <input type="radio" name="carousel" id="slide3">
+                        <img src="../imagenes/FontAranwa.png" alt="Imagen 1" class="carousel-image">
+                        <img src="../imagenes/FontAranwa2.png" alt="Imagen 2" class="carousel-image">
+                        <img src="../imagenes/aranwa-paracas.png" alt="Imagen 3" class="carousel-image">
+                        <button class="carousel-btn prev" onclick="changeSlide(-1)">
+                            &#8592;
+                        </button>
+                        <button class="carousel-btn next" onclick="changeSlide(1)">
+                            &#8594;
+                        </button>
+                        <div class="carousel-indicators">
+                            <label for="slide1" class="indicator"></label>
+                            <label for="slide2" class="indicator"></label>
+                            <label for="slide3" class="indicator"></label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Misión y Visión -->
-    <section class="py-5 bg-light">
+    <section class="mission-vision">
         <div class="container">
-            <div class="row g-4 justify-content-center align-items-center">
-                <div class="col-lg-8">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body p-4">
-                            <h2 class="text-primary mb-4 text-center">Misión</h2>
-                            <p class="lead text-center">Proveer servicios de hotelería y turismo de la más alta calidad,
-                                así como tratamientos de
-                                spa
-                                exclusivos y adecuados al destino, en armonía con el medio ambiente y la cultura.</p>
-
-                            <h2 class="text-primary mb-4 text-center">Visión</h2>
-                            <p class="lead text-center">Posicionarse como la marca líder en servicios de hotel y spa en
-                                el Perú.</p>
-
-                            <h2 class="text-primary mb-4 text-center">Principios</h2>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item lead">✔ Servicio amable que supera expectativas.</li>
-                                <li class="list-group-item lead">✔ Responsabilidad con huéspedes, trabajadores y medio
-                                    ambiente.</li>
-                                <li class="list-group-item lead">✔ Promoción de la salud a través del spa.</li>
-                                <li class="list-group-item lead">✔ Revaloración de la cultura de nuestros antepasados.
-                                </li>
-                                <li class="list-group-item lead">✔ Personalización de la experiencia de cada huésped.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="mission-vision-content">
+                <div class="mission">
+                    <h2>Misión</h2>
+                    <p>En Eden Resorts & Spas, nuestra misión es proporcionar una experiencia excepcional de hotelería y
+                        turismo, combinando la más alta calidad en servicios con tratamientos de spa exclusivos y
+                        personalizados para cada destino. Nos comprometemos a operar en perfecta armonía con el medio
+                        ambiente y la rica cultura peruana, ofreciendo a nuestros huéspedes momentos inolvidables que
+                        celebran la autenticidad y la sostenibilidad.</p>
                 </div>
-                <div class="col-lg-4 text-center">
-                    <img src="../imagenes/FontAranwa.png" alt="Imagen Misión" class="img-fluid rounded shadow mb-3">
-                    <img src="../imagenes/FontAranwa2.png" alt="Imagen Visión" class="img-fluid rounded shadow">
+                <div class="vision">
+                    <h2>Visión</h2>
+                    <p>Ser reconocidos como la marca líder en servicios de hotel y spa en el Perú y Latinoamérica,
+                        destacándonos por nuestra innovación, compromiso con la excelencia y capacidad para crear
+                        conexiones profundas con nuestros huéspedes. Aspiramos a ser el referente en experiencias de
+                        bienestar que integran cultura, naturaleza y lujo moderno. Nos enfocamos en brindar experiencias
+                        que transformen positivamente la vida de nuestros visitantes.</p>
+                </div>
+                <div class="principles">
+                    <h2>Principios</h2>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="checkmark">✔</div>
+                            <div class="principle-text">Servicio amable que supera expectativas.</div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="checkmark">✔</div>
+                            <div class="principle-text">Responsabilidad con huéspedes, trabajadores y medio ambiente.
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="checkmark">✔</div>
+                            <div class="principle-text">Promoción de la salud a través del spa.</div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="checkmark">✔</div>
+                            <div class="principle-text">Revaloración de la cultura de nuestros antepasados.</div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="checkmark">✔</div>
+                            <div class="principle-text">Personalización de la experiencia de cada huésped.</div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Salud y Bienestar -->
-    <section class="py-5">
+    <section class="health-wellness">
         <div class="container">
-            <div class="row g-4 justify-content-center">
-                <div class="col-lg-10">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body p-4">
-                            <h2 class="text-primary mb-4 text-center">Salud y Bienestar</h2>
-                            <p class="lead" style="text-align: justify;">
-                                Eden Resorts & Spas pertenece al Grupo San Pablo, la red más grande de salud
-                                privada del Perú. Con médicos especializados, equipos de última generación y modernas
-                                instalaciones,
-                                ofrece un servicio único que combina descanso, salud y bienestar.
-                            </p>
-
-                            <p class="lead" style="text-align: justify;">
-                                Eden Sacred Valley Hotel & Wellness cuenta con la primera cámara hiperbárica en un
-                                hotel en Sudamérica, ofreciendo tratamientos de oxigenación, recuperación y programas
-                                personalizados de
-                                belleza, control de peso y salud cardiovascular.
-                            </p>
-                        </div>
-                    </div>
+            <div class="health-card">
+                <h2>Salud y Bienestar</h2>
+                <p>
+                    Eden Resorts & Spas pertenece al Grupo San Pablo, la red más grande de salud privada del Perú. Con
+                    médicos especializados, equipos de última generación y modernas instalaciones, ofrece un servicio
+                    único que combina descanso, salud y bienestar.
+                </p>
+                <p>
+                    Eden Sacred Valley Hotel & Wellness cuenta con la primera cámara hiperbárica en un hotel en
+                    Sudamérica, ofreciendo tratamientos de oxigenación, recuperación y programas personalizados de
+                    belleza, control de peso y salud cardiovascular.
+                </p>
+                <div class="gallery">
+                    <img src="../imagenes/BienestarSalud1.png" alt="Spa" data-bs-toggle="modal"
+                        data-bs-target="#imageModal" onclick="showImage(this.src, this.alt)">
+                    <img src="../imagenes/BienestarSalud2.png" alt="Bienestar" data-bs-toggle="modal"
+                        data-bs-target="#imageModal" onclick="showImage(this.src, this.alt)">
                 </div>
             </div>
-            <div class="row g-4 justify-content-center mt-4">
-                <div class="col-md-6 text-center">
-                    <img src="../imagenes/BienestarSalud1.png" alt="Spa Aranwa" class="img-fluid rounded shadow w-100"
-                        style="height: 300px; object-fit: cover;">
-                </div>
-                <div class="col-md-6 text-center">
-                    <img src="../imagenes/BienestarSalud2.png" alt="Meditación" class="img-fluid rounded shadow w-100"
-                        style="height: 300px; object-fit: cover;">
-                </div>
-            </div>
+        </div>
     </section>
 
     <!-- Footer -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="fragments/footer :: footer"></div>
+
+    <!-- Modal para imágenes -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Imagen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" src="" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Función para cambiar slide
+        function changeSlide(direction) {
+            const radios = document.querySelectorAll('input[name="carousel"]');
+            let current = Array.from(radios).findIndex(radio => radio.checked);
+            current += direction;
+            if (current < 0) current = radios.length - 1;
+            if (current >= radios.length) current = 0;
+            radios[current].checked = true;
+        }
+
+        // Auto-avance del carrusel
+        let autoAdvanceInterval = setInterval(() => {
+            changeSlide(1);
+        }, 3000);
+
+        // Pausar auto-avance al hover
+        const carousel = document.querySelector('.carousel');
+        carousel.addEventListener('mouseenter', () => {
+            clearInterval(autoAdvanceInterval);
+        });
+
+        carousel.addEventListener('mouseleave', () => {
+            autoAdvanceInterval = setInterval(() => {
+                changeSlide(1);
+            }, 3000);
+        });
+
+        // Función para mostrar imagen en modal
+        function showImage(src, alt) {
+            document.getElementById('modalImage').src = src;
+            document.getElementById('modalImage').alt = alt;
+            document.getElementById('imageModalLabel').textContent = alt;
+        }
+    </script>
 </body>
 
 </html>

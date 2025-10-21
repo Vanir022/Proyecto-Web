@@ -5,15 +5,17 @@
   <!-- #1: Metadatos básicos mejor        <img src="imagenes/eden-paracas.png" alt="Vista exterior del hotel Eden Paracas Resort con arquitectura moderna frente al mar" class="img-fluid rounded shadow">dos -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Eden Resorts - Hoteles de lujo en Perú. Descubre experiencias únicas en Cusco, Paracas, Valle Sagrado y Arequipa. Reserva tu estadía inolvidable.">
-  <meta name="keywords" content="hoteles Peru, Eden Resorts, hoteles lujo, Cusco, Paracas, Valle Sagrado, Arequipa, spa, turismo Peru">
+  <meta name="description"
+    content="Eden Resorts - Hoteles de lujo en Perú. Descubre experiencias únicas en Cusco, Paracas, Valle Sagrado y Arequipa. Reserva tu estadía inolvidable.">
+  <meta name="keywords"
+    content="hoteles Peru, Eden Resorts, hoteles lujo, Cusco, Paracas, Valle Sagrado, Arequipa, spa, turismo Peru">
   <meta name="author" content="Eden Resorts Resorts & Spa">
-  
+
   <!-- #2: Open Graph para redes sociales -->
   <meta property="og:title" content="Eden Resorts - Donde tus recuerdos comienzan">
   <meta property="og:description" content="Hoteles de lujo en los destinos más emblemáticos del Perú">
   <meta property="og:type" content="website">
-  
+
   <title>EDEN RESORTS - Resort de Lujo en Perú</title>
   <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
@@ -25,13 +27,15 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
   <link rel="stylesheet" th:href="@{/css/styleIndex.css}">
 
 </head>
+
 <body>
   <!-- Header -->
-  <div th:replace="~{fragments/Header :: header}"></div>
+  <div th:replace="fragments/Header :: header"></div>
 
 
   <!-- Hero estructurado -->
@@ -46,9 +50,10 @@
       <div class="text-center mb-4">
         <a th:href="@{/reservas}" class="btn btn-primary btn-lg">Reservar Aquí</a>
       </div>
-            <!-- Crea un boton para q me redirija a Login-->
+      <!-- Crea un boton para q me redirija a Login-->
       <div class="text-center mb-4">
-        <a th:href="@{/auth/login}" class="btn btn-group btn-lg text-light">Si eres cliente puedes ver tus reservaciones ingresando sesión</a>
+        <a th:href="@{/auth/login}" class="text-light">Si eres cliente puedes ver tus reservaciones
+          ingresando sesión</a>
       </div>
 
       <!--<form class="reservation-form" role="search" aria-label="Formulario de reserva de hotel">
@@ -101,12 +106,14 @@
       <div class="row align-items-center">
         <div class="col-lg-6">
           <h3 class="text-center mb-4" id="hotelName">Eden Resorts & Spa</h3>
-          <p class="lead text-justify" id="hotelDescription">Es una colección de hoteles que ofrece la más atractiva
+          <p class="lead text-justify" id="hotelDescription" style="text-align: justify;">Es una colección de hoteles
+            que ofrece la más atractiva
             guía de destinos en el Perú. La combinación perfecta entre cultura y bienestar. Ubicados en paisajes
             emblemáticos como el Valle Sagrado de los Incas, Cusco, Arequipa y Paracas, cada propiedad está diseñada
             para brindar una experiencia auténtica, en armonía con la historia y la naturaleza del entorno.</p>
           <div class="text-center">
-            <a th:href="@{/nosotros}" class="btn btn-outline-primary btn-lg" role="button" aria-label="Conocer más sobre Eden Resorts">
+            <a th:href="@{/nosotros}" class="btn btn-outline-primary btn-lg" role="button"
+              aria-label="Conocer más sobre Eden Resorts">
               <span class="me-2" id="conocerMas">Conocer más...</span>
               <i class="fas fa-arrow-circle-right" aria-hidden="true"></i>
             </a>
@@ -114,7 +121,9 @@
         </div>
         <div class="col-lg-6">
           <!-- #7: Imagen con mejor alt text descriptivo -->
-          <img src="imagenes/eden-paracas.png" alt="Vista exterior del hotel Eden Paracas Resort con arquitectura moderna frente al mar" class="img-fluid rounded shadow">
+          <img src="imagenes/eden-paracas.png"
+            alt="Vista exterior del hotel Eden Paracas Resort con arquitectura moderna frente al mar"
+            class="img-fluid rounded shadow">
         </div>
       </div>
     </div>
@@ -123,7 +132,8 @@
   <!-- #8: Carrusel de Hoteles corregido - solo un elemento activo -->
   <section class="py-5 bg-light">
     <div class="container">
-      <div id="hotelCarousel" class="carousel slide" data-bs-ride="carousel" role="region" aria-label="Carrusel de Eden">
+      <div id="hotelCarousel" class="carousel slide" data-bs-ride="carousel" role="region"
+        aria-label="Carrusel de Eden">
         <div class="carousel-inner text-center">
 
           <!-- Hotel 1 - ÚNICO ACTIVO -->
@@ -131,7 +141,7 @@
             <div class="p-5 shadow-sm bg-white rounded-4">
               <h5 class="text-primary mb-3">HOTEL</h5>
               <h3 class="fw-bold mb-3">Eden Paracas Resort & Spa</h3>
-              <p class="lead mb-0">
+              <p class="lead mb-0;">
                 La bahía de Paracas, ubicada en Pisco, ofrece una rica historia y diversidad natural. El hotel Eden es
                 un establecimiento moderno ideal para desconectar y disfrutar en familia, en pareja o en grupo, con
                 actividades para niños. Su propuesta incluye amplias instalaciones, una exquisita gastronomía y un
@@ -206,11 +216,13 @@
         </div>
 
         <!-- #9: Botones Flechas con mejor accesibilidad -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#hotelCarousel" data-bs-slide="prev" aria-label="Hotel anterior">
+        <button class="carousel-control-prev" type="button" data-bs-target="#hotelCarousel" data-bs-slide="prev"
+          aria-label="Hotel anterior">
           <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
           <span class="visually-hidden">Retroceder</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#hotelCarousel" data-bs-slide="next" aria-label="Siguiente hotel">
+        <button class="carousel-control-next" type="button" data-bs-target="#hotelCarousel" data-bs-slide="next"
+          aria-label="Siguiente hotel">
           <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
           <span class="visually-hidden">Siguiente</span>
         </button>
@@ -250,26 +262,26 @@
             <i class="far fa-long-arrow-alt-right text-primary"></i>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="service-box card border-0 shadow-sm h-100 p-4 text-center">
-            <i class="far fa-water fa-3x text-primary mb-3"></i>
-            <h3 class="h5" id="outdoorPoolTitle">Piscina al Aire Libre</h3>
-            <p id="outdoorPoolText">Relájate en nuestra piscina rodeada de naturaleza.</p>
-            <i class="far fa-long-arrow-alt-right text-primary"></i>
+        <div class="row g-4 justify-content-center mt-1">
+          <div class="col-lg-4 col-md-6">
+            <div class="service-box card border-0 shadow-sm h-100 p-4 text-center">
+              <i class="far fa-water fa-3x text-primary mb-3"></i>
+              <h3 class="h5" id="outdoorPoolTitle">Piscina al Aire Libre</h3>
+              <p id="outdoorPoolText">Relájate en nuestra piscina rodeada de naturaleza.</p>
+              <i class="far fa-long-arrow-alt-right text-primary"></i>
+            </div>
           </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="service-box card border-0 shadow-sm h-100 p-4 text-center">
-            <i class="fas fa-spa fa-3x text-primary mb-3"></i>
-            <h3 class="h5" id="relaxationCenterTitle">Centro de Relajación</h3>
-            <p id="relaxationCenterText">Un oasis de paz y tranquilidad.</p>
-            <i class="far fa-long-arrow-alt-right text-primary"></i>
+          <div class="col-lg-4 col-md-6">
+            <div class="service-box card border-0 shadow-sm h-100 p-4 text-center">
+              <i class="fas fa-spa fa-3x text-primary mb-3"></i>
+              <h3 class="h5" id="relaxationCenterTitle">Centro de Relajación</h3>
+              <p id="relaxationCenterText">Un oasis de paz y tranquilidad.</p>
+              <i class="far fa-long-arrow-alt-right text-primary"></i>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   </section>
-
   <section class="py-5 bg-light">
     <div class="container">
       <div class="text-center mb-5">
@@ -338,7 +350,9 @@
         </div>
         <div class="col-lg-6">
           <!-- #10: Imagen con mejor descripción alt -->
-          <img src="imagenes/Habitacion4.png" alt="Habitación elegante de Eden Resorts con cama king size, decoración moderna y vista panorámica" class="img-fluid rounded shadow" id="roomImage">
+          <img src="imagenes/Habitacion4.png"
+            alt="Habitación elegante de Eden Resorts con cama king size, decoración moderna y vista panorámica"
+            class="img-fluid rounded shadow" id="roomImage">
         </div>
       </div>
     </div>
@@ -350,433 +364,513 @@
         <h5 class="text-primary mb-3" id="offerTitle">OFERTAS EXCLUSIVAS</h5>
         <h3 class="display-6" id="offerSubtitle">¡Oferta por tiempo limitado, tu momento de ahorrar ha llegado!</h3>
       </div>
-
       <div class="row g-4">
-        <div class="col-lg-6">
-          <div class="card border-0 shadow">
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img src="imagenes/duplex1.png" alt="Habitación Deluxe" class="img-fluid h-100 object-fit-cover">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h4 class="card-title text-center" id="deluxeRoomTitle">Habitación Deluxe, 1 cama King size</h4>
-                  <div class="text-center mb-3">
-                    <i class="fas fa-star text-warning"></i>
-                    <i class="fas fa-star text-warning"></i>
-                    <i class="fas fa-star text-warning"></i>
-                    <i class="fas fa-star text-warning"></i>
-                    <i class="fas fa-star text-warning"></i>
+        <section class="py-5">
+          <div class="container">
+            <div class="text-center mb-5">
+              <h5 class="text-primary mb-3">OFERTAS EXCLUSIVAS</h5>
+              <h2 class="display-5">¡Oferta por tiempo limitado, tu momento de ahorrar ha llegado!</h2>
+            </div>
+
+            <div class="row g-4">
+              <!-- Habitación 1 -->
+              <div class="col-lg-6">
+                <div class="card border-0 shadow">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="imagenes/aranwa-paracas-habitacion.png" alt="Habitación Deluxe"
+                        class="img-fluid h-100 object-fit-cover">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h4 class="card-title text-center">Habitación Deluxe, 1 cama King size</h4>
+                        <div class="text-center mb-3">
+                          <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                          <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                          <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text">Habitaciones elegantes con Smart TV, jacuzzi y todas las comodidades.</p>
+                        <h5 class="text-primary mb-3">S/800 / Noche</h5>
+                        <a href="#" class="btn btn-primary w-100">
+                          Reservar / Ver Disponibilidad
+                          <i class="fas fa-arrow-circle-right ms-2"></i>
+                        </a>
+                      </div>
+                    </div>
                   </div>
-                  <p class="card-text" id="deluxeRoomDescription">Habitaciones elegantes con Smart TV, jacuzzi y todas
-                    las comodidades.</p>
-                  <h5 class="text-primary mb-3" id="roomPrice1">S/800 / Noche</h5>
-                  <!-- #11: Botón mejorado con mejor funcionalidad -->
-                  <a th:href="@{/reservas}" class="btn btn-primary w-100" id="button1" role="button" aria-label="Ir a Reservas - Habitación Deluxe con cama King">
-                    <span id="seeAvailability1">Reservar / Ver Disponibilidad</span>
-                    <i class="fas fa-arrow-circle-right ms-2" aria-hidden="true"></i>
-                  </a>
+                </div>
+              </div>
+
+              <!-- Habitación 2 -->
+              <div class="col-lg-6">
+                <div class="card border-0 shadow">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="imagenes/aranwa-colca-habitacion.png" alt="Habitación Deluxe Matrimonial"
+                        class="img-fluid h-100 object-fit-cover">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h4 class="card-title text-center">Habitación Deluxe Matrimonial</h4>
+                        <div class="text-center mb-3">
+                          <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                          <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                          <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text">Habitaciones con vista al valle del Colca, 40 m2.
+                          Cama matrimonial, Smart TV, jacuzzi y más comodidades.
+                        </p>
+                        <h5 class="text-primary mb-3">S/622 / Noche</h5>
+                        <a href="#" class="btn btn-primary w-100">
+                          Reservar / Ver Disponibilidad
+                          <i class="fas fa-arrow-circle-right ms-2"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Habitación 3 -->
+              <div class="col-lg-6">
+                <div class="card border-0 shadow">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="imagenes/duplex1.png" alt="Suite Presidencial" class="img-fluid h-100 object-fit-cover">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h4 class="card-title text-center">Suite Presidencial</h4>
+                        <div class="text-center mb-3">
+                          <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                          <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                          <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text">Experiencia de lujo con sala privada, bar y vista panorámica al bosque.</p>
+                        <h5 class="text-primary mb-3">S/1500 / Noche</h5>
+                        <a href="#" class="btn btn-primary w-100">
+                          Reservar / Ver Disponibilidad
+                          <i class="fas fa-arrow-circle-right ms-2"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Habitación 4 -->
+              <div class="col-lg-6 mx-auto">
+                <div class="card border-0 shadow">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="imagenes/duplex3.png" alt="Habitación Dúplex Matrimonial"
+                        class="img-fluid h-100 object-fit-cover">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h4 class="card-title text-center">Habitación Dúplex Matrimonial</h4>
+                        <div class="text-center mb-3">
+                          <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                          <i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i>
+                          <i class="fas fa-star text-warning"></i>
+                        </div>
+                        <p class="card-text">Habitación moderna en dos niveles, perfecta para parejas que buscan
+                          privacidad y comodidad.</p>
+                        <h5 class="text-primary mb-3">S/700 / Noche</h5>
+                        <a href="#" class="btn btn-primary w-100">
+                          Reservar / Ver Disponibilidad
+                          <i class="fas fa-arrow-circle-right ms-2"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div class="col-lg-6">
-          <div class="card border-0 shadow">
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img src="imagenes/duplex2.png" alt="Habitacion Duplex Matrimonial"
-                  class="img-fluid h-100 object-fit-cover">
+
+        <section class="py-5 bg-light">
+          <div class="container">
+            <div class="text-center mb-5">
+              <h5 class="text-primary mb-3" id="servicesTitle">SERVICIOS</h5>
+              <h3 class="display-6" id="servicesSubtitle">Todo lo que necesitas a un click</h3>
+            </div>
+
+            <div class="row align-items-center">
+              <div class="col-lg-6">
+                <!-- #13: Imagen de servicios con mejor descripción -->
+                <img src="imagenes/restauranteAranwa.png"
+                  alt="Restaurante elegante de Eden Resort con ambiente acogedor, decoración peruana contemporánea y servicio gourmet"
+                  class="img-fluid rounded shadow" id="servicesImage">
               </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h4 class="card-title text-center" id="deluxeMatrimonialRoomTitle">Habitación Deluxe Matrimonial</h4>
-                  <div class="text-center mb-3">
-                    <i class="fas fa-star text-warning"></i>
-                    <i class="fas fa-star text-warning"></i>
-                    <i class="fas fa-star text-warning"></i>
-                    <i class="fas fa-star text-warning"></i>
-                    <i class="fas fa-star text-warning"></i>
+              <div class="col-lg-6">
+                <ul class="list-unstyled">
+                  <li class="mb-3"><i class="fas fa-check-circle text-primary me-3"></i><span
+                      id="luxuryAccommodation">Alojamiento de Lujo</span></li>
+                  <li class="mb-3"><i class="fas fa-check-circle text-primary me-3"></i><span id="spaAndWellness">Spa y
+                      Bienestar</span></li>
+                  <li class="mb-3"><i class="fas fa-check-circle text-primary me-3"></i><span
+                      id="restaurantsAndGastronomy">Restaurantes y Gastronomía</span></li>
+                  <li class="mb-3"><i class="fas fa-check-circle text-primary me-3"></i><span
+                      id="eventHallsAndWeddings">Salones de Eventos y Bodas</span></li>
+                  <li class="mb-3"><i class="fas fa-check-circle text-primary me-3"></i><span
+                      id="culturalToursAndActivities">Tours y Actividades Culturales</span></li>
+                  <li class="mb-3"><i class="fas fa-check-circle text-primary me-3"></i><span
+                      id="entertainmentAndRecreation">Entretenimiento y Recreación</span></li>
+                </ul>
+                <p class="lead mb-4" id="servicesDescription">En Eden Resorts nos esforzamos por brindar una experiencia
+                  completa de lujo y comodidad a nuestros huéspedes.</p>
+                <!-- #14: Botón de servicios mejorado -->
+                <a th:href="@{/contactos}" class="btn btn-primary btn-lg" id="servicesButton" role="button"
+                  aria-label="Contactar con Eden Resorts para más información">
+                  <span id="servicesButtonText">Contacta con nosotros</span>
+                  <i class="fas fa-arrow-circle-right ms-2" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- #15: Testimonios con mejor estructura semántica -->
+        <section class="py-5">
+          <div class="container">
+            <div class="text-center mb-5">
+              <h5 class="text-primary mb-3" id="testimonialsTitle">TESTIMONIOS</h5>
+              <h3 class="display-6" id="testimonialsSubtitle">Las voces de quienes ya nos escogieron</h3>
+            </div>
+
+            <!-- Carousel Bootstrap -->
+            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" role="region"
+              aria-label="Testimonios de huéspedes">
+              <div class="carousel-inner">
+
+                <!-- Testimonio 1 -->
+                <div class="carousel-item active">
+                  <div class="card border-0 shadow-sm p-4 h-100">
+                    <div class="text-center mb-3" aria-label="Calificación 5 estrellas">
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="h4 text-center mb-3">Excelente</h3>
+                    <blockquote class="blockquote text-center">
+                      <p class="text-muted mb-4">
+                        ¡Un verdadero hotel boutique de lujo a precios muy económicos! Comparado con otros hoteles de 5
+                        estrellas cuyo ticket no baja de $500 la noche, aquí vives la misma experiencia sin envidiar
+                        nada. El
+                        servicio personalizado realmente te hace sentir en casa. ¡Gracias a todo el personal y en
+                        especial a
+                        la
+                        gerente Romy!
+                      </p>
+                      <footer class="d-flex flex-column align-items-center">
+                        <img src="imagenes/pisinaAranwa.png" alt="Foto de perfil de Ayman Jensi"
+                          class="rounded-circle mb-2" width="60" height="60">
+                        <h6 class="mb-0 text-center">Ayman Jensi</h6>
+                        <small class="text-muted text-center">Manager</small>
+                      </footer>
+                    </blockquote>
                   </div>
-                  <p class="card-text" id="deluxeMatrimonialRoomDescription">Habitaciones con vista al valle del Colca,
-                    40 m2.</p>
-                  <h5 class="text-primary mb-3" id="roomPrice2">S/622 / Noche</h5>
-                  <!-- #12: Segundo botón mejorado -->
-                  <a th:href="@{/reservas}" class="btn btn-primary w-100" id="button2" role="button" aria-label="Ir a Reservas - Habitación Deluxe Matrimonial">
-                    <span id="seeAvailability2">Reservar / Ver Disponibilidad</span>
-                    <i class="fas fa-arrow-circle-right ms-2" aria-hidden="true"></i>
-                  </a>
+                </div>
+
+                <!-- Testimonio 2 -->
+                <div class="carousel-item">
+                  <div class="card border-0 shadow-sm p-4 h-100">
+                    <div class="text-center mb-3" aria-label="Calificación 5 estrellas">
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="h4 text-center mb-3">Inolvidable</h3>
+                    <blockquote class="blockquote text-center">
+                      <p class="text-muted mb-4">
+                        Fuimos a pasar un descanso familiar y la experiencia fue maravillosa. Naturaleza, paz y
+                        comodidad en
+                        un
+                        solo lugar. Gracias a todo el equipo, especialmente a Fiorela, por hacer que nuestra estadía sea
+                        inolvidable. ¡De seguro volveremos en familia!
+                      </p>
+                      <footer class="d-flex flex-column align-items-center">
+                        <img src="imagenes/pisinaAranwa.png" alt="Foto de perfil de Diego Castro"
+                          class="rounded-circle mb-2" width="60" height="60">
+                        <h6 class="mb-0 text-center">Diego Castro</h6>
+                        <small class="text-muted text-center">Cliente</small>
+                      </footer>
+                    </blockquote>
+                  </div>
+                </div>
+
+                <!-- Testimonio 3 -->
+                <div class="carousel-item">
+                  <div class="card border-0 shadow-sm p-4 h-100">
+                    <div class="text-center mb-3" aria-label="Calificación 5 estrellas">
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                      <i class="fas fa-star text-warning" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="h4 text-center mb-3">Recomendado</h3>
+                    <blockquote class="blockquote text-center">
+                      <p class="text-muted mb-4">
+                        Me encantó Eden Resort. Instalaciones amplias, piscina temperada, juegos y actividades para toda
+                        la
+                        familia. El trato del personal fue excelente, en especial Ruth Estrada que nos atendió de manera
+                        personalizada. ¡Definitivamente recomiendo este hotel y volveré pronto!
+                      </p>
+                      <footer class="d-flex flex-column align-items-center">
+                        <img src="imagenes/pisinaAranwa.png" alt="Foto de perfil de Dilmer Paz"
+                          class="rounded-circle mb-2" width="60" height="60">
+                        <h6 class="mb-0 text-center">Dilmer Paz</h6>
+                        <small class="text-muted text-center">Cliente</small>
+                      </footer>
+                    </blockquote>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Controles mejorados -->
+              <button class="carousel-control-prev position-absolute top-50 translate-middle-y mt-5" type="button"
+                data-bs-target="#testimonialCarousel" data-bs-slide="prev" aria-label="Testimonio anterior">
+                <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next position-absolute top-50 translate-middle-y mt-5" type="button"
+                data-bs-target="#testimonialCarousel" data-bs-slide="next" aria-label="Siguiente testimonio">
+                <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- #16: Carrusel de Imágenes con mejor estructura -->
+        <section class="py-5 bg-light">
+          <div class="owl-carousel owl-theme" role="region" aria-label="Galería de fotos de Eden Resorts">
+            <div class="item gallery-item">
+              <img src="imagenes/Aranwa1.png"
+                alt="Vista panorámica de las instalaciones de Eden Resorts con piscina y jardines" class="gallery-img">
+              <div class="gallery-overlay">
+                <i class="fab fa-instagram fa-2x text-white" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="item gallery-item">
+              <img src="imagenes/Aranwa2.png"
+                alt="Ambiente interior elegante de Eden Resort con decoración peruana contemporánea"
+                class="gallery-img">
+              <div class="gallery-overlay">
+                <i class="fab fa-instagram fa-2x text-white" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+        <!-- Blog -->
+        <section class="py-5">
+          <div class="container">
+            <div class="text-center mb-5">
+              <h5 class="text-primary mb-3" id="blogTitle">BLOG</h5>
+              <h3 class="display-6" id="blogSubtitle">Nos gusta sorprenderte: conoce las novedades</h3>
+            </div>
+
+            <div class="row g-4">
+              <div class="col-lg-4 d-flex">
+                <div class="card border-0 shadow-sm h-100 flex-fill">
+                  <div class="position-relative">
+                    <img src="imagenes/vozanimalAranwa.png" alt="Afiche de voz animal" class="card-img-custom">
+                    <span class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 m-2 rounded"
+                      id="hotelLabel1">HOTEL</span>
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title" id="postTitle1">Eden Resort se suma a la noble labor de Voz Animal</h5>
+                    <p class="card-text" id="postDescription1">Eden Resorts donará parte de las ventas de su programa
+                      "Dog
+                      Friendly" al albergue Voz Animal.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 d-flex">
+                <div class="card border-0 shadow-sm h-100 flex-fill">
+                  <div class="position-relative">
+                    <img src="imagenes/edenaniversario.png" alt="15° aniversario Eden Resort" class="card-img-custom">
+                    <span class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 m-2 rounded"
+                      id="hotelLabel2">HOTEL</span>
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title" id="postTitle2">Eden Resorts & Spas celebra su 15° aniversario
+                      “Convirtiendo viajes en leyenda” en 5 destinos de Perú</h5>
+                    <p class="card-text" id="postDescription2">Eden Resorts celebra su 15° aniversario ofreciendo
+                      hospitalidad única en cinco destinos de Perú. La celebración central fue en su hotel Eden Sacred
+                      Valley, reafirmando su compromiso con experiencias culturales y bienestar para los huéspedes.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 d-flex">
+                <div class="card border-0 shadow-sm h-100 flex-fill">
+                  <div class="position-relative">
+                    <img src="imagenes/picafloresAranwa.png" alt="Picaflores Valle Sagrado" class="card-img-custom">
+                    <span class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 m-2 rounded"
+                      id="hotelLabel3">HOTEL</span>
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title" id="postTitle3">Avistamiento de picaflores en Valle Sagrado</h5>
+                    <p class="card-text" id="postDescription3">Perú es tercero en biodiversidad de aves, y en Eden
+                      Sacred
+                      Valley se avistan 8 especies de picaflores, incluyendo el endémico Green and White Hummingbird. El
+                      hotel
+                      restaura flora nativa para atraerlos; los jardines y la piscina son los mejores lugares para
+                      verlos.</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-5 bg-light">
-    <div class="container">
-      <div class="text-center mb-5">
-        <h5 class="text-primary mb-3" id="servicesTitle">SERVICIOS</h5>
-        <h3 class="display-6" id="servicesSubtitle">Todo lo que necesitas a un click</h3>
-      </div>
-
-      <div class="row align-items-center">
-        <div class="col-lg-6">
-          <!-- #13: Imagen de servicios con mejor descripción -->
-          <img src="imagenes/restauranteAranwa.png" alt="Restaurante elegante de Eden Resort con ambiente acogedor, decoración peruana contemporánea y servicio gourmet"
-            class="img-fluid rounded shadow" id="servicesImage">
-        </div>
-        <div class="col-lg-6">
-          <ul class="list-unstyled">
-            <li class="mb-3"><i class="fas fa-check-circle text-primary me-3"></i><span
-                id="luxuryAccommodation">Alojamiento de Lujo</span></li>
-            <li class="mb-3"><i class="fas fa-check-circle text-primary me-3"></i><span id="spaAndWellness">Spa y
-                Bienestar</span></li>
-            <li class="mb-3"><i class="fas fa-check-circle text-primary me-3"></i><span
-                id="restaurantsAndGastronomy">Restaurantes y Gastronomía</span></li>
-            <li class="mb-3"><i class="fas fa-check-circle text-primary me-3"></i><span
-                id="eventHallsAndWeddings">Salones de Eventos y Bodas</span></li>
-            <li class="mb-3"><i class="fas fa-check-circle text-primary me-3"></i><span
-                id="culturalToursAndActivities">Tours y Actividades Culturales</span></li>
-            <li class="mb-3"><i class="fas fa-check-circle text-primary me-3"></i><span
-                id="entertainmentAndRecreation">Entretenimiento y Recreación</span></li>
-          </ul>
-          <p class="lead mb-4" id="servicesDescription">En Eden Resorts nos esforzamos por brindar una experiencia
-            completa de lujo y comodidad a nuestros huéspedes.</p>
-          <!-- #14: Botón de servicios mejorado -->
-          <a th:href="@{/contactos}" class="btn btn-primary btn-lg" id="servicesButton" role="button" aria-label="Contactar con Eden Resorts para más información">
-            <span id="servicesButtonText">Contacta con nosotros</span>
-            <i class="fas fa-arrow-circle-right ms-2" aria-hidden="true"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- #15: Testimonios con mejor estructura semántica -->
-  <section class="py-5">
-    <div class="container">
-      <div class="text-center mb-5">
-        <h5 class="text-primary mb-3" id="testimonialsTitle">TESTIMONIOS</h5>
-        <h3 class="display-6" id="testimonialsSubtitle">Las voces de quienes ya nos escogieron</h3>
-      </div>
-
-      <!-- Carousel Bootstrap -->
-      <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" role="region" aria-label="Testimonios de huéspedes">
-        <div class="carousel-inner">
-
-          <!-- Testimonio 1 -->
-          <div class="carousel-item active">
-            <div class="card border-0 shadow-sm p-4 h-100">
-              <div class="text-center mb-3" aria-label="Calificación 5 estrellas">
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-              </div>
-              <h3 class="h4 text-center mb-3">Excelente</h3>
-              <blockquote class="blockquote text-center">
-                <p class="text-muted mb-4">
-                  ¡Un verdadero hotel boutique de lujo a precios muy económicos! Comparado con otros hoteles de 5
-                  estrellas cuyo ticket no baja de $500 la noche, aquí vives la misma experiencia sin envidiar nada. El
-                  servicio personalizado realmente te hace sentir en casa. ¡Gracias a todo el personal y en especial a la
-                  gerente Romy!
-                </p>
-                <footer class="d-flex flex-column align-items-center">
-                  <img src="imagenes/pisinaAranwa.png" alt="Foto de perfil de Ayman Jensi" class="rounded-circle mb-2" width="60" height="60">
-                  <h6 class="mb-0 text-center">Ayman Jensi</h6>
-                  <small class="text-muted text-center">Manager</small>
-                </footer>
-              </blockquote>
-            </div>
-          </div>
-
-          <!-- Testimonio 2 -->
-          <div class="carousel-item">
-            <div class="card border-0 shadow-sm p-4 h-100">
-              <div class="text-center mb-3" aria-label="Calificación 5 estrellas">
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-              </div>
-              <h3 class="h4 text-center mb-3">Inolvidable</h3>
-              <blockquote class="blockquote text-center">
-                <p class="text-muted mb-4">
-                  Fuimos a pasar un descanso familiar y la experiencia fue maravillosa. Naturaleza, paz y comodidad en un
-                  solo lugar. Gracias a todo el equipo, especialmente a Fiorela, por hacer que nuestra estadía sea
-                  inolvidable. ¡De seguro volveremos en familia!
-                </p>
-                <footer class="d-flex flex-column align-items-center">
-                  <img src="imagenes/pisinaAranwa.png" alt="Foto de perfil de Diego Castro" class="rounded-circle mb-2" width="60" height="60">
-                  <h6 class="mb-0 text-center">Diego Castro</h6>
-                  <small class="text-muted text-center">Cliente</small>
-                </footer>
-              </blockquote>
-            </div>
-          </div>
-
-          <!-- Testimonio 3 -->
-          <div class="carousel-item">
-            <div class="card border-0 shadow-sm p-4 h-100">
-              <div class="text-center mb-3" aria-label="Calificación 5 estrellas">
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-                <i class="fas fa-star text-warning" aria-hidden="true"></i>
-              </div>
-              <h3 class="h4 text-center mb-3">Recomendado</h3>
-              <blockquote class="blockquote text-center">
-                <p class="text-muted mb-4">
-                  Me encantó Eden Resort. Instalaciones amplias, piscina temperada, juegos y actividades para toda la
-                  familia. El trato del personal fue excelente, en especial Ruth Estrada que nos atendió de manera
-                  personalizada. ¡Definitivamente recomiendo este hotel y volveré pronto!
-                </p>
-                <footer class="d-flex flex-column align-items-center">
-                  <img src="imagenes/pisinaAranwa.png" alt="Foto de perfil de Dilmer Paz" class="rounded-circle mb-2" width="60" height="60">
-                  <h6 class="mb-0 text-center">Dilmer Paz</h6>
-                  <small class="text-muted text-center">Cliente</small>
-                </footer>
-              </blockquote>
-            </div>
-          </div>
-        </div>
-
-        <!-- Controles mejorados -->
-        <button class="carousel-control-prev position-absolute top-50 translate-middle-y mt-5" type="button"
-          data-bs-target="#testimonialCarousel" data-bs-slide="prev" aria-label="Testimonio anterior">
-          <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next position-absolute top-50 translate-middle-y mt-5" type="button"
-          data-bs-target="#testimonialCarousel" data-bs-slide="next" aria-label="Siguiente testimonio">
-          <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- #16: Carrusel de Imágenes con mejor estructura -->
-  <section class="py-5 bg-light">
-    <div class="owl-carousel owl-theme" role="region" aria-label="Galería de fotos de Eden Resorts">
-      <div class="item gallery-item">
-        <img src="imagenes/Aranwa1.png" alt="Vista panorámica de las instalaciones de Eden Resorts con piscina y jardines" class="gallery-img">
-        <div class="gallery-overlay">
-          <i class="fab fa-instagram fa-2x text-white" aria-hidden="true"></i>
-        </div>
-      </div>
-      <div class="item gallery-item">
-        <img src="imagenes/Aranwa2.png" alt="Ambiente interior elegante de Eden Resort con decoración peruana contemporánea" class="gallery-img">
-        <div class="gallery-overlay">
-          <i class="fab fa-instagram fa-2x text-white" aria-hidden="true"></i>
-        </div>
-      </div>
-    </div>
-  </section>
+        </section>
 
 
-
-  <!-- Blog -->
-  <section class="py-5">
-    <div class="container">
-      <div class="text-center mb-5">
-        <h5 class="text-primary mb-3" id="blogTitle">BLOG</h5>
-        <h3 class="display-6" id="blogSubtitle">Nos gusta sorprenderte: conoce las novedades</h3>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-lg-4 d-flex">
-          <div class="card border-0 shadow-sm h-100 flex-fill">
-            <div class="position-relative">
-              <img src="imagenes/vozanimalAranwa.png" alt="Afiche de voz animal" class="card-img-custom">
-              <span class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 m-2 rounded"
-                id="hotelLabel1">HOTEL</span>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title" id="postTitle1">Eden Resort se suma a la noble labor de Voz Animal</h5>
-              <p class="card-text" id="postDescription1">Eden Resorts donará parte de las ventas de su programa "Dog
-                Friendly" al albergue Voz Animal.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 d-flex">
-          <div class="card border-0 shadow-sm h-100 flex-fill">
-            <div class="position-relative">
-              <img src="imagenes/edenaniversario.png" alt="15° aniversario Eden Resort" class="card-img-custom">
-              <span class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 m-2 rounded"
-                id="hotelLabel2">HOTEL</span>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title" id="postTitle2">Eden Resorts  & Spas celebra su 15° aniversario
-                “Convirtiendo viajes en leyenda” en 5 destinos de Perú</h5>
-              <p class="card-text" id="postDescription2">Eden Resorts celebra su 15° aniversario ofreciendo
-                hospitalidad única en cinco destinos de Perú. La celebración central fue en su hotel Eden Sacred
-                Valley, reafirmando su compromiso con experiencias culturales y bienestar para los huéspedes.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 d-flex">
-          <div class="card border-0 shadow-sm h-100 flex-fill">
-            <div class="position-relative">
-              <img src="imagenes/picafloresAranwa.png" alt="Picaflores Valle Sagrado" class="card-img-custom">
-              <span class="position-absolute top-0 start-0 bg-primary text-white px-2 py-1 m-2 rounded"
-                id="hotelLabel3">HOTEL</span>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title" id="postTitle3">Avistamiento de picaflores en Valle Sagrado</h5>
-              <p class="card-text" id="postDescription3">Perú es tercero en biodiversidad de aves, y en Eden Sacred
-                Valley se avistan 8 especies de picaflores, incluyendo el endémico Green and White Hummingbird. El hotel
-                restaura flora nativa para atraerlos; los jardines y la piscina son los mejores lugares para verlos.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        <!-- Footer -->
+        <div th:replace="fragments/footer :: footer"></div>
 
 
-    <!-- Footer -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
-  
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Owl Carousel JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+        <!-- jQuery and jQuery Countdown JS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-countdown/2.2.0/jquery.countdown.min.js"></script>
 
-  <!-- Owl Carousel JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-  <!-- jQuery and jQuery Countdown JS -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-countdown/2.2.0/jquery.countdown.min.js"></script>
+        <script>
+          // #17: JavaScript mejorado con más funcionalidad
 
-  <script>
-    // #17: JavaScript mejorado con más funcionalidad
-    
-    // Función mejorada para realizar búsqueda de reserva
-    function realizarBusqueda() {
-      const fechaLlegada = document.getElementById('fechaLlegada').value;
-      const fechaSalida = document.getElementById('fechaSalida').value;
-      const adultos = document.getElementById('adultos').value || 1;
-      const ninos = document.getElementById('ninos').value || 0;
-      
-      // Validaciones básicas
-      if (!fechaLlegada || !fechaSalida) {
-        alert('Por favor, selecciona las fechas de llegada y salida.');
-        return;
-      }
-      
-      const llegada = new Date(fechaLlegada);
-      const salida = new Date(fechaSalida);
-      const hoy = new Date();
-      hoy.setHours(0, 0, 0, 0);
-      
-      if (llegada < hoy) {
-        alert('La fecha de llegada debe ser hoy o posterior.');
-        return;
-      }
-      
-      if (salida <= llegada) {
-        alert('La fecha de salida debe ser posterior a la fecha de llegada.');
-        return;
-      }
-      
-      // Calcular noches
-      const noches = Math.ceil((salida - llegada) / (1000 * 60 * 60 * 24));
-      
-      alert(`BÚSQUEDA DE RESERVA\n\n` +
-            `Llegada: ${fechaLlegada}\n` +
-            `Salida: ${fechaSalida}\n` +
-            `Noches: ${noches}\n` +
-            `Adultos: ${adultos}\n` +
-            `Niños: ${ninos}\n\n` +
-            `Redirigiendo a resultados de búsqueda...`);
-    }
-    
-    // Función para mostrar disponibilidad de habitaciones
-    function mostrarDisponibilidad(tipoHabitacion) {
-      const precios = {
-        'deluxe-king': { precio: 800, descripcion: 'Habitación Deluxe con cama King' },
-        'deluxe-matrimonial': { precio: 622, descripcion: 'Habitación Deluxe Matrimonial' }
-      };
-      
-      const habitacion = precios[tipoHabitacion];
-      if (habitacion) {
-        alert(`${habitacion.descripcion}\n\n` +
-              `Precio: S/${habitacion.precio} por noche\n` +
-              `Incluye desayuno buffet\n` +
-              `Acceso a piscina y spa\n` +
-              `WiFi gratuito\n\n` +
-              `¿Te gustaría hacer una reserva?\n` +
-              `Llámanos: +51 1 234-5678\n` +
-              `Email: reservas@edenresort.com`);
-      }
-    }
+          // Función mejorada para realizar búsqueda de reserva
+          function realizarBusqueda() {
+            const fechaLlegada = document.getElementById('fechaLlegada').value;
+            const fechaSalida = document.getElementById('fechaSalida').value;
+            const adultos = document.getElementById('adultos').value || 1;
+            const ninos = document.getElementById('ninos').value || 0;
 
-    // carrusel de imagenes
-    $('.owl-carousel').last().owlCarousel({
-      loop: true,
-      margin: 0,
-      nav: false,
-      dots: false,
-      autoplay: true,
-      slideTransition: 'linear',
-      autoplayTimeout: 4000,
-      autoplaySpeed: 4000,
-      autoplayHoverPause: true,
-      responsive: {
-        0: { items: 1 },
-        768: { items: 3 },
-        1000: { items: 5 }
-      }
-    });
+            // Validaciones básicas
+            if (!fechaLlegada || !fechaSalida) {
+              alert('Por favor, selecciona las fechas de llegada y salida.');
+              return;
+            }
 
-    // #18: Sticky navbar effect mejorado
-    window.addEventListener("scroll", function () {
-      var header = document.querySelector(".navbar");
-      if (window.scrollY > 100) {
-        header.classList.add("sticky-header");
-      } else {
-        header.classList.remove("sticky-header");
-      }
-    });
-    
-    // #19: Inicialización mejorada
-    document.addEventListener('DOMContentLoaded', function() {
-      // Establecer fecha mínima como hoy
-      const hoy = new Date().toISOString().split('T')[0];
-      const fechaLlegadaInput = document.getElementById('fechaLlegada');
-      const fechaSalidaInput = document.getElementById('fechaSalida');
-      
-      if (fechaLlegadaInput) {
-        fechaLlegadaInput.min = hoy;
-      }
-      if (fechaSalidaInput) {
-        fechaSalidaInput.min = hoy;
-      }
-      
-      // Auto-actualizar fecha de salida cuando cambie la llegada
-      if (fechaLlegadaInput && fechaSalidaInput) {
-        fechaLlegadaInput.addEventListener('change', function() {
-          const fechaLlegada = new Date(this.value);
-          fechaLlegada.setDate(fechaLlegada.getDate() + 1);
-          fechaSalidaInput.min = fechaLlegada.toISOString().split('T')[0];
-          
-          // Si la fecha de salida es anterior a la nueva mínima, actualizarla
-          if (fechaSalidaInput.value && new Date(fechaSalidaInput.value) <= new Date(this.value)) {
-            fechaSalidaInput.value = fechaLlegada.toISOString().split('T')[0];
+            const llegada = new Date(fechaLlegada);
+            const salida = new Date(fechaSalida);
+            const hoy = new Date();
+            hoy.setHours(0, 0, 0, 0);
+
+            if (llegada < hoy) {
+              alert('La fecha de llegada debe ser hoy o posterior.');
+              return;
+            }
+
+            if (salida <= llegada) {
+              alert('La fecha de salida debe ser posterior a la fecha de llegada.');
+              return;
+            }
+
+            // Calcular noches
+            const noches = Math.ceil((salida - llegada) / (1000 * 60 * 60 * 24));
+
+            alert(`BÚSQUEDA DE RESERVA\n\n` +
+              `Llegada: ${fechaLlegada}\n` +
+              `Salida: ${fechaSalida}\n` +
+              `Noches: ${noches}\n` +
+              `Adultos: ${adultos}\n` +
+              `Niños: ${ninos}\n\n` +
+              `Redirigiendo a resultados de búsqueda...`);
           }
-        });
-      }
-    });
-  </script>
+
+          // Función para mostrar disponibilidad de habitaciones
+          function mostrarDisponibilidad(tipoHabitacion) {
+            const precios = {
+              'deluxe-king': { precio: 800, descripcion: 'Habitación Deluxe con cama King' },
+              'deluxe-matrimonial': { precio: 622, descripcion: 'Habitación Deluxe Matrimonial' }
+            };
+
+            const habitacion = precios[tipoHabitacion];
+            if (habitacion) {
+              alert(`${habitacion.descripcion}\n\n` +
+                `Precio: S/${habitacion.precio} por noche\n` +
+                `Incluye desayuno buffet\n` +
+                `Acceso a piscina y spa\n` +
+                `WiFi gratuito\n\n` +
+                `¿Te gustaría hacer una reserva?\n` +
+                `Llámanos: +51 1 234-5678\n` +
+                `Email: reservas@edenresort.com`);
+            }
+          }
+
+          // carrusel de imagenes
+          $('.owl-carousel').last().owlCarousel({
+            loop: true,
+            margin: 0,
+            nav: false,
+            dots: false,
+            autoplay: true,
+            slideTransition: 'linear',
+            autoplayTimeout: 4000,
+            autoplaySpeed: 4000,
+            autoplayHoverPause: true,
+            responsive: {
+              0: { items: 1 },
+              768: { items: 3 },
+              1000: { items: 5 }
+            }
+          });
+
+          // #18: Sticky navbar effect mejorado
+          window.addEventListener("scroll", function () {
+            var header = document.querySelector(".navbar");
+            if (window.scrollY > 100) {
+              header.classList.add("sticky-header");
+            } else {
+              header.classList.remove("sticky-header");
+            }
+          });
+
+          // #19: Inicialización mejorada
+          document.addEventListener('DOMContentLoaded', function () {
+            // Establecer fecha mínima como hoy
+            const hoy = new Date().toISOString().split('T')[0];
+            const fechaLlegadaInput = document.getElementById('fechaLlegada');
+            const fechaSalidaInput = document.getElementById('fechaSalida');
+
+            if (fechaLlegadaInput) {
+              fechaLlegadaInput.min = hoy;
+            }
+            if (fechaSalidaInput) {
+              fechaSalidaInput.min = hoy;
+            }
+
+            // Auto-actualizar fecha de salida cuando cambie la llegada
+            if (fechaLlegadaInput && fechaSalidaInput) {
+              fechaLlegadaInput.addEventListener('change', function () {
+                const fechaLlegada = new Date(this.value);
+                fechaLlegada.setDate(fechaLlegada.getDate() + 1);
+                fechaSalidaInput.min = fechaLlegada.toISOString().split('T')[0];
+
+                // Si la fecha de salida es anterior a la nueva mínima, actualizarla
+                if (fechaSalidaInput.value && new Date(fechaSalidaInput.value) <= new Date(this.value)) {
+                  fechaSalidaInput.value = fechaLlegada.toISOString().split('T')[0];
+                }
+              });
+            }
+          });
+        </script>
 
 </body>
 
