@@ -2,6 +2,7 @@ package Proyecto.Proyecto4.controller;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -11,9 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -135,7 +138,8 @@ public class AdminDashboardController {
         }
     }
 
-    @PostMapping("/usuarios/{id}/editar")
+    //EDITAR DATOS DEL USUARIO EN PANEL DE ADMINISTRACIÓN O DASHBOARD DE ADMIN
+    @PutMapping("/usuarios/{id}")
     @ResponseBody
     public ResponseEntity<?> editarUsuario(@PathVariable Long id, @RequestBody Map<String, Object> datos, Authentication authentication) {
         try {
@@ -200,10 +204,13 @@ public class AdminDashboardController {
             if (datos.containsKey("telefono")) {
                 detalles.setTelefono((String) datos.get("telefono"));
             }
+            // Actualizar fecha de nacimiento: Se utiliza LocalDate.parse() en lugar de java.sql.Date.valueOf()
+            // para evitar problemas de compatibilidad con el formato de fecha esperado por LocalDate.
+            // LocalDate.parse() espera el formato ISO-8601 (YYYY-MM-DD) que es más estándar y compatible.
             if (datos.containsKey("fechaNacimiento")) {
                 String fechaStr = (String) datos.get("fechaNacimiento");
                 if (fechaStr != null && !fechaStr.trim().isEmpty()) {
-                    detalles.setFechaNacimiento(java.sql.Date.valueOf(fechaStr));
+                    detalles.setFechaNacimiento(LocalDate.parse(fechaStr));
                 }
             }
             if (datos.containsKey("intereses")) {
@@ -908,6 +915,43 @@ public class AdminDashboardController {
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(Map.of("error", "Error al obtener estadísticas: " + e.getMessage()));
+        }
+    }
+
+    
+    //METODO REST DELETE PARA ELIMINAR USUARIO
+    @DeleteMapping("/usuarios/{id}/eliminar")
+    @ResponseBody
+    public ResponseEntity<?> eliminarUsuario(@PathVariable Long id, Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            Optional<Administrador> adminOpt = administradorService.buscarPorEmail(email);
+
+            if (!adminOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Administrador no encontrado"));
+            }
+
+            Optional<Usuario> usuarioOpt = usuarioService.buscarPorId(id);
+            if (!usuarioOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Usuario no encontrado"));
+            }
+
+            Usuario usuario = usuarioOpt.get();
+
+            // Verificar que no se pueda eliminar a sí mismo
+            if (usuario.getEmail().equals(email)) {
+                return ResponseEntity.badRequest().body(Map.of("error", "No puede eliminar su propia cuenta"));
+            }
+
+            // Eliminar el usuario
+            usuarioService.eliminar(id);
+
+            return ResponseEntity.ok().body(Map.of(
+                    "message", "Usuario eliminado exitosamente",
+                    "id", id));
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Error al eliminar usuario: " + e.getMessage()));
         }
     }
 
