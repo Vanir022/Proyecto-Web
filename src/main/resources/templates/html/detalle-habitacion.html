@@ -297,14 +297,14 @@
 
             function calcularTotal() {
                 if (fechaEntrada.value && fechaSalida.value) {
-                    const entrada = new Date(fechaEntrada.value + 'T00:00:00');
-                    const salida = new Date(fechaSalida.value + 'T00:00:00');
-                    
+                    const entrada = new Date(fechaEntrada.value);
+                    const salida = new Date(fechaSalida.value);
+
                     if (salida > entrada) {
                         const diferenciaTime = salida.getTime() - entrada.getTime();
                         const noches = Math.ceil(diferenciaTime / (1000 * 60 * 60 * 24));
                         const total = noches * precioPorNoche;
-                        
+
                         numeroNochesElement.textContent = noches + (noches === 1 ? ' noche' : ' noches');
                         totalEstimadoElement.textContent = 'S/ ' + total.toLocaleString('es-PE', {
                             minimumFractionDigits: 2,
@@ -312,11 +312,11 @@
                         });
                     } else {
                         numeroNochesElement.textContent = '-';
-                        totalEstimadoElement.textContent = 'S/ 0.00';
+                        totalEstimadoElement.textContent = 'Selecciona fechas válidas';
                     }
                 } else {
                     numeroNochesElement.textContent = '-';
-                    totalEstimadoElement.textContent = 'S/ 0.00';
+                    totalEstimadoElement.textContent = 'Selecciona fechas para calcular';
                 }
             }
 
@@ -324,15 +324,17 @@
                 const fechaSeleccionada = new Date(this.value + 'T00:00:00');
                 fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
                 fechaSalida.min = fechaSeleccionada.toISOString().split('T')[0];
-                
+
                 if (fechaSalida.value && new Date(fechaSalida.value + 'T00:00:00') <= new Date(this.value + 'T00:00:00')) {
                     fechaSalida.value = fechaSeleccionada.toISOString().split('T')[0];
                 }
-                
+
                 calcularTotal();
             });
 
+            fechaEntrada.addEventListener('input', calcularTotal);
             fechaSalida.addEventListener('change', calcularTotal);
+            fechaSalida.addEventListener('input', calcularTotal);
             
             // Calcular total inicial en caso de que ya haya fechas seleccionadas
             calcularTotal();
@@ -354,9 +356,10 @@
                     return;
                 }
 
+                const numeroHabitacion = /*[[${habitacion.numero}]]*/ 'N/A';
                 const confirmacion = confirm(
                     '¿Confirmas que deseas realizar esta reserva?\n\n' +
-                    'Habitación: ' + /*[[${habitacion.numero}]]*/ '' + '\n' +
+                    'Habitación: ' + numeroHabitacion + '\n' +
                     'Entrada: ' + fechaEntrada.value + '\n' +
                     'Salida: ' + fechaSalida.value + '\n' +
                     'Total: ' + totalEstimadoElement.textContent
