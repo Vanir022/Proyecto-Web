@@ -109,6 +109,10 @@
                             <artifactId>lombok</artifactId>
                         </path>
                     </annotationProcessorPaths>
+                    <!-- Mostrar advertencias de deprecación para identificar API obsoletas -->
+                    <compilerArgs>
+                        <arg>-Xlint:deprecation</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>

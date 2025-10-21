@@ -126,7 +126,8 @@ public class AdminDashboardController {
             for (Usuario u : usuarios) {
                 org.apache.poi.ss.usermodel.Row row = sheetUsuarios.createRow(ur++);
                 row.createCell(0).setCellValue(u.getId() != null ? u.getId() : 0);
-                row.createCell(1).setCellValue(u.getDetallesPersona() != null ? (u.getDetallesPersona().getNombre() + " " + u.getDetallesPersona().getApellido()) : "");
+                // DetallesPersona tiene 'nombres' y 'apellidos' y helper getNombreCompleto()
+                row.createCell(1).setCellValue(u.getDetallesPersona() != null ? u.getDetallesPersona().getNombreCompleto() : "");
                 row.createCell(2).setCellValue(u.getEmail() != null ? u.getEmail() : "");
                 row.createCell(3).setCellValue(u.getDetallesPersona() != null && u.getDetallesPersona().getTelefono() != null ? u.getDetallesPersona().getTelefono() : "");
             }
@@ -149,10 +150,11 @@ public class AdminDashboardController {
             for (Habitacion h : habitaciones) {
                 org.apache.poi.ss.usermodel.Row row = sheetHab.createRow(hr++);
                 row.createCell(0).setCellValue(h.getId() != null ? h.getId() : 0);
-                row.createCell(1).setCellValue(h.getNumero() != null ? h.getNumero() : (h.getNombre() != null ? h.getNombre() : ""));
+                // Habitacion no tiene 'nombre' — usamos 'numero' como identificador
+                row.createCell(1).setCellValue(h.getNumero() != null ? h.getNumero() : "");
                 row.createCell(2).setCellValue(h.getTipo() != null ? h.getTipo() : "");
                 row.createCell(3).setCellValue(h.getPrecio() != null ? h.getPrecio().doubleValue() : 0.0);
-                row.createCell(4).setCellValue(h.isDisponible() ? "Disponible" : "Ocupada");
+                row.createCell(4).setCellValue(Boolean.TRUE.equals(h.getDisponible()) ? "Disponible" : "Ocupada");
             }
             for (int i = 0; i <= 4; i++) sheetHab.autoSizeColumn(i);
 
@@ -172,9 +174,9 @@ public class AdminDashboardController {
                 org.apache.poi.ss.usermodel.Row row = sheetPend.createRow(pr++);
                 row.createCell(0).setCellValue(rp.getId() != null ? rp.getId() : 0);
                 row.createCell(1).setCellValue(rp.getUsuario() != null && rp.getUsuario().getEmail() != null ? rp.getUsuario().getEmail() : "");
-                row.createCell(2).setCellValue(rp.getHabitacion() != null ? (rp.getHabitacion().getNumero() != null ? rp.getHabitacion().getNumero() : rp.getHabitacion().getNombre()) : "");
-                row.createCell(3).setCellValue(rp.getFechaInicio() != null ? rp.getFechaInicio().toString() : "");
-                row.createCell(4).setCellValue(rp.getFechaFin() != null ? rp.getFechaFin().toString() : "");
+                row.createCell(2).setCellValue(rp.getHabitacion() != null ? (rp.getHabitacion().getNumero() != null ? rp.getHabitacion().getNumero() : "") : "");
+                row.createCell(3).setCellValue(rp.getFechaEntrada() != null ? rp.getFechaEntrada().toString() : "");
+                row.createCell(4).setCellValue(rp.getFechaSalida() != null ? rp.getFechaSalida().toString() : "");
                 row.createCell(5).setCellValue(rp.getEstado() != null ? rp.getEstado().toString() : "");
             }
             for (int i = 0; i <= 5; i++) sheetPend.autoSizeColumn(i);
@@ -195,9 +197,9 @@ public class AdminDashboardController {
                 org.apache.poi.ss.usermodel.Row row = sheetConf.createRow(cr++);
                 row.createCell(0).setCellValue(rc.getId() != null ? rc.getId() : 0);
                 row.createCell(1).setCellValue(rc.getUsuario() != null && rc.getUsuario().getEmail() != null ? rc.getUsuario().getEmail() : "");
-                row.createCell(2).setCellValue(rc.getHabitacion() != null ? (rc.getHabitacion().getNumero() != null ? rc.getHabitacion().getNumero() : rc.getHabitacion().getNombre()) : "");
-                row.createCell(3).setCellValue(rc.getFechaInicio() != null ? rc.getFechaInicio().toString() : "");
-                row.createCell(4).setCellValue(rc.getFechaFin() != null ? rc.getFechaFin().toString() : "");
+                row.createCell(2).setCellValue(rc.getHabitacion() != null ? (rc.getHabitacion().getNumero() != null ? rc.getHabitacion().getNumero() : "") : "");
+                row.createCell(3).setCellValue(rc.getFechaEntrada() != null ? rc.getFechaEntrada().toString() : "");
+                row.createCell(4).setCellValue(rc.getFechaSalida() != null ? rc.getFechaSalida().toString() : "");
                 row.createCell(5).setCellValue(rc.getEstado() != null ? rc.getEstado().toString() : "");
             }
             for (int i = 0; i <= 5; i++) sheetConf.autoSizeColumn(i);
