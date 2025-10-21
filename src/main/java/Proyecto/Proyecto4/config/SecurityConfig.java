@@ -28,7 +28,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/nosotros", "/contactos", "/login", "/register", "/acercade", "/eventos", "/spa", "/bodas").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/imagenes/**", "/static/**", "/uploads/**").permitAll()
-                .requestMatchers("/auth/registro").permitAll()
+                .requestMatchers("/auth/registro", "/auth/welcome").permitAll()
                 .requestMatchers("/api/admin/crear-super-admin").permitAll() // Permitir crear super admin inicial
                 .requestMatchers("/reservas", "/reservas/buscar", "/reservas/habitacion/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")

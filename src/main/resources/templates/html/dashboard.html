@@ -18,7 +18,7 @@
 
 <body>
   <!-- Header -->
-  <div th:replace="fragments/Header :: header"></div>
+  <div th:replace="~{fragments/Header :: header}"></div>
 
   <!-- Dashboard Header -->
   <section class="dashboard-header">
@@ -300,8 +300,8 @@
     </div>
   </section>
 
-  <!-- Footer -->
-  <div th:replace="fragments/footer :: footer"></div>
+    <!-- Footer -->
+  <div th:replace="~{fragments/footer :: footer}"></div>
 
   <!-- Modal para cambiar foto -->
   <div class="modal fade" id="cambiarFotoModal" tabindex="-1">
