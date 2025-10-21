@@ -1,7 +1,6 @@
 package Proyecto.Proyecto4.controller;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import Proyecto.Proyecto4.models.Administrador;
 import Proyecto.Proyecto4.models.DetallesPersona;
 import Proyecto.Proyecto4.models.Habitacion;
@@ -35,6 +39,8 @@ import Proyecto.Proyecto4.services.UsuarioService;
 @Controller
 @RequestMapping("/admin")
 public class AdminDashboardController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AdminDashboardController.class);
 
     @Autowired
     private AdministradorService administradorService;
@@ -234,8 +240,9 @@ public class AdminDashboardController {
 
     @GetMapping("/usuarios/{id}/detalle")
     @ResponseBody
-    public String obtenerDetalleUsuario(@PathVariable Long id, Authentication authentication) {
+    public String obtenerDetalleUsuario(@PathVariable Long id, HttpServletRequest request, Authentication authentication) {
         try {
+            logger.info("Request received: {} {}", request.getMethod(), request.getRequestURI());
             String email = authentication.getName();
             Optional<Administrador> adminOpt = administradorService.buscarPorEmail(email);
 
@@ -355,6 +362,13 @@ public class AdminDashboardController {
                 html.append("</div>");
             }
 
+            // Añadir botón de editar
+            html.append("<div class='text-center mt-3'>");
+            html.append("<button id='btnEditarUsuarioDetalle' class='btn btn-warning'>");
+            html.append("<i class='fas fa-edit me-2'></i>Editar Usuario");
+            html.append("</button>");
+            html.append("</div>");
+            
             html.append("</div></div></div>");
             html.append("</div>");
 

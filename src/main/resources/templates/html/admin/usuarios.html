@@ -486,10 +486,20 @@
                     return response.text();
                 })
                 .then(html => {
+                    // Actualizar el contenido del modal
                     document.getElementById('detalleUsuarioContent').innerHTML = html;
-                    // Mostrar botón de editar
-                    document.getElementById('btnEditarUsuarioDetalle').style.display = 'inline-block';
-                    document.getElementById('btnEditarUsuarioDetalle').onclick = () => editarUsuario(idUsuario);
+                    
+                    // Configurar el botón de editar
+                    const btnEditar = document.getElementById('btnEditarUsuarioDetalle');
+                    if (btnEditar) {
+                        btnEditar.style.display = 'inline-block';
+                        btnEditar.onclick = function() {
+                            // Cerrar el modal de detalles
+                            bootstrap.Modal.getInstance(document.getElementById('detalleUsuarioModal')).hide();
+                            // Abrir el modal de edición
+                            editarUsuario(idUsuario);
+                        };
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -497,6 +507,8 @@
                         <div class="alert alert-danger">
                             <i class="fas fa-exclamation-triangle me-2"></i>
                             Error al cargar los detalles del usuario. Por favor, inténtelo de nuevo.
+                            <br>
+                            <small class="text-muted">${error.message}</small>
                         </div>
                     `;
                 });
