@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto - EDEN RESORTS</title>
-      <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
 
     <!-- Bootstrap CSS -->
@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/styleContactos.css}">
 </head>
 
 <body>
@@ -26,7 +29,7 @@
     </section>
 
     <!-- Navbar -->
-    <div th:replace="~{fragments/Header :: header}"></div>
+    <div th:replace="fragments/Header :: header"></div>
 
     <!-- Sección principal de contacto -->
     <section class="py-5">
@@ -125,45 +128,48 @@
                         </div>
                         <div class="card-body p-4">
                             <!-- Mostrar mensajes de éxito o error -->
-                            <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                            <div th:if="${success}" class="alert alert-success alert-dismissible fade show"
+                                role="alert">
                                 <i class="bi bi-check-circle me-2"></i>
                                 <span th:text="${success}"></span>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             </div>
-                            
+
                             <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <i class="bi bi-exclamation-triangle me-2"></i>
                                 <span th:text="${error}"></span>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             </div>
-                            
+
                             <form th:action="@{/contactos/enviar}" method="post">
                                 <div class="mb-3">
                                     <label for="nombre" class="form-label fw-bold">Nombre Completo *</label>
-                                    <input type="text" class="form-control form-control-lg" id="nombre" name="nombre" 
-                                           placeholder="Ingresa tu nombre completo" required maxlength="100">
+                                    <input type="text" class="form-control form-control-lg" id="nombre" name="nombre"
+                                        placeholder="Ingresa tu nombre completo" required maxlength="100">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="email" class="form-label fw-bold">Correo Electrónico *</label>
-                                    <input type="email" class="form-control form-control-lg" id="email" name="email" 
-                                           placeholder="tu.email@ejemplo.com" required maxlength="150">
+                                    <input type="email" class="form-control form-control-lg" id="email" name="email"
+                                        placeholder="tu.email@ejemplo.com" required maxlength="150">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="telefono" class="form-label fw-bold">Teléfono (Opcional)</label>
                                     <input type="tel" class="form-control form-control-lg" id="telefono" name="telefono"
-                                           placeholder="+51 999 999 999" maxlength="20">
+                                        placeholder="+51 999 999 999" maxlength="20">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="hotel" class="form-label fw-bold">Hotel de Interés</label>
                                     <select class="form-select form-select-lg" id="hotel" name="hotel">
                                         <option value="">Selecciona un hotel (opcional)</option>
-                                        <option value="Eden Sacred Valley Hotel">Eden Sacred Valley Hotel & Wellness</option>
+                                        <option value="Eden Sacred Valley Hotel">Eden Sacred Valley Hotel & Wellness
+                                        </option>
                                         <option value="Eden Paracas Resort">Eden Paracas Resort & Spa</option>
                                         <option value="Eden Cusco Boutique">Eden Cusco Boutique Hotel</option>
-                                        <option value="Eden Pueblito Encantado">Eden Pueblito Encantado del Colca</option>
+                                        <option value="Eden Pueblito Encantado">Eden Pueblito Encantado del Colca
+                                        </option>
                                         <option value="Vichayito Bungalows">Vichayito Bungalows & Carpas</option>
                                     </select>
                                 </div>
@@ -171,7 +177,7 @@
                                 <div class="mb-4">
                                     <label for="mensaje" class="form-label fw-bold">Mensaje *</label>
                                     <textarea class="form-control" id="mensaje" name="mensaje" rows="5"
-                                        placeholder="Cuéntanos sobre tu consulta, solicitud de reserva, o cualquier pregunta que tengas..." 
+                                        placeholder="Cuéntanos sobre tu consulta, solicitud de reserva, o cualquier pregunta que tengas..."
                                         required maxlength="1000"></textarea>
                                     <div class="form-text">Máximo 1000 caracteres</div>
                                 </div>
@@ -190,7 +196,7 @@
     </section>
 
     <!-- Footer -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="fragments/footer :: footer"></div>
 
 
     <!-- Bootstrap JS -->
