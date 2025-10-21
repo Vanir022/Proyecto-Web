@@ -56,33 +56,167 @@ public class AdminDashboardController {
 
     @GetMapping("/export")
     public ResponseEntity<byte[]> exportDashboardData(Authentication authentication) {
-        String email = authentication.getName();
-        StringBuilder csvData = new StringBuilder();
-        
-        // Encabezados
-        csvData.append("Métrica,Valor\n");
-        
-        // Estadísticas generales
-        int totalUsuarios = usuarioService.listar().size();
-        int totalHabitaciones = habitacionService.obtenerTodasLasHabitaciones().size();
-        int habitacionesDisponibles = habitacionService.obtenerTodasLasHabitaciones().size();
-        List<Reserva> reservasPendientes = reservaService.obtenerReservasPorEstado(Reserva.EstadoReserva.PENDIENTE);
-        List<Reserva> reservasConfirmadas = reservaService.obtenerReservasPorEstado(Reserva.EstadoReserva.CONFIRMADA);
-        
-        // Agregar datos al CSV
-        csvData.append("Total Usuarios,").append(totalUsuarios).append("\n");
-        csvData.append("Total Habitaciones,").append(totalHabitaciones).append("\n");
-        csvData.append("Habitaciones Disponibles,").append(habitacionesDisponibles).append("\n");
-        csvData.append("Reservas Pendientes,").append(reservasPendientes.size()).append("\n");
-        csvData.append("Reservas Confirmadas,").append(reservasConfirmadas.size()).append("\n");
-        
-        // Configurar la respuesta HTTP
-        byte[] bytes = csvData.toString().getBytes();
-        return ResponseEntity
-            .ok()
-            .header("Content-Type", "text/csv")
-            .header("Content-Disposition", "attachment; filename=dashboard_stats.csv")
-            .body(bytes);
+        // Genera un archivo Excel (.xlsx) con varias hojas que contienen:
+        // - Resumen: métricas generales
+        // - Usuarios: lista de usuarios y sus detalles
+        // - Habitaciones: lista de habitaciones
+        // - Reservas Pendientes: detalle de reservas pendientes
+        // - Reservas Confirmadas: detalle de reservas confirmadas
+
+        try (org.apache.poi.xssf.usermodel.XSSFWorkbook workbook = new org.apache.poi.xssf.usermodel.XSSFWorkbook()) {
+
+            // Estilos básicos
+            org.apache.poi.ss.usermodel.CellStyle headerStyle = workbook.createCellStyle();
+            org.apache.poi.ss.usermodel.Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerStyle.setFont(headerFont);
+
+            // Hoja Resumen
+            org.apache.poi.ss.usermodel.Sheet resumen = workbook.createSheet("Resumen");
+            int rowIdx = 0;
+
+            // Encabezado
+            org.apache.poi.ss.usermodel.Row hRow = resumen.createRow(rowIdx++);
+            org.apache.poi.ss.usermodel.Cell hCell = hRow.createCell(0);
+            hCell.setCellValue("Métrica");
+            hCell.setCellStyle(headerStyle);
+            hRow.createCell(1).setCellValue("Valor");
+
+            // Recolectar datos
+            java.util.List<Usuario> usuarios = usuarioService.listar();
+            java.util.List<Habitacion> habitaciones = habitacionService.obtenerTodasLasHabitaciones();
+            java.util.List<Reserva> reservasPendientes = reservaService.obtenerReservasPorEstado(Reserva.EstadoReserva.PENDIENTE);
+            java.util.List<Reserva> reservasConfirmadas = reservaService.obtenerReservasPorEstado(Reserva.EstadoReserva.CONFIRMADA);
+
+            // Añadir métricas al resumen
+            org.apache.poi.ss.usermodel.Row r1 = resumen.createRow(rowIdx++);
+            r1.createCell(0).setCellValue("Total Usuarios");
+            r1.createCell(1).setCellValue(usuarios.size());
+
+            org.apache.poi.ss.usermodel.Row r2 = resumen.createRow(rowIdx++);
+            r2.createCell(0).setCellValue("Total Habitaciones");
+            r2.createCell(1).setCellValue(habitaciones.size());
+
+            org.apache.poi.ss.usermodel.Row r3 = resumen.createRow(rowIdx++);
+            r3.createCell(0).setCellValue("Habitaciones Disponibles");
+            r3.createCell(1).setCellValue(habitacionService.obtenerHabitacionesDisponibles().size());
+
+            org.apache.poi.ss.usermodel.Row r4 = resumen.createRow(rowIdx++);
+            r4.createCell(0).setCellValue("Reservas Pendientes");
+            r4.createCell(1).setCellValue(reservasPendientes.size());
+
+            org.apache.poi.ss.usermodel.Row r5 = resumen.createRow(rowIdx++);
+            r5.createCell(0).setCellValue("Reservas Confirmadas");
+            r5.createCell(1).setCellValue(reservasConfirmadas.size());
+
+            // Autosize columnas resumen
+            resumen.autoSizeColumn(0);
+            resumen.autoSizeColumn(1);
+
+            // Hoja Usuarios
+            org.apache.poi.ss.usermodel.Sheet sheetUsuarios = workbook.createSheet("Usuarios");
+            int ur = 0;
+            org.apache.poi.ss.usermodel.Row headerUsuarios = sheetUsuarios.createRow(ur++);
+            headerUsuarios.createCell(0).setCellValue("ID");
+            headerUsuarios.createCell(1).setCellValue("Nombre");
+            headerUsuarios.createCell(2).setCellValue("Email");
+            headerUsuarios.createCell(3).setCellValue("Teléfono");
+            for (int i = 0; i < headerUsuarios.getLastCellNum(); i++) headerUsuarios.getCell(i).setCellStyle(headerStyle);
+
+            for (Usuario u : usuarios) {
+                org.apache.poi.ss.usermodel.Row row = sheetUsuarios.createRow(ur++);
+                row.createCell(0).setCellValue(u.getId() != null ? u.getId() : 0);
+                row.createCell(1).setCellValue(u.getDetallesPersona() != null ? (u.getDetallesPersona().getNombre() + " " + u.getDetallesPersona().getApellido()) : "");
+                row.createCell(2).setCellValue(u.getEmail() != null ? u.getEmail() : "");
+                row.createCell(3).setCellValue(u.getDetallesPersona() != null && u.getDetallesPersona().getTelefono() != null ? u.getDetallesPersona().getTelefono() : "");
+            }
+            sheetUsuarios.autoSizeColumn(0);
+            sheetUsuarios.autoSizeColumn(1);
+            sheetUsuarios.autoSizeColumn(2);
+            sheetUsuarios.autoSizeColumn(3);
+
+            // Hoja Habitaciones
+            org.apache.poi.ss.usermodel.Sheet sheetHab = workbook.createSheet("Habitaciones");
+            int hr = 0;
+            org.apache.poi.ss.usermodel.Row headerHab = sheetHab.createRow(hr++);
+            headerHab.createCell(0).setCellValue("ID");
+            headerHab.createCell(1).setCellValue("Número/Nombre");
+            headerHab.createCell(2).setCellValue("Tipo");
+            headerHab.createCell(3).setCellValue("Precio");
+            headerHab.createCell(4).setCellValue("Estado");
+            for (int i = 0; i < headerHab.getLastCellNum(); i++) headerHab.getCell(i).setCellStyle(headerStyle);
+
+            for (Habitacion h : habitaciones) {
+                org.apache.poi.ss.usermodel.Row row = sheetHab.createRow(hr++);
+                row.createCell(0).setCellValue(h.getId() != null ? h.getId() : 0);
+                row.createCell(1).setCellValue(h.getNumero() != null ? h.getNumero() : (h.getNombre() != null ? h.getNombre() : ""));
+                row.createCell(2).setCellValue(h.getTipo() != null ? h.getTipo() : "");
+                row.createCell(3).setCellValue(h.getPrecio() != null ? h.getPrecio().doubleValue() : 0.0);
+                row.createCell(4).setCellValue(h.isDisponible() ? "Disponible" : "Ocupada");
+            }
+            for (int i = 0; i <= 4; i++) sheetHab.autoSizeColumn(i);
+
+            // Hoja Reservas Pendientes
+            org.apache.poi.ss.usermodel.Sheet sheetPend = workbook.createSheet("Reservas Pendientes");
+            int pr = 0;
+            org.apache.poi.ss.usermodel.Row headerPend = sheetPend.createRow(pr++);
+            headerPend.createCell(0).setCellValue("ID");
+            headerPend.createCell(1).setCellValue("Usuario");
+            headerPend.createCell(2).setCellValue("Habitación");
+            headerPend.createCell(3).setCellValue("Fecha Inicio");
+            headerPend.createCell(4).setCellValue("Fecha Fin");
+            headerPend.createCell(5).setCellValue("Estado");
+            for (int i = 0; i < headerPend.getLastCellNum(); i++) headerPend.getCell(i).setCellStyle(headerStyle);
+
+            for (Reserva rp : reservasPendientes) {
+                org.apache.poi.ss.usermodel.Row row = sheetPend.createRow(pr++);
+                row.createCell(0).setCellValue(rp.getId() != null ? rp.getId() : 0);
+                row.createCell(1).setCellValue(rp.getUsuario() != null && rp.getUsuario().getEmail() != null ? rp.getUsuario().getEmail() : "");
+                row.createCell(2).setCellValue(rp.getHabitacion() != null ? (rp.getHabitacion().getNumero() != null ? rp.getHabitacion().getNumero() : rp.getHabitacion().getNombre()) : "");
+                row.createCell(3).setCellValue(rp.getFechaInicio() != null ? rp.getFechaInicio().toString() : "");
+                row.createCell(4).setCellValue(rp.getFechaFin() != null ? rp.getFechaFin().toString() : "");
+                row.createCell(5).setCellValue(rp.getEstado() != null ? rp.getEstado().toString() : "");
+            }
+            for (int i = 0; i <= 5; i++) sheetPend.autoSizeColumn(i);
+
+            // Hoja Reservas Confirmadas
+            org.apache.poi.ss.usermodel.Sheet sheetConf = workbook.createSheet("Reservas Confirmadas");
+            int cr = 0;
+            org.apache.poi.ss.usermodel.Row headerConf = sheetConf.createRow(cr++);
+            headerConf.createCell(0).setCellValue("ID");
+            headerConf.createCell(1).setCellValue("Usuario");
+            headerConf.createCell(2).setCellValue("Habitación");
+            headerConf.createCell(3).setCellValue("Fecha Inicio");
+            headerConf.createCell(4).setCellValue("Fecha Fin");
+            headerConf.createCell(5).setCellValue("Estado");
+            for (int i = 0; i < headerConf.getLastCellNum(); i++) headerConf.getCell(i).setCellStyle(headerStyle);
+
+            for (Reserva rc : reservasConfirmadas) {
+                org.apache.poi.ss.usermodel.Row row = sheetConf.createRow(cr++);
+                row.createCell(0).setCellValue(rc.getId() != null ? rc.getId() : 0);
+                row.createCell(1).setCellValue(rc.getUsuario() != null && rc.getUsuario().getEmail() != null ? rc.getUsuario().getEmail() : "");
+                row.createCell(2).setCellValue(rc.getHabitacion() != null ? (rc.getHabitacion().getNumero() != null ? rc.getHabitacion().getNumero() : rc.getHabitacion().getNombre()) : "");
+                row.createCell(3).setCellValue(rc.getFechaInicio() != null ? rc.getFechaInicio().toString() : "");
+                row.createCell(4).setCellValue(rc.getFechaFin() != null ? rc.getFechaFin().toString() : "");
+                row.createCell(5).setCellValue(rc.getEstado() != null ? rc.getEstado().toString() : "");
+            }
+            for (int i = 0; i <= 5; i++) sheetConf.autoSizeColumn(i);
+
+            // Escribir workbook a bytes
+            try (java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream()) {
+                workbook.write(bos);
+                byte[] bytes = bos.toByteArray();
+                return ResponseEntity
+                        .ok()
+                        .header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                        .header("Content-Disposition", "attachment; filename=dashboard_stats.xlsx")
+                        .body(bytes);
+            }
+
+        } catch (Exception e) {
+            logger.error("Error generando archivo Excel: ", e);
+            return ResponseEntity.status(500).body(null);
+        }
     }
 
     @GetMapping("/dashboard")
