@@ -626,7 +626,7 @@
         function eliminarUsuario(idUsuario) {
             if (confirm('¿Está seguro de que desea eliminar este usuario? Esta acción no se puede deshacer.')) {
                 fetch(`/admin/usuarios/${idUsuario}/eliminar`, {
-                    method: 'POST',
+                    method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
                     }
