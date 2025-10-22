@@ -14,6 +14,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,21 +34,32 @@ public class Administrador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotBlank(message = "El email es obligatorio")
+    @Email(message = "El email debe ser válido")
+    @Size(max = 255, message = "El email no puede exceder 255 caracteres")
     @Column(nullable = false, unique = true, length = 255)
     private String email;
     
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Size(min = 6, max = 255, message = "La contraseña debe tener al menos 6 caracteres")
     @Column(nullable = false, length = 255)
     private String password;
     
+    @NotBlank(message = "Los nombres son obligatorios")
+    @Size(min = 2, max = 255, message = "Los nombres deben tener entre 2 y 255 caracteres")
     @Column(nullable = false, length = 255)
     private String nombres;
     
+    @NotBlank(message = "Los apellidos son obligatorios")
+    @Size(min = 2, max = 255, message = "Los apellidos deben tener entre 2 y 255 caracteres")
     @Column(nullable = false, length = 255)
     private String apellidos;
     
+    @Pattern(regexp = "^[0-9]{7,20}$|^$", message = "El teléfono debe contener entre 7 y 20 dígitos")
     @Column(length = 255)
     private String telefono;
     
+    @NotNull(message = "El rol es obligatorio")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RolAdmin rol = RolAdmin.ADMIN;
@@ -57,9 +73,11 @@ public class Administrador {
     @Column
     private LocalDateTime ultimoAcceso;
     
+    @Size(max = 255, message = "La ruta de la foto de perfil no puede exceder 255 caracteres")
     @Column(length = 255)
     private String fotoPerfil;
     
+    @Size(max = 255, message = "El nombre del hotel no puede exceder 255 caracteres")
     @Column(length = 255)
     private String hotel; // Hotel específico al que pertenece, null para super admin
 

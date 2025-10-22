@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +23,15 @@ import Proyecto.Proyecto4.models.Usuario;
 import Proyecto.Proyecto4.repository.UsuarioRepository;
 import Proyecto.Proyecto4.services.HabitacionService;
 import Proyecto.Proyecto4.services.ReservaService;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Controller
 @RequestMapping("/reservas")
+@Validated
 public class ReservasController {
     
     @Autowired
@@ -104,10 +111,19 @@ public class ReservasController {
     
     @PostMapping("/crear")
     public String crearReserva(
+            @NotNull(message = "El ID de la habitación es obligatorio")
             @RequestParam Long habitacionId,
+            @NotNull(message = "La fecha de entrada es obligatoria")
+            @FutureOrPresent(message = "La fecha de entrada debe ser hoy o en el futuro")
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaEntrada,
+            @NotNull(message = "La fecha de salida es obligatoria")
+            @FutureOrPresent(message = "La fecha de salida debe ser hoy o en el futuro")
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaSalida,
+            @NotNull(message = "El número de huéspedes es obligatorio")
+            @Min(value = 1, message = "Debe haber al menos 1 huésped")
             @RequestParam Integer numeroHuespedes,
+            @NotBlank(message = "El DNI del cliente es obligatorio")
+            @Pattern(regexp = "^[0-9]{8}$", message = "El DNI debe contener exactamente 8 dígitos")
             @RequestParam String dniCliente,
             @RequestParam(required = false) String comentarios,
             @RequestParam(required = false) String telefonoContacto,

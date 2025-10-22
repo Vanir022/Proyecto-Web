@@ -4,11 +4,15 @@ import Proyecto.Proyecto4.dto.RegistroUsuarioDTO;
 import Proyecto.Proyecto4.models.*;
 import Proyecto.Proyecto4.services.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,19 +27,23 @@ public class AuthController {
     }
 
     @PostMapping("/registro")
-    public ResponseEntity<?> registrar(@RequestBody RegistroUsuarioDTO registroDTO) {
+    public ResponseEntity<?> registrar(@Valid @RequestBody RegistroUsuarioDTO registroDTO, BindingResult bindingResult) {
         try {
+            // Validar errores de validación
+            if (bindingResult.hasErrors()) {
+                Map<String, String> errores = bindingResult.getFieldErrors().stream()
+                    .collect(Collectors.toMap(
+                        FieldError::getField,
+                        error -> error.getDefaultMessage() != null ? error.getDefaultMessage() : "Error de validación",
+                        (existing, replacement) -> existing
+                    ));
+                return ResponseEntity.badRequest().body(errores);
+            }
+            
             // Validar que las contraseñas coincidan
             if (!registroDTO.getPassword().equals(registroDTO.getConfirmPassword())) {
                 Map<String, String> error = new HashMap<>();
                 error.put("error", "Las contraseñas no coinciden");
-                return ResponseEntity.badRequest().body(error);
-            }
-
-            // Validar que se acepten los términos
-            if (!registroDTO.getAcceptTerms()) {
-                Map<String, String> error = new HashMap<>();
-                error.put("error", "Debe aceptar los términos y condiciones");
                 return ResponseEntity.badRequest().body(error);
             }
 
