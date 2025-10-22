@@ -4,13 +4,22 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "contactos")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Contacto {
     
     @Id
@@ -37,13 +46,13 @@ public class Contacto {
     
     @Column(length = 20, nullable = false)
     private String estado = "NUEVO"; // NUEVO, LEIDO, RESPONDIDO
+
+    // Relación ManyToOne con Usuario (opcional - si el contacto es de un usuario registrado)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuarios_id")
+    private Usuario usuario;
     
-    // Constructor vacío
-    public Contacto() {
-        this.fechaEnvio = LocalDateTime.now();
-    }
-    
-    // Constructor con parámetros
+    // Constructor con parámetros principales
     public Contacto(String nombre, String email, String telefono, String hotel, String mensaje) {
         this.nombre = nombre;
         this.email = email;
@@ -52,71 +61,6 @@ public class Contacto {
         this.mensaje = mensaje;
         this.fechaEnvio = LocalDateTime.now();
         this.estado = "NUEVO";
-    }
-    
-    // Getters y Setters
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public String getNombre() {
-        return nombre;
-    }
-    
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-    
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public String getTelefono() {
-        return telefono;
-    }
-    
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-    
-    public String getHotel() {
-        return hotel;
-    }
-    
-    public void setHotel(String hotel) {
-        this.hotel = hotel;
-    }
-    
-    public String getMensaje() {
-        return mensaje;
-    }
-    
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
-    
-    public LocalDateTime getFechaEnvio() {
-        return fechaEnvio;
-    }
-    
-    public void setFechaEnvio(LocalDateTime fechaEnvio) {
-        this.fechaEnvio = fechaEnvio;
-    }
-    
-    public String getEstado() {
-        return estado;
-    }
-    
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
     
     @Override

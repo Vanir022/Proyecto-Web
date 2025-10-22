@@ -45,8 +45,17 @@ public class DetallesPersona {
     @Column(name = "foto_perfil", length = 500)
     private String fotoPerfil; // Ruta o nombre del archivo de la foto
 
+    // Relación OneToOne bidireccional con Usuario
     @OneToOne(mappedBy = "detallesPersona")
     private Usuario usuario;
+
+    // Relación ManyToOne con Administrador para asociar detalles con administrador
+    // (según el diagrama hay una FK administradores_id)
+    @Column(name = "administradores_id")
+    private Long administradoresId;
+
+    @Column(name = "administradores_usuarios_id")
+    private Long administradoresUsuariosId;
 
     // Constructor por defecto
     public DetallesPersona() {}

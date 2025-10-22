@@ -60,13 +60,13 @@ public class Reserva {
     @Column(columnDefinition = "TEXT")
     private String comentarios;
     
-    @Column
+    @Column(length = 255)
     private String telefonoContacto;
     
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String solicitudesEspeciales;
     
-    @Column
+    @Column(length = 255)
     private String codigoReserva; // Código único para la reserva
     
     @Column(nullable = false, length = 8)

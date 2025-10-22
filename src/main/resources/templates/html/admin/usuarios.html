@@ -95,7 +95,7 @@
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
                             <button type="button" class="btn btn-sm btn-outline-secondary">
-                                <i class="fas fa-download"></i> Exportar
+                                <a th:href="@{/admin/export}" class="btn btn-sm btn-outline-secondary">Exportar</a>
                             </button>
                         </div>
                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
@@ -246,7 +246,8 @@
     <div class="modal fade" id="nuevoUsuarioModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
+                <div class="modal-header"
+                    style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
                     <h5 class="modal-title fw-bold"><i class="fas fa-user-plus me-2"></i>Crear Nuevo Usuario</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
@@ -417,7 +418,8 @@
     <div class="modal fade" id="detalleUsuarioModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
+                <div class="modal-header"
+                    style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
                     <h5 class="modal-title">Detalles del Usuario</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
@@ -488,12 +490,12 @@
                 .then(html => {
                     // Actualizar el contenido del modal
                     document.getElementById('detalleUsuarioContent').innerHTML = html;
-                    
+
                     // Configurar el botón de editar
                     const btnEditar = document.getElementById('btnEditarUsuarioDetalle');
                     if (btnEditar) {
                         btnEditar.style.display = 'inline-block';
-                        btnEditar.onclick = function() {
+                        btnEditar.onclick = function () {
                             // Cerrar el modal de detalles
                             bootstrap.Modal.getInstance(document.getElementById('detalleUsuarioModal')).hide();
                             // Abrir el modal de edición
