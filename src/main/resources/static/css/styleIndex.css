@@ -111,7 +111,8 @@
        OVERRIDES PARA COLOR VERDE #1B5E20 EN TODOS LOS HTML
     =========================== */
 
-    .btn {
+    /* Button gradients */
+    .btn-success {
         background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
         border-color: #1B5E20 !important;
         color: white !important;
@@ -120,17 +121,38 @@
     .btn:hover {
         background: linear-gradient(135deg, #0F4A17, #1B5E20) !important;
         border-color: #0F4A17 !important;
-        color: white !important;
     }
 
-    .btn-primary {
-        background-color: #1B5E20 !important;
-        border-color: #1B5E20 !important;
+    .btn-danger {
+        background: linear-gradient(135deg, #dc3545, #c82333) !important;
+        border-color: #dc3545 !important;
     }
 
-    .btn-primary:hover {
-        background-color: #0F4A17 !important;
-        border-color: #0F4A17 !important;
+    .btn-danger:hover {
+        background: linear-gradient(135deg, #c82333, #dc3545) !important;
+        border-color: #c82333 !important;
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #ffc107, #e0a800) !important;
+        border-color: #ffc107 !important;
+        color: #212529 !important;
+    }
+
+    .btn-warning:hover {
+        background: linear-gradient(135deg, #e0a800, #ffc107) !important;
+        border-color: #e0a800 !important;
+        color: #212529 !important;
+    }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #6c757d, #5a6268) !important;
+        border-color: #6c757d !important;
+    }
+
+    .btn-secondary:hover {
+        background: linear-gradient(135deg, #5a6268, #6c757d) !important;
+        border-color: #5a6268 !important;
     }
 
     .text-primary {
@@ -167,24 +189,28 @@
         background: linear-gradient(135deg, #1e7e34 0%, #155724 100%) !important;
     }
 
-    /* Overrides para badges */
-    .badge.bg-info {
-        background: linear-gradient(135deg, #1e7e34 0%, #155724 100%) !important;
-    }
-
+    /* Overrides para badges con colores oscuros específicos */
     .badge.bg-success {
-        background: linear-gradient(135deg, #1e7e34 0%, #155724 100%) !important;
-    }
-
-    .badge.bg-warning {
-        background: linear-gradient(135deg, #1e7e34 0%, #155724 100%) !important;
+        background: linear-gradient(135deg, #0d4a1a, #0a3d14) !important;
+        /* verde oscuro para Libre */
     }
 
     .badge.bg-danger {
-        background: linear-gradient(135deg, #1e7e34 0%, #155724 100%) !important;
+        background: linear-gradient(135deg, #8b0000, #5a0000) !important;
+        /* rojo oscuro para Ocupada */
     }
 
-    /* Overrides para sidebar navigation links */
+    .badge.bg-warning {
+        background: linear-gradient(135deg, #ffd700, #daa520) !important;
+        /* dorado oscuro para Mantenimiento */
+    }
+
+    .badge.bg-secondary {
+        background: linear-gradient(135deg, #2f2f2f, #1a1a1a) !important;
+        /* gris oscuro para Bloqueada */
+    }
+
+    /* Overrides para sidebar navegación link */
     .sidebar .nav-link {
         background: transparent !important;
         color: #333 !important;
@@ -202,10 +228,10 @@
     .sidebar .nav-link.active {
         background: linear-gradient(135deg, #0d4a1a 0%, #0a3d14 100%) !important;
         color: white !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
     }
 
-    /* Footer styles to remove white spaces */
+    /* estilo footer para remover espacios */
     footer {
         width: 100%;
         margin: 0;
@@ -215,4 +241,4 @@
     footer .container-fluid {
         padding-left: 0;
         padding-right: 0;
-    }
+    }"test change" 
