@@ -7,8 +7,8 @@
     <title>Gestión de Habitaciones - Resort Eden Admin</title>
     <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
     <style>
         .sidebar {
@@ -103,7 +103,7 @@
                         <div class="btn-group me-2">
                             <a th:href="@{/admin/export}" class="btn btn-sm btn-outline-secondary">Exportar</a>
                         </div>
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
                             data-bs-target="#modalNuevaHabitacion">
                             <i class="fas fa-plus"></i> Nueva Habitación
                         </button>
@@ -150,7 +150,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label class="form-label">&nbsp;</label>
-                                            <button type="submit" class="btn btn-primary d-block w-100">
+                                            <button type="submit" class="btn btn-success d-block w-100">
                                                 <i class="fas fa-search"></i> Filtrar
                                             </button>
                                         </div>
@@ -223,15 +223,19 @@
 
                             <div class="card-footer">
                                 <div class="btn-group w-100" role="group">
-                                    <button type="button" class="btn btn-outline-success btn-sm"
+                                    <button type="button" class="btn btn-success btn-sm"
                                         th:onclick="|cambiarEstadoEspecifico(${habitacion.id}, 'LIBRE')|">
                                         <i class="fas fa-check-circle"></i> Libre
                                     </button>
-                                    <button type="button" class="btn btn-outline-warning btn-sm"
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        th:onclick="|cambiarEstadoEspecifico(${habitacion.id}, 'OCUPADA')|">
+                                        <i class="fas fa-user-check"></i> Ocupada
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-sm"
                                         th:onclick="|cambiarEstadoEspecifico(${habitacion.id}, 'MANTENIMIENTO')|">
                                         <i class="fas fa-tools"></i> Mantenimiento
                                     </button>
-                                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                                    <button type="button" class="btn btn-secondary btn-sm"
                                         th:onclick="|cambiarEstadoEspecifico(${habitacion.id}, 'BLOQUEADA')|">
                                         <i class="fas fa-ban"></i> Bloquear
                                     </button>
@@ -260,11 +264,13 @@
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
+                <div class="modal-header"
+                    style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
                     <h5 class="modal-title" id="modalNuevaHabitacionLabel">
                         <i class="fas fa-plus-circle me-2"></i>Agregar Nueva Habitación
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <form id="formNuevaHabitacion">
                     <div class="modal-body">
@@ -437,6 +443,18 @@
 
                         <div class="row">
                             <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Estado Inicial *</label>
+                                    <select class="form-select" name="estadoHabitacion" required>
+                                        <option value="">Seleccionar Estado</option>
+                                        <option value="LIBRE" selected>Libre</option>
+                                        <option value="OCUPADA">Ocupada</option>
+                                        <option value="MANTENIMIENTO">En Mantenimiento</option>
+                                        <option value="BLOQUEADA">Bloqueada</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="disponible"
                                         id="disponibleCheck" checked>
@@ -471,7 +489,8 @@
         // Función para cambiar estado específico de habitación
         function cambiarEstadoEspecifico(habitacionId, nuevoEstado) {
             const estadoTexto = nuevoEstado === 'LIBRE' ? 'Libre' :
-                nuevoEstado === 'MANTENIMIENTO' ? 'Mantenimiento' : 'Bloqueada';
+                nuevoEstado === 'OCUPADA' ? 'Ocupada' :
+                    nuevoEstado === 'MANTENIMIENTO' ? 'Mantenimiento' : 'Bloqueada';
 
             if (confirm('¿Está seguro de cambiar el estado de la habitación a ' + estadoTexto + '?')) {
 
@@ -525,6 +544,7 @@
                 cama: formData.get('cama'),
                 amenidades: amenidadesSeleccionadas.join(', '), // Unir amenidades con comas
                 descripcion: formData.get('descripcion') || '',
+                estadoHabitacion: formData.get('estadoHabitacion'),
                 disponible: formData.get('disponible') === 'on'
             };
 
@@ -585,6 +605,9 @@
             document.getElementById('formNuevaHabitacion').reset();
         });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
