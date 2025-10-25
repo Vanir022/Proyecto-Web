@@ -22,6 +22,15 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
        List<Reserva> findByUsuarioOrderByFechaReservaDesc(Usuario usuario);
 
        List<Reserva> findByEstado(EstadoReserva estado);
+       
+       // Consulta optimizada para buscar por estado con JOIN FETCH
+       @Query("SELECT DISTINCT r FROM Reserva r " +
+              "LEFT JOIN FETCH r.usuario u " +
+              "LEFT JOIN FETCH u.detallesPersona " +
+              "LEFT JOIN FETCH r.habitacion h " +
+              "WHERE r.estado = :estado " +
+              "ORDER BY r.fechaReserva DESC")
+       List<Reserva> findByEstadoWithDetails(@Param("estado") EstadoReserva estado);
 
        Optional<Reserva> findByCodigoReserva(String codigoReserva);
 
@@ -45,4 +54,12 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
                      @Param("fechaFin") LocalDate fechaFin);
 
        List<Reserva> findByHabitacion(Habitacion habitacion);
+       
+       // Consulta optimizada con JOIN FETCH para evitar LazyInitializationException
+       @Query("SELECT DISTINCT r FROM Reserva r " +
+              "LEFT JOIN FETCH r.usuario u " +
+              "LEFT JOIN FETCH u.detallesPersona " +
+              "LEFT JOIN FETCH r.habitacion h " +
+              "ORDER BY r.fechaReserva DESC")
+       List<Reserva> findAllWithDetails();
 }

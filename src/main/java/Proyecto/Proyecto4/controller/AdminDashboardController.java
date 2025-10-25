@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,20 +23,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import Proyecto.Proyecto4.models.Administrador;
 import Proyecto.Proyecto4.models.DetallesPersona;
 import Proyecto.Proyecto4.models.Habitacion;
 import Proyecto.Proyecto4.models.Reserva;
+import Proyecto.Proyecto4.models.ReservaServicio;
 import Proyecto.Proyecto4.models.Usuario;
 import Proyecto.Proyecto4.services.AdministradorService;
 import Proyecto.Proyecto4.services.HabitacionService;
 import Proyecto.Proyecto4.services.ReservaService;
+import Proyecto.Proyecto4.services.ReservaServicioService;
 import Proyecto.Proyecto4.services.UsuarioService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/admin")
@@ -53,6 +53,9 @@ public class AdminDashboardController {
 
     @Autowired
     private ReservaService reservaService;
+
+    @Autowired
+    private ReservaServicioService reservaServicioService;
 
     @GetMapping("/export")
     public ResponseEntity<byte[]> exportDashboardData(Authentication authentication) {
@@ -262,13 +265,47 @@ public class AdminDashboardController {
     }
 
     @GetMapping("/usuarios")
-    public String gestionUsuarios(Authentication authentication, Model model) {
+    public String gestionUsuarios(Authentication authentication, Model model,
+            @RequestParam(required = false) String busqueda,
+            @RequestParam(required = false) String estado) {
         String email = authentication.getName();
         Optional<Administrador> adminOpt = administradorService.buscarPorEmail(email);
 
         if (adminOpt.isPresent()) {
             model.addAttribute("admin", adminOpt.get());
-            model.addAttribute("usuarios", usuarioService.listar());
+            
+            // Obtener todos los usuarios
+            List<Usuario> usuarios = usuarioService.listar();
+            
+            // Aplicar filtro de búsqueda (nombre, email o DNI)
+            if (busqueda != null && !busqueda.trim().isEmpty()) {
+                String busquedaLower = busqueda.toLowerCase().trim();
+                usuarios = usuarios.stream()
+                    .filter(u -> 
+                        (u.getNombre() != null && u.getNombre().toLowerCase().contains(busquedaLower)) ||
+                        (u.getEmail() != null && u.getEmail().toLowerCase().contains(busquedaLower)) ||
+                        (u.getDetallesPersona() != null && u.getDetallesPersona().getDni() != null && 
+                         u.getDetallesPersona().getDni().contains(busquedaLower))
+                    )
+                    .collect(java.util.stream.Collectors.toList());
+            }
+            
+            // Aplicar filtro de estado
+            if (estado != null && !estado.trim().isEmpty()) {
+                if ("activo".equalsIgnoreCase(estado)) {
+                    usuarios = usuarios.stream()
+                        .filter(u -> u.getActivo() == null || u.getActivo() == true)
+                        .collect(java.util.stream.Collectors.toList());
+                } else if ("inactivo".equalsIgnoreCase(estado)) {
+                    usuarios = usuarios.stream()
+                        .filter(u -> u.getActivo() != null && u.getActivo() == false)
+                        .collect(java.util.stream.Collectors.toList());
+                }
+            }
+            
+            model.addAttribute("usuarios", usuarios);
+            model.addAttribute("busqueda", busqueda);
+            model.addAttribute("estado", estado);
         }
 
         return "html/admin/usuarios";
@@ -302,7 +339,8 @@ public class AdminDashboardController {
                     "telefono", detalles != null ? detalles.getTelefono() : "",
                     "fechaNacimiento", detalles != null && detalles.getFechaNacimiento() != null ? detalles.getFechaNacimiento().toString() : "",
                     "intereses", detalles != null ? detalles.getIntereses() : "",
-                    "aceptaMarketing", detalles != null ? detalles.getAceptaMarketing() : false);
+                    "aceptaMarketing", detalles != null ? detalles.getAceptaMarketing() : false,
+                    "activo", usuario.getActivo() != null ? usuario.getActivo() : true);
 
             return ResponseEntity.ok().body(response);
 
@@ -391,6 +429,93 @@ public class AdminDashboardController {
             }
             if (datos.containsKey("aceptaMarketing")) {
                 detalles.setAceptaMarketing(Boolean.parseBoolean(datos.get("aceptaMarketing").toString()));
+            }
+            
+            // Actualizar estado del usuario
+            if (datos.containsKey("activo")) {
+                usuario.setActivo(Boolean.parseBoolean(datos.get("activo").toString()));
+            }
+
+            // Guardar cambios
+            usuarioService.guardar(usuario);
+
+            return ResponseEntity.ok().body(Map.of(
+                    "message", "Usuario actualizado exitosamente",
+                    "id", usuario.getId()));
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Error al actualizar usuario: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/usuarios/{id}/editar")
+    @ResponseBody
+    public ResponseEntity<?> editarUsuarioPost(@PathVariable Long id, 
+            @RequestParam Map<String, String> params, 
+            Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            Optional<Administrador> adminOpt = administradorService.buscarPorEmail(email);
+
+            if (!adminOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Administrador no encontrado"));
+            }
+
+            Optional<Usuario> usuarioOpt = usuarioService.buscarPorId(id);
+            if (!usuarioOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Usuario no encontrado"));
+            }
+
+            Usuario usuario = usuarioOpt.get();
+
+            // Actualizar datos básicos del usuario
+            if (params.containsKey("nombre") && params.get("nombre") != null) {
+                usuario.setNombre(params.get("nombre"));
+            }
+            if (params.containsKey("email") && params.get("email") != null) {
+                String nuevoEmail = params.get("email");
+                Optional<Usuario> usuarioExistente = usuarioService.buscarPorEmail(nuevoEmail);
+                if (usuarioExistente.isPresent() && !usuarioExistente.get().getId().equals(id)) {
+                    return ResponseEntity.badRequest().body(Map.of("error", "El email ya está registrado"));
+                }
+                usuario.setEmail(nuevoEmail);
+            }
+
+            // Manejar cambio de contraseña
+            if (params.containsKey("password") && params.get("password") != null && !params.get("password").trim().isEmpty()) {
+                String nuevaPassword = params.get("password");
+                usuarioService.cambiarPassword(usuario, nuevaPassword);
+            }
+
+            // Actualizar detalles personales
+            DetallesPersona detalles = usuario.getDetallesPersona();
+            if (detalles == null) {
+                detalles = new DetallesPersona();
+                usuario.setDetallesPersona(detalles);
+            }
+
+            if (params.containsKey("apellidos")) {
+                detalles.setApellidos(params.get("apellidos"));
+            }
+            if (params.containsKey("dni")) {
+                detalles.setDni(params.get("dni"));
+            }
+            if (params.containsKey("telefono")) {
+                detalles.setTelefono(params.get("telefono"));
+            }
+            if (params.containsKey("fechaNacimiento") && !params.get("fechaNacimiento").isEmpty()) {
+                detalles.setFechaNacimiento(LocalDate.parse(params.get("fechaNacimiento")));
+            }
+            if (params.containsKey("intereses")) {
+                detalles.setIntereses(params.get("intereses"));
+            }
+            if (params.containsKey("aceptaMarketing")) {
+                detalles.setAceptaMarketing(Boolean.parseBoolean(params.get("aceptaMarketing")));
+            }
+            
+            // Actualizar estado del usuario
+            if (params.containsKey("activo")) {
+                usuario.setActivo(Boolean.parseBoolean(params.get("activo")));
             }
 
             // Guardar cambios
@@ -631,41 +756,27 @@ public class AdminDashboardController {
     @GetMapping("/reservas")
     public String gestionReservas(Authentication authentication, Model model) {
         String email = authentication.getName();
+        logger.info("=== GESTIÓN RESERVAS - Inicio ===");
+        logger.info("Usuario autenticado: {}", email);
+        
         Optional<Administrador> adminOpt = administradorService.buscarPorEmail(email);
 
         if (adminOpt.isPresent()) {
             Administrador admin = adminOpt.get();
             model.addAttribute("admin", admin);
+            logger.info("Admin encontrado: {} - {}", admin.getNombres(), admin.getApellidos());
 
-            // Obtener todas las reservas SIN FILTRAR
+            // Obtener todas las reservas con detalles cargados (JOIN FETCH)
             List<Reserva> todasLasReservas = reservaService.obtenerTodasLasReservas();
-
-            // Debug: Imprimir información básica
-            System.out.println("=== DEBUG RESERVAS ===");
-            System.out.println("Total reservas encontradas en BD: " + todasLasReservas.size());
-            System.out.println("Admin email: " + admin.getEmail());
-            System.out.println("Admin rol: " + admin.getRol());
-            System.out.println("Admin hotel: " + admin.getHotel());
-
-            // TEMPORALMENTE COMENTADO - NO FILTRAR POR HOTEL PARA VER TODAS LAS RESERVAS
-            /*
-             * if (admin.getHotel() != null) {
-             * List<Reserva> reservasOriginales = new ArrayList<>(todasLasReservas);
-             * todasLasReservas = todasLasReservas.stream()
-             * .filter(r -> r.getHabitacion() != null && r.getHabitacion().getHotel() !=
-             * null
-             * && r.getHabitacion().getHotel().equals(admin.getHotel()))
-             * .collect(java.util.stream.Collectors.toList());
-             * System.out.println("Reservas filtradas por hotel " + admin.getHotel() + ": "
-             * + todasLasReservas.size());
-             * }
-             */
-
-            // Mostrar info de todas las reservas encontradas
-            for (Reserva r : todasLasReservas) {
-                System.out.println("Reserva: " + r.getCodigoReserva() +
-                        " | Usuario: " + (r.getUsuario() != null ? r.getUsuario().getNombre() : "NULL") +
-                        " | Estado: " + r.getEstado());
+            logger.info("Total de reservas obtenidas: {}", todasLasReservas.size());
+            
+            // Log detallado de cada reserva
+            for(Reserva r : todasLasReservas) {
+                logger.info("Reserva {}: Usuario={}, Habitacion={}, FechaEntrada={}", 
+                    r.getCodigoReserva(),
+                    r.getUsuario() != null ? r.getUsuario().getEmail() : "null",
+                    r.getHabitacion() != null ? r.getHabitacion().getNumero() : "null",
+                    r.getFechaEntrada());
             }
 
             model.addAttribute("reservas", todasLasReservas);
@@ -688,13 +799,78 @@ public class AdminDashboardController {
             model.addAttribute("reservasConfirmadas", confirmadas);
             model.addAttribute("reservasCompletadas", completadas);
             model.addAttribute("reservasCanceladas", canceladas);
-
-            System.out.println("Estadísticas - Pendientes: " + pendientes + ", Confirmadas: " + confirmadas +
-                    ", Completadas: " + completadas + ", Canceladas: " + canceladas);
-            System.out.println("======================");
+            
+            logger.info("Estadísticas - Pendientes:{}, Confirmadas:{}, Completadas:{}, Canceladas:{}", 
+                pendientes, confirmadas, completadas, canceladas);
+        } else {
+            logger.error("Admin no encontrado para email: {}", email);
         }
-
+        
+        logger.info("=== GESTIÓN RESERVAS - Fin ===");
         return "html/admin/reservas";
+    }
+
+    @GetMapping("/reservas-servicios")
+    public String gestionReservasServicios(Authentication authentication, Model model) {
+        String email = authentication.getName();
+        logger.info("=== GESTIÓN RESERVAS SERVICIOS - Inicio ===");
+        logger.info("Usuario autenticado: {}", email);
+        
+        Optional<Administrador> adminOpt = administradorService.buscarPorEmail(email);
+
+        if (adminOpt.isPresent()) {
+            Administrador admin = adminOpt.get();
+            model.addAttribute("admin", admin);
+            logger.info("Admin encontrado: {} - {}", admin.getNombres(), admin.getApellidos());
+
+            // Obtener todas las reservas de servicios con detalles cargados (JOIN FETCH)
+            List<ReservaServicio> todasLasReservas = reservaServicioService.obtenerTodasLasReservas();
+            logger.info("Total de reservas de servicios obtenidas: {}", todasLasReservas.size());
+            
+            model.addAttribute("reservasServicios", todasLasReservas);
+
+            // Calcular estadísticas por estado y tipo
+            long pendientes = todasLasReservas.stream()
+                    .filter(r -> r.getEstado() == ReservaServicio.EstadoReserva.PENDIENTE)
+                    .count();
+            long confirmadas = todasLasReservas.stream()
+                    .filter(r -> r.getEstado() == ReservaServicio.EstadoReserva.CONFIRMADA)
+                    .count();
+            long completadas = todasLasReservas.stream()
+                    .filter(r -> r.getEstado() == ReservaServicio.EstadoReserva.COMPLETADA)
+                    .count();
+            long canceladas = todasLasReservas.stream()
+                    .filter(r -> r.getEstado() == ReservaServicio.EstadoReserva.CANCELADA)
+                    .count();
+
+            // Estadísticas por tipo de servicio
+            long reservasSpa = todasLasReservas.stream()
+                    .filter(r -> r.getTipoServicio() == ReservaServicio.TipoServicio.SPA)
+                    .count();
+            long reservasBodas = todasLasReservas.stream()
+                    .filter(r -> r.getTipoServicio() == ReservaServicio.TipoServicio.BODA)
+                    .count();
+            long reservasEventos = todasLasReservas.stream()
+                    .filter(r -> r.getTipoServicio() == ReservaServicio.TipoServicio.EVENTO)
+                    .count();
+
+            model.addAttribute("reservasPendientes", pendientes);
+            model.addAttribute("reservasConfirmadas", confirmadas);
+            model.addAttribute("reservasCompletadas", completadas);
+            model.addAttribute("reservasCanceladas", canceladas);
+            
+            model.addAttribute("reservasSpa", reservasSpa);
+            model.addAttribute("reservasBodas", reservasBodas);
+            model.addAttribute("reservasEventos", reservasEventos);
+            
+            logger.info("Estadísticas - Pendientes:{}, Confirmadas:{}, Completadas:{}, Canceladas:{}", 
+                pendientes, confirmadas, completadas, canceladas);
+        } else {
+            logger.error("Admin no encontrado para email: {}", email);
+        }
+        
+        logger.info("=== GESTIÓN RESERVAS SERVICIOS - Fin ===");
+        return "html/admin/reservas-servicios";
     }
 
     // ===== ENDPOINTS REST PARA HABITACIONES =====
@@ -1149,5 +1325,124 @@ public class AdminDashboardController {
         }
 
         return "html/admin/conceptual";
+    }
+
+    // ===== ENDPOINTS REST PARA GESTIÓN DE RESERVAS DE SERVICIOS =====
+
+    @PostMapping("/reservas-servicios/{id}/aprobar")
+    @ResponseBody
+    public ResponseEntity<?> aprobarReservaServicio(@PathVariable Long id, Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            Optional<Administrador> adminOpt = administradorService.buscarPorEmail(email);
+
+            if (!adminOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Administrador no encontrado"));
+            }
+
+            Optional<ReservaServicio> reservaOpt = reservaServicioService.obtenerReservaPorId(id);
+
+            if (!reservaOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Reserva de servicio no encontrada"));
+            }
+
+            ReservaServicio reserva = reservaOpt.get();
+
+            // Verificar que la reserva esté pendiente
+            if (!reserva.getEstado().equals(ReservaServicio.EstadoReserva.PENDIENTE)) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "Solo se pueden aprobar reservas pendientes"));
+            }
+
+            // Aprobar la reserva
+            reserva = reservaServicioService.actualizarEstadoReserva(id, ReservaServicio.EstadoReserva.CONFIRMADA);
+
+            return ResponseEntity.ok().body(Map.of(
+                    "message", "Reserva de servicio aprobada exitosamente",
+                    "codigo", reserva.getCodigoReserva(),
+                    "estado", "CONFIRMADA"));
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Error al aprobar reserva de servicio: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/reservas-servicios/{id}/rechazar")
+    @ResponseBody
+    public ResponseEntity<?> rechazarReservaServicio(@PathVariable Long id, Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            Optional<Administrador> adminOpt = administradorService.buscarPorEmail(email);
+
+            if (!adminOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Administrador no encontrado"));
+            }
+
+            Optional<ReservaServicio> reservaOpt = reservaServicioService.obtenerReservaPorId(id);
+
+            if (!reservaOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Reserva de servicio no encontrada"));
+            }
+
+            ReservaServicio reserva = reservaOpt.get();
+
+            // Verificar que la reserva esté pendiente
+            if (!reserva.getEstado().equals(ReservaServicio.EstadoReserva.PENDIENTE)) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "Solo se pueden rechazar reservas pendientes"));
+            }
+
+            // Rechazar la reserva
+            reserva = reservaServicioService.actualizarEstadoReserva(id, ReservaServicio.EstadoReserva.CANCELADA);
+
+            return ResponseEntity.ok().body(Map.of(
+                    "message", "Reserva de servicio rechazada exitosamente",
+                    "codigo", reserva.getCodigoReserva(),
+                    "estado", "CANCELADA"));
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Error al rechazar reserva de servicio: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/reservas-servicios/{id}/completar")
+    @ResponseBody
+    public ResponseEntity<?> completarReservaServicio(@PathVariable Long id, Authentication authentication) {
+        try {
+            String email = authentication.getName();
+            Optional<Administrador> adminOpt = administradorService.buscarPorEmail(email);
+
+            if (!adminOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Administrador no encontrado"));
+            }
+
+            Optional<ReservaServicio> reservaOpt = reservaServicioService.obtenerReservaPorId(id);
+
+            if (!reservaOpt.isPresent()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Reserva de servicio no encontrada"));
+            }
+
+            ReservaServicio reserva = reservaOpt.get();
+
+            // Verificar que la reserva esté confirmada
+            if (!reserva.getEstado().equals(ReservaServicio.EstadoReserva.CONFIRMADA)) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "Solo se pueden completar reservas confirmadas"));
+            }
+
+            // Completar la reserva
+            reserva = reservaServicioService.actualizarEstadoReserva(id, ReservaServicio.EstadoReserva.COMPLETADA);
+
+            return ResponseEntity.ok().body(Map.of(
+                    "message", "Reserva de servicio completada exitosamente",
+                    "codigo", reserva.getCodigoReserva(),
+                    "estado", "COMPLETADA"));
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Error al completar reserva de servicio: " + e.getMessage()));
+        }
     }
 }

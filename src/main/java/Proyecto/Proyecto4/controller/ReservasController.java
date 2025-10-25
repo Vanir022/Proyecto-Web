@@ -25,9 +25,7 @@ import Proyecto.Proyecto4.services.HabitacionService;
 import Proyecto.Proyecto4.services.ReservaService;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 
 @Controller
 @RequestMapping("/reservas")
@@ -122,11 +120,7 @@ public class ReservasController {
             @NotNull(message = "El número de huéspedes es obligatorio")
             @Min(value = 1, message = "Debe haber al menos 1 huésped")
             @RequestParam Integer numeroHuespedes,
-            @NotBlank(message = "El DNI del cliente es obligatorio")
-            @Pattern(regexp = "^[0-9]{8}$", message = "El DNI debe contener exactamente 8 dígitos")
-            @RequestParam String dniCliente,
             @RequestParam(required = false) String comentarios,
-            @RequestParam(required = false) String telefonoContacto,
             @RequestParam(required = false) String solicitudesEspeciales,
             Authentication authentication,
             RedirectAttributes redirectAttributes) {
@@ -151,8 +145,27 @@ public class ReservasController {
                 return "redirect:/reservas";
             }
             
+            Usuario usuario = usuarioOpt.get();
+            
+            // Obtener DNI y teléfono del perfil del usuario
+            String dniCliente = null;
+            String telefonoContacto = null;
+            
+            if (usuario.getDetallesPersona() != null) {
+                dniCliente = usuario.getDetallesPersona().getDni();
+                telefonoContacto = usuario.getDetallesPersona().getTelefono();
+            }
+            
+            // Validar que el usuario tenga DNI registrado
+            if (dniCliente == null || dniCliente.trim().isEmpty()) {
+                redirectAttributes.addFlashAttribute("error", 
+                    "Debes completar tu perfil con tu DNI antes de hacer una reserva. " +
+                    "Ve a 'Mi Perfil' para actualizarlo.");
+                return "redirect:/perfil";
+            }
+            
             Reserva reserva = reservaService.crearReserva(
-                usuarioOpt.get(),
+                usuario,
                 habitacionOpt.get(),
                 fechaEntrada,
                 fechaSalida,

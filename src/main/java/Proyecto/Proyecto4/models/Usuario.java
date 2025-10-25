@@ -52,6 +52,9 @@ public class Usuario {
     @Column(nullable = false, length = 255)
     private String rol; // Ejemplo: "ROLE_USER", "ROLE_ADMIN"
 
+    @Column(nullable = false)
+    private Boolean activo = true; // Estado del usuario: true = activo, false = inactivo
+
     // Relación OneToOne con DetallesPersona
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "detalles_persona_id", referencedColumnName = "id")

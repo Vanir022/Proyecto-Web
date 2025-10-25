@@ -24,75 +24,7 @@
     <div class="container-fluid mt-5 pt-4">
         <div class="row">
             <!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar border-end">
-                <div class="position-sticky pt-3">
-                    <div class="text-center mb-4">
-                        <img th:if="${admin.fotoPerfil != null}" th:src="@{'/uploads/fotos/' + ${admin.fotoPerfil}}"
-                            alt="Foto Admin" class="rounded-circle mb-2"
-                            style="width: 60px; height: 60px; object-fit: cover;">
-                        <i th:unless="${admin.fotoPerfil != null}"
-                            class="fas fa-user-shield fa-3x text-primary mb-2"></i>
-                        <h6 th:text="${admin.nombres + ' ' + admin.apellidos}">Admin</h6>
-                        <small class="text-muted" th:text="${admin.rol}">Rol</small>
-                        <br>
-                        <small class="text-muted" th:if="${admin.hotel != null}" th:text="${admin.hotel}">Hotel</small>
-                    </div>
-
-                    <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item">
-                            <a th:href="@{/admin/dashboard}" class="nav-link text-dark">
-                                <i class="fas fa-tachometer-alt me-2"></i>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/admin/usuarios}" class="nav-link text-dark">
-                                <i class="fas fa-users me-2"></i>
-                                Gestión de Usuarios
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/admin/habitaciones}" class="nav-link active">
-                                <i class="fas fa-bed me-2"></i>
-                                Gestión de Habitaciones
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/admin/reservas}" class="nav-link text-dark">
-                                <i class="fas fa-calendar-check me-2"></i>
-                                Gestión de Reservas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link text-dark">
-                                <i class="fas fa-chart-bar me-2"></i>
-                                Reportes
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link text-dark">
-                                <i class="fas fa-cog me-2"></i>
-                                Configuración
-                            </a>
-                        </li>
-                    </ul>
-
-                    <hr>
-                    <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
-                            data-bs-toggle="dropdown">
-                            <strong>Opciones</strong>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Perfil</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" th:href="@{/logout}">Cerrar Sesión</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            <div th:replace="~{fragments/admin-sidebar :: adminSidebar}"></div>
 
             <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">

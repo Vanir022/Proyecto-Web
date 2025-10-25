@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import Proyecto.Proyecto4.models.Reserva;
+import Proyecto.Proyecto4.models.ReservaServicio;
 import Proyecto.Proyecto4.models.Usuario;
 import Proyecto.Proyecto4.services.ReservaService;
+import Proyecto.Proyecto4.services.ReservaServicioService;
 import Proyecto.Proyecto4.services.UsuarioService;
 
 @Controller
@@ -24,6 +26,9 @@ public class HomeController {
     
     @Autowired
     private ReservaService reservaService;
+    
+    @Autowired
+    private ReservaServicioService reservaServicioService;
 
 
     // Mapeo para el header
@@ -77,24 +82,46 @@ public class HomeController {
                 model.addAttribute("detalles", usuario.getDetallesPersona());
             }
             
-            // Obtener las reservas del usuario
-            List<Reserva> reservas = reservaService.obtenerReservasPorUsuario(usuario);
-            model.addAttribute("reservas", reservas);
+            // ========== OBTENER RESERVAS DE HABITACIONES ==========
+            List<Reserva> reservasHabitaciones = reservaService.obtenerReservasPorUsuario(usuario);
+            model.addAttribute("reservasHabitaciones", reservasHabitaciones);
             
-            // Contar reservas por estado
-            long reservasPendientes = reservas.stream()
+            // Contar reservas de habitaciones por estado
+            long habitacionesPendientes = reservasHabitaciones.stream()
                 .filter(r -> r.getEstado() == Reserva.EstadoReserva.PENDIENTE)
                 .count();
-            long reservasConfirmadas = reservas.stream()
+            long habitacionesConfirmadas = reservasHabitaciones.stream()
                 .filter(r -> r.getEstado() == Reserva.EstadoReserva.CONFIRMADA)
                 .count();
-            long reservasCompletadas = reservas.stream()
+            long habitacionesCompletadas = reservasHabitaciones.stream()
                 .filter(r -> r.getEstado() == Reserva.EstadoReserva.COMPLETADA)
                 .count();
             
-            model.addAttribute("reservasPendientes", reservasPendientes);
-            model.addAttribute("reservasConfirmadas", reservasConfirmadas);
-            model.addAttribute("reservasCompletadas", reservasCompletadas);
+            // ========== OBTENER RESERVAS DE SERVICIOS ==========
+            List<ReservaServicio> reservasServicios = reservaServicioService.obtenerReservasPorUsuario(usuario);
+            model.addAttribute("reservasServicios", reservasServicios);
+            
+            // Contar reservas de servicios por estado
+            long serviciosPendientes = reservasServicios.stream()
+                .filter(r -> r.getEstado() == ReservaServicio.EstadoReserva.PENDIENTE)
+                .count();
+            long serviciosConfirmadas = reservasServicios.stream()
+                .filter(r -> r.getEstado() == ReservaServicio.EstadoReserva.CONFIRMADA)
+                .count();
+            long serviciosCompletadas = reservasServicios.stream()
+                .filter(r -> r.getEstado() == ReservaServicio.EstadoReserva.COMPLETADA)
+                .count();
+            
+            // ========== TOTALES COMBINADOS ==========
+            long totalPendientes = habitacionesPendientes + serviciosPendientes;
+            long totalConfirmadas = habitacionesConfirmadas + serviciosConfirmadas;
+            long totalCompletadas = habitacionesCompletadas + serviciosCompletadas;
+            long totalReservas = reservasHabitaciones.size() + reservasServicios.size();
+            
+            model.addAttribute("reservasPendientes", totalPendientes);
+            model.addAttribute("reservasConfirmadas", totalConfirmadas);
+            model.addAttribute("reservasCompletadas", totalCompletadas);
+            model.addAttribute("totalReservas", totalReservas);
         }
         
         return "html/dashboard"; // Thymeleaf buscará templates/dashboard.html

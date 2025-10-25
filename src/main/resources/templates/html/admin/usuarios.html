@@ -19,73 +19,7 @@
     <div class="container-fluid mt-5 pt-4">
         <div class="row">
             <!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar border-end">
-                <div class="position-sticky pt-3">
-                    <div class="text-center mb-4">
-                        <img th:if="${admin.fotoPerfil != null}" th:src="@{'/uploads/fotos/' + ${admin.fotoPerfil}}"
-                            alt="Foto Admin" class="rounded-circle mb-2"
-                            style="width: 60px; height: 60px; object-fit: cover;">
-                        <i th:unless="${admin.fotoPerfil != null}"
-                            class="fas fa-user-shield fa-3x text-primary mb-2"></i>
-                        <h6 th:text="${admin.nombres + ' ' + admin.apellidos}">Admin</h6>
-                        <small class="text-muted" th:text="${admin.rol}">Rol</small>
-                    </div>
-
-                    <ul class="nav nav-pills flex-column mb-auto">
-                        <li class="nav-item">
-                            <a th:href="@{/admin/dashboard}" class="nav-link text-dark">
-                                <i class="fas fa-tachometer-alt me-2"></i>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/admin/usuarios}" class="nav-link active">
-                                <i class="fas fa-users me-2"></i>
-                                Gestión de Usuarios
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/admin/habitaciones}" class="nav-link text-dark">
-                                <i class="fas fa-bed me-2"></i>
-                                Gestión de Habitaciones
-                            </a>
-                        </li>
-                        <li>
-                            <a th:href="@{/admin/reservas}" class="nav-link text-dark">
-                                <i class="fas fa-calendar-check me-2"></i>
-                                Gestión de Reservas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link text-dark">
-                                <i class="fas fa-chart-bar me-2"></i>
-                                Reportes
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link text-dark">
-                                <i class="fas fa-cog me-2"></i>
-                                Configuración
-                            </a>
-                        </li>
-                    </ul>
-
-                    <hr>
-                    <div class="dropdown">
-                        <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
-                            data-bs-toggle="dropdown">
-                            <strong>Opciones</strong>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Perfil</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" th:href="@{/logout}">Cerrar Sesión</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            <div th:replace="~{fragments/admin-sidebar :: adminSidebar}"></div>
 
             <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -108,28 +42,35 @@
                 <!-- Filtros -->
                 <div class="card mb-4">
                     <div class="card-body">
-                        <form class="row g-3">
-                            <div class="col-md-4">
+                        <form method="GET" action="/admin/usuarios" class="row g-3">
+                            <div class="col-md-5">
                                 <label class="form-label">Buscar Usuario:</label>
-                                <input type="text" class="form-control" placeholder="Nombre, email o documento">
+                                <input type="text" class="form-control" name="busqueda" 
+                                    th:value="${busqueda}"
+                                    placeholder="Nombre, email o DNI">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label class="form-label">Estado:</label>
-                                <select class="form-select">
+                                <select class="form-select" name="estado" th:value="${estado}">
                                     <option value="">Todos</option>
-                                    <option value="activo">Activos</option>
-                                    <option value="inactivo">Inactivos</option>
+                                    <option value="activo" th:selected="${estado == 'activo'}">Activos</option>
+                                    <option value="inactivo" th:selected="${estado == 'inactivo'}">Inactivos</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label">Fecha Registro:</label>
-                                <input type="date" class="form-control">
-                            </div>
-                            <div class="col-md-2">
                                 <label class="form-label">&nbsp;</label>
-                                <button type="submit" class="btn btn-primary d-block">
-                                    <i class="fas fa-search"></i> Buscar
-                                </button>
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i> Buscar
+                                    </button>
+                                    <a href="/admin/usuarios" class="btn btn-secondary" title="Limpiar filtros">
+                                        <i class="fas fa-eraser"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                        data-bs-target="#nuevoUsuarioModal">
+                                        <i class="fas fa-plus"></i> Nuevo
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -137,10 +78,19 @@
 
                 <!-- Tabla de Usuarios -->
                 <div class="card shadow">
-                    <div class="card-header py-3">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <h6 class="m-0 font-weight-bold text-primary">Lista de Usuarios Registrados</h6>
+                        <span class="badge bg-primary" th:text="'Total: ' + ${usuarios.size()}">Total: 0</span>
                     </div>
                     <div class="card-body">
+                        <!-- Mensaje de resultados de búsqueda -->
+                        <div th:if="${busqueda != null and !busqueda.isEmpty()}" class="alert alert-info alert-dismissible fade show" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Resultados de búsqueda:</strong> Se encontraron <strong th:text="${usuarios.size()}">0</strong> usuario(s) 
+                            que coinciden con "<strong th:text="${busqueda}">búsqueda</strong>"
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover">
                                 <thead class="table-dark">
@@ -186,7 +136,8 @@
                                             <span class="badge bg-info" th:text="${usuario.rol}">ROLE_USER</span>
                                         </td>
                                         <td>
-                                            <span class="badge bg-success">Activo</span>
+                                            <span th:if="${usuario.activo == null or usuario.activo == true}" class="badge bg-success">Activo</span>
+                                            <span th:unless="${usuario.activo == null or usuario.activo == true}" class="badge bg-danger">Inactivo</span>
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
@@ -211,8 +162,20 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <!-- Mensaje cuando no hay usuarios -->
                                     <tr th:if="${#lists.isEmpty(usuarios)}">
-                                        <td colspan="9" class="text-center">No hay usuarios registrados</td>
+                                        <td colspan="9" class="text-center py-5">
+                                            <i class="fas fa-users-slash fa-3x text-muted mb-3"></i>
+                                            <h5 class="text-muted" th:if="${busqueda != null and !busqueda.isEmpty()}">
+                                                No se encontraron usuarios que coincidan con la búsqueda
+                                            </h5>
+                                            <h5 class="text-muted" th:unless="${busqueda != null and !busqueda.isEmpty()}">
+                                                No hay usuarios registrados
+                                            </h5>
+                                            <p class="text-muted" th:if="${busqueda != null and !busqueda.isEmpty()}">
+                                                Intenta con otros términos de búsqueda
+                                            </p>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -391,10 +354,24 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold text-dark">Intereses</label>
-                            <textarea class="form-control" name="intereses" id="editIntereses" rows="2"
-                                placeholder="Intereses del usuario"></textarea>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-dark">Estado del Usuario *</label>
+                                    <select class="form-select" name="activo" id="editActivo" required>
+                                        <option value="true">Activo</option>
+                                        <option value="false">Inactivo</option>
+                                    </select>
+                                    <small class="text-muted">Los usuarios inactivos no podrán iniciar sesión</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-dark">Intereses</label>
+                                    <textarea class="form-control" name="intereses" id="editIntereses" rows="2"
+                                        placeholder="Intereses del usuario"></textarea>
+                                </div>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <div class="form-check">
@@ -536,6 +513,7 @@
                     document.getElementById('editFechaNacimiento').value = data.fechaNacimiento || '';
                     document.getElementById('editIntereses').value = data.intereses || '';
                     document.getElementById('editAceptaMarketing').checked = data.aceptaMarketing || false;
+                    document.getElementById('editActivo').value = data.activo !== undefined ? data.activo.toString() : 'true';
 
                     // Limpiar campos de contraseña
                     document.getElementById('editPassword').value = '';

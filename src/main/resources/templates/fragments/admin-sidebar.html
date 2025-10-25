@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <!-- Sidebar de Administrador -->
+    <nav th:fragment="adminSidebar" class="col-md-3 col-lg-2 d-md-block bg-white sidebar border-end">
+        <div class="position-sticky pt-3">
+            <!-- Información del Admin -->
+            <div class="text-center mb-4">
+                <img th:if="${admin?.fotoPerfil != null}" th:src="@{'/uploads/fotos/' + ${admin.fotoPerfil}}"
+                    alt="Foto Admin" class="rounded-circle mb-2" style="width: 60px; height: 60px; object-fit: cover;">
+                <i th:unless="${admin?.fotoPerfil != null}" class="fas fa-user-shield fa-3x text-primary mb-2"></i>
+                <h6 th:text="${admin?.nombres + ' ' + admin?.apellidos}">Admin</h6>
+                <small class="text-muted" th:text="${admin?.rol}">Rol</small>
+                <br>
+                <small class="text-muted" th:if="${admin?.hotel != null}" th:text="${admin.hotel}">Hotel</small>
+            </div>
+
+            <!-- Menú de Navegación -->
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a th:href="@{/admin/dashboard}" class="nav-link text-dark">
+                        <i class="fas fa-tachometer-alt me-2"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/usuarios}" class="nav-link text-dark">
+                        <i class="fas fa-users me-2"></i>
+                        Gestión de Usuarios
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/habitaciones}" class="nav-link text-dark">
+                        <i class="fas fa-bed me-2"></i>
+                        Gestión de Habitaciones
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/reservas}" class="nav-link text-dark">
+                        <i class="fas fa-calendar-check me-2"></i>
+                        Reservas de Habitaciones
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/reservas-servicios}" class="nav-link text-dark">
+                        <i class="fas fa-concierge-bell me-2"></i>
+                        Reservas de Servicios
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/contactos}" class="nav-link text-dark">
+                        <i class="fas fa-envelope me-2"></i>
+                        Mensajes de Contacto
+                    </a>
+                </li>
+            </ul>
+
+            <hr>
+
+            <!-- Opciones de Admin -->
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown">
+                    <strong>Opciones</strong>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item text-danger" th:href="@{/logout}">
+                            <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                        </a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</body>
+
+</html>

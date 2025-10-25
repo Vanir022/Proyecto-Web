@@ -336,18 +336,6 @@
               <form id="spaForm">
                 <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="nombreSpa" class="form-label">Nombre Completo *</label>
-                    <input type="text" class="form-control form-control-lg" id="nombreSpa" required>
-                  </div>
-                  <div class="col-md-6">
-                    <label for="telefonoSpa" class="form-label">Teléfono *</label>
-                    <input type="tel" class="form-control form-control-lg" id="telefonoSpa" required>
-                  </div>
-                  <div class="col-md-12">
-                    <label for="emailSpa" class="form-label">Correo Electrónico *</label>
-                    <input type="email" class="form-control form-control-lg" id="emailSpa" required>
-                  </div>
-                  <div class="col-md-6">
                     <label for="tratamiento" class="form-label">Tratamiento Deseado *</label>
                     <select class="form-control form-control-lg" id="tratamiento" required>
                       <option value="">Selecciona un tratamiento</option>
@@ -394,7 +382,12 @@
                   </div>
                 </div>
 
-                <div class="text-center mt-4">
+                <div class="alert alert-info mt-3" role="alert">
+                  <i class="fas fa-info-circle me-2"></i>
+                  <strong>Nota:</strong> La reserva se registrará con los datos de tu perfil de usuario.
+                </div>
+
+                <div class="text-center mt-3">
                   <button type="submit" class="btn btn-success btn-lg px-5">
                     <i class="fas fa-leaf me-2"></i>Confirmar Reserva
                   </button>
@@ -415,13 +408,10 @@
 
   <script>
     // Formulario de spa
-    document.getElementById('spaForm').addEventListener('submit', function (e) {
+    document.getElementById('spaForm').addEventListener('submit', async function (e) {
       e.preventDefault();
 
       const formData = {
-        nombre: document.getElementById('nombreSpa').value,
-        telefono: document.getElementById('telefonoSpa').value,
-        email: document.getElementById('emailSpa').value,
         tratamiento: document.getElementById('tratamiento').value,
         personas: document.getElementById('personas').value,
         fecha: document.getElementById('fechaSpa').value,
@@ -430,15 +420,39 @@
       };
 
       const tratamientoText = document.getElementById('tratamiento').options[document.getElementById('tratamiento').selectedIndex].text;
+      formData.tratamientoTexto = tratamientoText;
 
-      alert('🌿 RESERVA CONFIRMADA\n\n' +
-        `Gracias ${formData.nombre}, tu reserva ha sido registrada:\n\n` +
-        `📅 Fecha: ${formData.fecha}\n` +
-        `🕐 Hora: ${formData.hora}\n` +
-        `💆 Tratamiento: ${tratamientoText}\n` +
-        `👥 Personas: ${formData.personas}\n\n` +
-        '📞 Te contactaremos para confirmar disponibilidad en las próximas 2 horas.\n\n' +
-        '✨ ¡Prepárate para una experiencia única de relajación!');
+      try {
+        const response = await fetch('/reservas-servicios/spa', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const resultado = await response.json();
+
+        if (resultado.success) {
+          alert('🌿 RESERVA CONFIRMADA\n\n' +
+            `Tu reserva ha sido registrada exitosamente:\n\n` +
+            `📋 Código de Reserva: ${resultado.codigo}\n` +
+            `� Fecha: ${formData.fecha}\n` +
+            `🕐 Hora: ${formData.hora}\n` +
+            `💆 Tratamiento: ${tratamientoText}\n` +
+            `👥 Personas: ${formData.personas}\n\n` +
+            '📞 Te contactaremos para confirmar disponibilidad en las próximas 2 horas.\n\n' +
+            '✨ ¡Prepárate para una experiencia única de relajación!');
+          
+          // Limpiar formulario
+          document.getElementById('spaForm').reset();
+        } else {
+          alert('❌ Error al procesar la reserva.\n\n' + (resultado.error || 'Por favor, intenta nuevamente.'));
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('❌ Error de conexión.\n\nPor favor, verifica que hayas iniciado sesión e intenta nuevamente.');
+      }
     });
 
     // Establecer fecha mínima como hoy

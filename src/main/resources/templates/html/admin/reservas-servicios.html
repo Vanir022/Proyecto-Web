@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Reservas de Servicios - Resort Eden</title>
+    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <!-- Header -->
+    <div th:replace="~{fragments/Header :: header}"></div>
+
+    <div class="container-fluid mt-5 pt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div th:replace="~{fragments/admin-sidebar :: adminSidebar}"></div>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Gestión de Reservas de Servicios</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <a th:href="@{/admin/reservas-servicios/export}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-download"></i> Exportar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen de Servicios -->
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="card bg-info text-white">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-spa fa-2x me-3"></i>
+                                    <div>
+                                        <h5 class="card-title mb-0" th:text="${reservasSpa}">0</h5>
+                                        <small>Reservas de Spa</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-danger text-white">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-heart fa-2x me-3"></i>
+                                    <div>
+                                        <h5 class="card-title mb-0" th:text="${reservasBodas}">0</h5>
+                                        <small>Reservas de Bodas</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-warning text-dark">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-calendar-alt fa-2x me-3"></i>
+                                    <div>
+                                        <h5 class="card-title mb-0" th:text="${reservasEventos}">0</h5>
+                                        <small>Reservas de Eventos</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumen de Estados -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card bg-warning text-white">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-clock fa-2x me-3"></i>
+                                    <div>
+                                        <h5 class="card-title mb-0" th:text="${reservasPendientes}">0</h5>
+                                        <small>Pendientes</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-success text-white">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-check-circle fa-2x me-3"></i>
+                                    <div>
+                                        <h5 class="card-title mb-0" th:text="${reservasConfirmadas}">0</h5>
+                                        <small>Confirmadas</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-info text-white">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-flag-checkered fa-2x me-3"></i>
+                                    <div>
+                                        <h5 class="card-title mb-0" th:text="${reservasCompletadas}">0</h5>
+                                        <small>Completadas</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-danger text-white">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-times-circle fa-2x me-3"></i>
+                                    <div>
+                                        <h5 class="card-title mb-0" th:text="${reservasCanceladas}">0</h5>
+                                        <small>Canceladas</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Reservas -->
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Lista de Reservas de Servicios</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Tipo de Servicio</th>
+                                        <th>Cliente</th>
+                                        <th>Paquete/Servicio</th>
+                                        <th>Fecha del Servicio</th>
+                                        <th>Personas</th>
+                                        <th>Monto</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="reserva : ${reservasServicios}">
+                                        <!-- Código de Reserva -->
+                                        <td>
+                                            <strong class="text-primary" th:text="${reserva.codigoReserva}">SPA-12345</strong>
+                                        </td>
+                                        
+                                        <!-- Tipo de Servicio -->
+                                        <td>
+                                            <span th:if="${reserva.tipoServicio.name() == 'SPA'}" class="badge bg-info">
+                                                <i class="fas fa-spa me-1"></i> Spa
+                                            </span>
+                                            <span th:if="${reserva.tipoServicio.name() == 'BODA'}" class="badge bg-danger">
+                                                <i class="fas fa-heart me-1"></i> Boda
+                                            </span>
+                                            <span th:if="${reserva.tipoServicio.name() == 'EVENTO'}" class="badge bg-warning text-dark">
+                                                <i class="fas fa-calendar-alt me-1"></i> Evento
+                                            </span>
+                                        </td>
+                                        
+                                        <!-- Cliente -->
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img th:if="${reserva.usuario?.detallesPersona?.fotoPerfil != null}"
+                                                    th:src="@{'/uploads/fotos/' + ${reserva.usuario.detallesPersona.fotoPerfil}}"
+                                                    alt="Foto" class="rounded-circle me-2"
+                                                    style="width: 40px; height: 40px; object-fit: cover;">
+                                                <i th:unless="${reserva.usuario?.detallesPersona?.fotoPerfil != null}"
+                                                    class="fas fa-user-circle fa-2x text-secondary me-2"></i>
+                                                <div>
+                                                    <div>
+                                                        <strong th:text="${reserva.usuario?.nombre ?: 'Sin usuario'}">Nombre</strong>
+                                                    </div>
+                                                    <div>
+                                                        <small class="text-muted" th:text="${reserva.usuario?.email ?: '-'}">email</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        
+                                        <!-- Paquete/Servicio -->
+                                        <td>
+                                            <strong th:text="${reserva.nombrePaquete}">Día de Spa Completo</strong>
+                                            <br>
+                                            <small class="text-muted" th:if="${reserva.hotel != null}">
+                                                <i class="fas fa-building me-1"></i>
+                                                <span th:text="${reserva.hotel}">Hotel</span>
+                                            </small>
+                                            <small class="text-muted" th:if="${reserva.salon != null}">
+                                                <i class="fas fa-door-open me-1"></i>
+                                                <span th:text="${reserva.salon}">Salón</span>
+                                            </small>
+                                        </td>
+                                        
+                                        <!-- Fecha del Servicio -->
+                                        <td class="text-center">
+                                            <span th:if="${reserva.fechaServicio != null}"
+                                                  th:text="${#temporals.format(reserva.fechaServicio, 'dd/MM/yyyy')}">
+                                                10/07/2025
+                                            </span>
+                                            <br>
+                                            <small class="text-muted" th:if="${reserva.horaServicio != null}">
+                                                <i class="fas fa-clock me-1"></i>
+                                                <span th:text="${#temporals.format(reserva.horaServicio, 'HH:mm')}">10:00</span>
+                                            </small>
+                                        </td>
+                                        
+                                        <!-- Número de Personas -->
+                                        <td class="text-center">
+                                            <i class="fas fa-users me-1"></i>
+                                            <span th:text="${reserva.numeroPersonas}">2</span>
+                                        </td>
+                                        
+                                        <!-- Monto -->
+                                        <td class="text-end">
+                                            <strong>S/ <span th:text="${#numbers.formatDecimal(reserva.montoTotal, 0, 'COMMA', 2, 'POINT')}">450.00</span></strong>
+                                        </td>
+                                        
+                                        <!-- Estado -->
+                                        <td class="text-center">
+                                            <span th:classappend="${reserva.estado?.name() == 'PENDIENTE'} ? 'bg-warning text-dark' : 
+                                                                  (${reserva.estado?.name() == 'CONFIRMADA'} ? 'bg-success' : 
+                                                                  (${reserva.estado?.name() == 'COMPLETADA'} ? 'bg-info' : 
+                                                                  (${reserva.estado?.name() == 'CANCELADA'} ? 'bg-danger' : 'bg-secondary')))"
+                                                  class="badge" 
+                                                  th:text="${reserva.estado?.name() ?: 'DESCONOCIDO'}">
+                                                CONFIRMADA
+                                            </span>
+                                        </td>
+                                        
+                                        <!-- Acciones -->
+                                        <td class="text-center">
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <!-- Botón Aprobar (solo para pendientes) -->
+                                                <button th:if="${reserva.estado?.name() == 'PENDIENTE'}"
+                                                        type="button" 
+                                                        class="btn btn-success btn-sm"
+                                                        th:onclick="'aprobarReservaServicio(' + ${reserva.id} + ')'"
+                                                        title="Aprobar reserva">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                                
+                                                <!-- Botón Rechazar (solo para pendientes) -->
+                                                <button th:if="${reserva.estado?.name() == 'PENDIENTE'}"
+                                                        type="button" 
+                                                        class="btn btn-danger btn-sm"
+                                                        th:onclick="'rechazarReservaServicio(' + ${reserva.id} + ')'"
+                                                        title="Rechazar reserva">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                                
+                                                <!-- Botón Completar (solo para confirmadas) -->
+                                                <button th:if="${reserva.estado?.name() == 'CONFIRMADA'}"
+                                                        type="button" 
+                                                        class="btn btn-info btn-sm"
+                                                        th:onclick="'completarReservaServicio(' + ${reserva.id} + ')'"
+                                                        title="Marcar como completada">
+                                                    <i class="fas fa-check-double"></i>
+                                                </button>
+                                                
+                                                <!-- Sin acciones para completadas/canceladas -->
+                                                <span th:if="${reserva.estado?.name() == 'COMPLETADA' || reserva.estado?.name() == 'CANCELADA'}"
+                                                      class="text-muted small">
+                                                    <i class="fas fa-lock"></i> Finalizada
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+                                    <!-- Mensaje cuando no hay reservas -->
+                                    <tr th:if="${#lists.isEmpty(reservasServicios)}">
+                                        <td colspan="9" class="text-center py-5">
+                                            <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                                            <h5 class="text-muted">No hay reservas de servicios registradas</h5>
+                                            <p class="text-muted">Las reservas de Spa, Bodas y Eventos aparecerán aquí.</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función para aprobar reserva de servicio
+        function aprobarReservaServicio(id) {
+            if (!confirm('¿Estás seguro de que deseas aprobar esta reserva de servicio?')) {
+                return;
+            }
+
+            fetch(`/admin/reservas-servicios/${id}/aprobar`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                } else {
+                    alert('Reserva aprobada exitosamente');
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al aprobar la reserva');
+            });
+        }
+
+        // Función para rechazar reserva de servicio
+        function rechazarReservaServicio(id) {
+            if (!confirm('¿Estás seguro de que deseas rechazar esta reserva de servicio?')) {
+                return;
+            }
+
+            fetch(`/admin/reservas-servicios/${id}/rechazar`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                } else {
+                    alert('Reserva rechazada exitosamente');
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al rechazar la reserva');
+            });
+        }
+
+        // Función para completar reserva de servicio
+        function completarReservaServicio(id) {
+            if (!confirm('¿Estás seguro de que deseas marcar esta reserva como completada?')) {
+                return;
+            }
+
+            fetch(`/admin/reservas-servicios/${id}/completar`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                } else {
+                    alert('Reserva marcada como completada');
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al completar la reserva');
+            });
+        }
+    </script>
+</body>
+
+</html>

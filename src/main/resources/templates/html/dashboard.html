@@ -103,26 +103,26 @@
       <div class="row mb-4">
         <div class="col-md-3">
           <div class="stats-card">
-            <div class="stats-number">0</div>
-            <small class="text-muted">Reservas Activas</small>
+            <div class="stats-number" th:text="${totalReservas != null ? totalReservas : 0}">0</div>
+            <small class="text-muted">Total Reservas</small>
           </div>
         </div>
         <div class="col-md-3">
           <div class="stats-card">
-            <div class="stats-number">0</div>
-            <small class="text-muted">Reservas Completadas</small>
+            <div class="stats-number text-warning" th:text="${reservasPendientes}">0</div>
+            <small class="text-muted">Pendientes</small>
           </div>
         </div>
         <div class="col-md-3">
           <div class="stats-card">
-            <div class="stats-number">0</div>
-            <small class="text-muted">Puntos Eden</small>
+            <div class="stats-number text-success" th:text="${reservasConfirmadas}">0</div>
+            <small class="text-muted">Confirmadas</small>
           </div>
         </div>
         <div class="col-md-3">
           <div class="stats-card">
-            <div class="stats-number">Cliente</div>
-            <small class="text-muted">Estado</small>
+            <div class="stats-number text-info" th:text="${reservasCompletadas}">0</div>
+            <small class="text-muted">Completadas</small>
           </div>
         </div>
       </div>
@@ -179,21 +179,24 @@
             <h5><i class="fas fa-calendar-check me-2"></i>Mis Reservas</h5>
 
             <!-- Si no tiene reservas -->
-            <div th:if="${reservas == null or #lists.size(reservas) == 0}" class="text-center py-4">
+            <div th:if="${(reservasHabitaciones == null or #lists.size(reservasHabitaciones) == 0) and (reservasServicios == null or #lists.size(reservasServicios) == 0)}" class="text-center py-4">
               <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
               <h6 class="text-muted">No tienes reservas activas</h6>
               <p class="text-muted">¡Explora nuestros destinos y haz tu primera reserva!</p>
-              <a th:href="@{/reservas}" class="btn-aranwa">
-                <i class="fas fa-plus me-2"></i>Nueva Reserva
+              <a th:href="@{/buscar-habitaciones}" class="btn-aranwa me-2">
+                <i class="fas fa-bed me-2"></i>Reservar Habitación
+              </a>
+              <a th:href="@{/spa}" class="btn btn-outline-success">
+                <i class="fas fa-spa me-2"></i>Reservar Spa
               </a>
             </div>
 
             <!-- Si tiene reservas -->
-            <div th:if="${reservas != null and #lists.size(reservas) > 0}">
+            <div th:if="${(reservasHabitaciones != null and #lists.size(reservasHabitaciones) > 0) or (reservasServicios != null and #lists.size(reservasServicios) > 0)}">
               <div class="row g-2 mb-3">
                 <div class="col-4 text-center">
                   <div class="stats-card">
-                    <div class="stats-number" th:text="${reservasPendientes}">0</div>
+                    <div class="stats-number text-warning" th:text="${reservasPendientes}">0</div>
                     <small>Pendientes</small>
                   </div>
                 </div>
@@ -214,40 +217,92 @@
               <!-- Lista de reservas recientes -->
               <div class="row">
                 <div class="col-12">
-                  <h6 class="text-muted mb-3">Reservas Recientes</h6>
-                  <div th:each="reserva, iterStat : ${reservas}" th:if="${iterStat.index < 3}">
-                    <div class="card mb-2" style="border-left: 3px solid" th:style="'border-left-color: ' + 
-                                   (${reserva.estado.name() == 'CONFIRMADA'} ? '#28a745' : 
-                                   (${reserva.estado.name() == 'PENDIENTE'} ? '#ffc107' : 
-                                   (${reserva.estado.name() == 'COMPLETADA'} ? '#17a2b8' : '#dc3545')))">
-                      <div class="card-body py-2">
-                        <div class="d-flex justify-content-between align-items-start">
-                          <div>
-                            <h6 class="mb-1">
-                              <span class="text-primary" th:text="'Habitación ' + ${reserva.habitacion.numero}"></span>
-                              <span class="badge ms-2" th:class="${reserva.estado.name() == 'CONFIRMADA' ? 'bg-success' : 
-                                               (reserva.estado.name() == 'PENDIENTE' ? 'bg-warning' : 
-                                               (reserva.estado.name() == 'COMPLETADA' ? 'bg-info' : 'bg-danger'))}"
-                                th:text="${reserva.estado}">
-                              </span>
-                            </h6>
-                            <small class="text-muted">
-                              <i class="fas fa-map-marker-alt me-1"></i>
-                              <span th:text="${reserva.habitacion.hotel}"></span>
-                            </small>
-                            <br>
-                            <small class="text-muted">
-                              <i class="fas fa-calendar me-1"></i>
-                              <span th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}"></span> -
-                              <span th:text="${#temporals.format(reserva.fechaSalida, 'dd/MM/yyyy')}"></span>
-                            </small>
+                  <h6 class="text-muted mb-3">Reservas Recientes (Últimas 5)</h6>
+                  
+                  <!-- RESERVAS DE HABITACIONES -->
+                  <div th:if="${reservasHabitaciones != null and #lists.size(reservasHabitaciones) > 0}">
+                    <div th:each="reserva, iterStat : ${reservasHabitaciones}" th:if="${iterStat.index < 3}">
+                      <div class="card mb-2" style="border-left: 4px solid" th:style="'border-left-color: ' + 
+                                     (${reserva.estado.name() == 'CONFIRMADA'} ? '#28a745' : 
+                                     (${reserva.estado.name() == 'PENDIENTE'} ? '#ffc107' : 
+                                     (${reserva.estado.name() == 'COMPLETADA'} ? '#17a2b8' : '#dc3545')))">
+                        <div class="card-body py-2">
+                          <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                              <h6 class="mb-1">
+                                <i class="fas fa-bed text-primary me-1"></i>
+                                <span class="text-primary" th:text="'Habitación ' + ${reserva.habitacion.numero}"></span>
+                                <span class="badge ms-2" th:class="${reserva.estado.name() == 'CONFIRMADA' ? 'bg-success' : 
+                                                 (reserva.estado.name() == 'PENDIENTE' ? 'bg-warning text-dark' : 
+                                                 (reserva.estado.name() == 'COMPLETADA' ? 'bg-info' : 'bg-danger'))}"
+                                  th:text="${reserva.estado}">
+                                </span>
+                              </h6>
+                              <small class="text-muted">
+                                <i class="fas fa-map-marker-alt me-1"></i>
+                                <span th:text="${reserva.habitacion.hotel}"></span>
+                              </small>
+                              <br>
+                              <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i>
+                                <span th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy')}"></span> -
+                                <span th:text="${#temporals.format(reserva.fechaSalida, 'dd/MM/yyyy')}"></span>
+                              </small>
+                            </div>
+                            <div class="text-end">
+                              <small class="text-success fw-bold">
+                                S/ <span th:text="${#numbers.formatDecimal(reserva.montoTotal, 0, 2)}"></span>
+                              </small>
+                              <br>
+                              <small class="text-muted" th:text="${reserva.codigoReserva}"></small>
+                            </div>
                           </div>
-                          <div class="text-end">
-                            <small class="text-success fw-bold">
-                              S/ <span th:text="${#numbers.formatDecimal(reserva.montoTotal, 0, 2)}"></span>
-                            </small>
-                            <br>
-                            <small class="text-muted" th:text="${reserva.codigoReserva}"></small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- RESERVAS DE SERVICIOS (SPA, BODAS, EVENTOS) -->
+                  <div th:if="${reservasServicios != null and #lists.size(reservasServicios) > 0}">
+                    <div th:each="reserva, iterStat : ${reservasServicios}" th:if="${iterStat.index < 2}">
+                      <div class="card mb-2" style="border-left: 4px solid" th:style="'border-left-color: ' + 
+                                     (${reserva.estado.name() == 'CONFIRMADA'} ? '#28a745' : 
+                                     (${reserva.estado.name() == 'PENDIENTE'} ? '#ffc107' : 
+                                     (${reserva.estado.name() == 'COMPLETADA'} ? '#17a2b8' : '#dc3545')))">
+                        <div class="card-body py-2">
+                          <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                              <h6 class="mb-1">
+                                <!-- Icono según tipo de servicio -->
+                                <i th:class="${reserva.tipoServicio.name() == 'SPA' ? 'fas fa-spa text-info me-1' : 
+                                              (reserva.tipoServicio.name() == 'BODA' ? 'fas fa-heart text-danger me-1' : 
+                                              'fas fa-calendar-alt text-warning me-1')}"></i>
+                                <span class="text-primary" th:text="${reserva.tipoServicio}"></span>
+                                <span class="badge ms-2" th:class="${reserva.estado.name() == 'CONFIRMADA' ? 'bg-success' : 
+                                                 (reserva.estado.name() == 'PENDIENTE' ? 'bg-warning text-dark' : 
+                                                 (reserva.estado.name() == 'COMPLETADA' ? 'bg-info' : 'bg-danger'))}"
+                                  th:text="${reserva.estado}">
+                                </span>
+                              </h6>
+                              <small class="text-muted">
+                                <strong th:text="${reserva.nombrePaquete}"></strong>
+                              </small>
+                              <br>
+                              <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i>
+                                <span th:text="${#temporals.format(reserva.fechaServicio, 'dd/MM/yyyy')}"></span>
+                                <span th:if="${reserva.horaServicio != null}">
+                                  - <span th:text="${#temporals.format(reserva.horaServicio, 'HH:mm')}"></span>
+                                </span>
+                              </small>
+                            </div>
+                            <div class="text-end">
+                              <small class="text-success fw-bold">
+                                S/ <span th:text="${#numbers.formatDecimal(reserva.montoTotal, 0, 2)}"></span>
+                              </small>
+                              <br>
+                              <small class="text-muted" th:text="${reserva.codigoReserva}"></small>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -255,11 +310,11 @@
                   </div>
 
                   <div class="text-center mt-3">
-                    <a th:href="@{/reservas}" class="btn btn-outline-primary btn-sm">
-                      <i class="fas fa-list me-1"></i>Ver Todas las Reservas
+                    <a th:href="@{/cliente-reservas}" class="btn btn-outline-primary btn-sm">
+                      <i class="fas fa-bed me-1"></i>Ver Reservas de Habitaciones
                     </a>
-                    <a th:href="@{/reservas}" class="btn-aranwa btn-sm ms-2">
-                      <i class="fas fa-plus me-1"></i>Nueva Reserva
+                    <a th:href="@{/reservas-servicios/mis-reservas}" class="btn btn-outline-success btn-sm ms-2">
+                      <i class="fas fa-spa me-1"></i>Ver Reservas de Servicios
                     </a>
                   </div>
                 </div>
@@ -273,14 +328,17 @@
           <div class="info-card">
             <h5><i class="fas fa-bolt me-2"></i>Acciones Rápidas</h5>
             <div class="d-grid gap-2">
-              <a th:href="@{/reservas}" class="btn btn-outline-primary">
-                <i class="fas fa-bed me-2"></i>Hacer Reserva
+              <a th:href="@{/buscar-habitaciones}" class="btn btn-outline-primary">
+                <i class="fas fa-bed me-2"></i>Reservar Habitación
               </a>
               <a th:href="@{/spa}" class="btn btn-outline-success">
-                <i class="fas fa-spa me-2"></i>Servicios Spa
+                <i class="fas fa-spa me-2"></i>Reservar Spa
+              </a>
+              <a th:href="@{/bodas}" class="btn btn-outline-danger">
+                <i class="fas fa-heart me-2"></i>Bodas y Celebraciones
               </a>
               <a th:href="@{/eventos}" class="btn btn-outline-warning">
-                <i class="fas fa-calendar-plus me-2"></i>Eventos Especiales
+                <i class="fas fa-calendar-alt me-2"></i>Eventos Corporativos
               </a>
               <a th:href="@{/contactos}" class="btn btn-outline-info">
                 <i class="fas fa-phone me-2"></i>Contactar Soporte

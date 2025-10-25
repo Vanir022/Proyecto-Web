@@ -69,7 +69,8 @@ public class HabitacionService {
     }
 
     public List<Habitacion> buscarHabitaciones(String hotel, String tipo, Integer capacidad, Double precioMax) {
-        List<Habitacion> habitaciones = habitacionRepository.findByDisponible(true);
+        // Obtener solo habitaciones en estado LIBRE (disponibles para reserva)
+        List<Habitacion> habitaciones = habitacionRepository.findByEstadoHabitacion(Habitacion.EstadoHabitacion.LIBRE);
 
         return habitaciones.stream()
                 .filter(h -> hotel == null || hotel.isEmpty() || h.getHotel().equalsIgnoreCase(hotel))

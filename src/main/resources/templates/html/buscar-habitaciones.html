@@ -116,9 +116,23 @@
                                 <div class="d-flex justify-content-between align-items-start mb-2">
                                     <h5 class="card-title text-primary" th:text="'Habitación ' + ${habitacion.numero}">
                                     </h5>
-                                    <span class="badge bg-success" th:if="${habitacion.disponible}">Disponible</span>
-                                    <span class="badge bg-secondary" th:unless="${habitacion.disponible}">No
-                                        Disponible</span>
+                                    <!-- Badge de estado según estadoHabitacion -->
+                                    <span class="badge bg-success" 
+                                          th:if="${habitacion.estadoHabitacion?.name() == 'LIBRE'}">
+                                        <i class="fas fa-check-circle me-1"></i>Disponible
+                                    </span>
+                                    <span class="badge bg-danger" 
+                                          th:if="${habitacion.estadoHabitacion?.name() == 'OCUPADA'}">
+                                        <i class="fas fa-user-check me-1"></i>Ocupada
+                                    </span>
+                                    <span class="badge bg-warning text-dark" 
+                                          th:if="${habitacion.estadoHabitacion?.name() == 'MANTENIMIENTO'}">
+                                        <i class="fas fa-tools me-1"></i>Mantenimiento
+                                    </span>
+                                    <span class="badge bg-secondary" 
+                                          th:if="${habitacion.estadoHabitacion?.name() == 'BLOQUEADA'}">
+                                        <i class="fas fa-ban me-1"></i>Bloqueada
+                                    </span>
                                 </div>
 
                                 <div class="mb-2">
@@ -164,12 +178,20 @@
                                     </div>
 
                                     <div class="d-grid gap-2">
+                                        <!-- Solo permitir reservar si está LIBRE -->
                                         <a th:href="@{'/reservas/habitacion/' + ${habitacion.id}}"
-                                            class="btn btn-primary" th:if="${habitacion.disponible}">
+                                            class="btn btn-primary" 
+                                            th:if="${habitacion.estadoHabitacion?.name() == 'LIBRE'}">
                                             <i class="fas fa-calendar-check me-1"></i>Ver Detalles y Reservar
                                         </a>
-                                        <button class="btn btn-secondary" th:unless="${habitacion.disponible}" disabled>
-                                            <i class="fas fa-ban me-1"></i>No Disponible
+                                        <button class="btn btn-secondary" 
+                                                th:unless="${habitacion.estadoHabitacion?.name() == 'LIBRE'}" 
+                                                disabled>
+                                            <i class="fas fa-ban me-1"></i>
+                                            <span th:text="${habitacion.estadoHabitacion?.name() == 'OCUPADA'} ? 'Ocupada' : 
+                                                           (${habitacion.estadoHabitacion?.name() == 'MANTENIMIENTO'} ? 'En Mantenimiento' : 
+                                                           (${habitacion.estadoHabitacion?.name() == 'BLOQUEADA'} ? 'Bloqueada' : 'No Disponible'))">
+                                            </span>
                                         </button>
                                     </div>
                                 </div>

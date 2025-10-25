@@ -29,27 +29,13 @@ public class ReservaService {
     }
 
     public List<Reserva> obtenerTodasLasReservas() {
-        List<Reserva> reservas = reservaRepository.findAll();
-
-        // Forzar la carga de entidades relacionadas para evitar lazy loading issues
-        reservas.forEach(reserva -> {
-            if (reserva.getUsuario() != null) {
-                reserva.getUsuario().getNombre(); // Forzar carga
-                if (reserva.getUsuario().getDetallesPersona() != null) {
-                    reserva.getUsuario().getDetallesPersona().getNombres(); // Forzar carga
-                }
-            }
-            if (reserva.getHabitacion() != null) {
-                reserva.getHabitacion().getNumero(); // Forzar carga
-                reserva.getHabitacion().getHotel(); // Forzar carga
-            }
-        });
-
-        return reservas;
+        // Usar la consulta optimizada con JOIN FETCH
+        return reservaRepository.findAllWithDetails();
     }
 
     public List<Reserva> obtenerReservasPorEstado(EstadoReserva estado) {
-        return reservaRepository.findByEstado(estado);
+        // Usar la consulta optimizada con JOIN FETCH
+        return reservaRepository.findByEstadoWithDetails(estado);
     }
 
     public Optional<Reserva> obtenerReservaPorCodigo(String codigoReserva) {
@@ -70,7 +56,18 @@ public class ReservaService {
             LocalDate fechaSalida, Integer numeroHuespedes, String comentarios,
             String telefonoContacto, String solicitudesEspeciales, String dniCliente) {
 
-        // Verificar disponibilidad
+        // Verificar que la habitación esté en estado LIBRE
+        if (habitacion.getEstadoHabitacion() != Habitacion.EstadoHabitacion.LIBRE) {
+            String mensajeEstado = switch (habitacion.getEstadoHabitacion()) {
+                case OCUPADA -> "ocupada";
+                case MANTENIMIENTO -> "en mantenimiento";
+                case BLOQUEADA -> "bloqueada por el administrador";
+                default -> "no disponible";
+            };
+            throw new RuntimeException("No se puede reservar. La habitación está " + mensajeEstado);
+        }
+
+        // Verificar disponibilidad de fechas
         if (!verificarDisponibilidad(habitacion, fechaEntrada, fechaSalida)) {
             throw new RuntimeException("La habitación no está disponible en las fechas seleccionadas");
         }

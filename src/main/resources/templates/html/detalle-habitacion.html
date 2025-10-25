@@ -150,18 +150,11 @@
                                 </select>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="dniCliente" class="form-label">DNI del Cliente *</label>
-                                <input type="text" class="form-control" name="dniCliente" id="dniCliente" required
-                                    pattern="[0-9]{8}" maxlength="8" placeholder="12345678"
-                                    title="Ingresa un DNI válido de 8 dígitos">
-                                <div class="form-text">Ingresa el DNI de 8 dígitos del cliente que se hospedará</div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="telefonoContacto" class="form-label">Teléfono de Contacto</label>
-                                <input type="tel" class="form-control" name="telefonoContacto" id="telefonoContacto"
-                                    placeholder="Ej: +51 999 123 456">
+                            <!-- Mensaje informativo -->
+                            <div class="alert alert-info mb-3">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <small>La reserva se registrará con los datos de tu perfil (DNI y teléfono). 
+                                Si necesitas actualizarlos, ve a <a href="/perfil" class="alert-link">Mi Perfil</a>.</small>
                             </div>
 
                             <div class="mb-3">
@@ -272,7 +265,6 @@
             const precioPorNoche = /*[[${habitacion.precio}]]*/ 0;
             const fechaEntrada = document.getElementById('fechaEntrada');
             const fechaSalida = document.getElementById('fechaSalida');
-            const dniCliente = document.getElementById('dniCliente');
             const numeroNochesElement = document.getElementById('numeroNoches');
             const totalEstimadoElement = document.getElementById('totalEstimado');
 
@@ -280,28 +272,6 @@
             const hoy = new Date().toISOString().split('T')[0];
             fechaEntrada.min = hoy;
             fechaSalida.min = hoy;
-
-            // Validación del DNI
-            if (dniCliente) {
-                dniCliente.addEventListener('input', function () {
-                    // Solo permitir números
-                    this.value = this.value.replace(/[^0-9]/g, '');
-
-                    if (this.value.length > 8) {
-                        this.value = this.value.slice(0, 8);
-                    }
-
-                    if (this.value.length === 8) {
-                        this.classList.remove('is-invalid');
-                        this.classList.add('is-valid');
-                    } else {
-                        this.classList.remove('is-valid');
-                        if (this.value.length > 0) {
-                            this.classList.add('is-invalid');
-                        }
-                    }
-                });
-            }
 
             function calcularTotal() {
                 if (fechaEntrada.value && fechaSalida.value) {

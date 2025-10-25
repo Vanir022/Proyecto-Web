@@ -409,16 +409,6 @@
                                             required>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="emailBoda" class="form-label">Correo Electrónico *</label>
-                                        <input type="email" class="form-control form-control-lg" id="emailBoda"
-                                            required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="telefonoBoda" class="form-label">Teléfono *</label>
-                                        <input type="tel" class="form-control form-control-lg" id="telefonoBoda"
-                                            required>
-                                    </div>
-                                    <div class="col-md-6">
                                         <label for="fechaBoda" class="form-label">Fecha de la Boda *</label>
                                         <input type="date" class="form-control form-control-lg" id="fechaBoda" required>
                                     </div>
@@ -508,7 +498,12 @@
                                     </div>
                                 </div>
 
-                                <div class="text-center mt-4">
+                                <div class="alert alert-info mt-3" role="alert">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Nota:</strong> La cotización se enviará a tu correo registrado.
+                                </div>
+
+                                <div class="text-center mt-3">
                                     <button type="submit" class="btn btn-primary btn-lg px-5">
                                         <i class="fas fa-heart love-heart me-2"></i>Solicitar Cotización
                                     </button>
@@ -529,14 +524,12 @@
 
     <script>
         // Formulario de bodas
-        document.getElementById('bodaForm').addEventListener('submit', function (e) {
+        document.getElementById('bodaForm').addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const formData = {
                 novia: document.getElementById('nombreNovia').value,
                 novio: document.getElementById('nombreNovio').value,
-                email: document.getElementById('emailBoda').value,
-                telefono: document.getElementById('telefonoBoda').value,
                 fecha: document.getElementById('fechaBoda').value,
                 invitados: document.getElementById('invitados').value,
                 destino: document.getElementById('destino').value,
@@ -549,18 +542,43 @@
             const serviciosAdicionales = [];
             const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
             checkboxes.forEach(cb => serviciosAdicionales.push(cb.value));
+            formData.serviciosAdicionales = serviciosAdicionales.join(', ');
 
             const destinoText = document.getElementById('destino').options[document.getElementById('destino').selectedIndex].text;
             const paqueteText = document.getElementById('paquete').options[document.getElementById('paquete').selectedIndex].text;
+            formData.paqueteTexto = paqueteText;
 
-            alert('💕 SOLICITUD DE COTIZACIÓN ENVIADA\n\n' +
-                `Queridos ${formData.novia} y ${formData.novio}:\n\n` +
-                `📅 Fecha deseada: ${formData.fecha}\n` +
-                `👥 Invitados: ${formData.invitados}\n` +
-                `🏨 Destino: ${destinoText}\n` +
-                `💎 Paquete: ${paqueteText || 'Por definir'}\n\n` +
-                '📞 Nuestro Wedding Planner se contactará contigo en las próximas 4 horas para coordinar una cita personalizada.\n\n' +
-                '✨ ¡Juntos haremos realidad la boda de sus sueños!');
+            try {
+                const response = await fetch('/reservas-servicios/boda', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const resultado = await response.json();
+
+                if (resultado.success) {
+                    alert('💕 SOLICITUD DE COTIZACIÓN ENVIADA\n\n' +
+                        `Queridos ${formData.novia} y ${formData.novio}:\n\n` +
+                        `� Código de Reserva: ${resultado.codigo}\n` +
+                        `�📅 Fecha deseada: ${formData.fecha}\n` +
+                        `👥 Invitados: ${formData.invitados}\n` +
+                        `🏨 Destino: ${destinoText}\n` +
+                        `💎 Paquete: ${paqueteText || 'Por definir'}\n\n` +
+                        '📞 Nuestro Wedding Planner se contactará contigo en las próximas 4 horas para coordinar una cita personalizada.\n\n' +
+                        '✨ ¡Juntos haremos realidad la boda de sus sueños!');
+                    
+                    // Limpiar formulario
+                    document.getElementById('bodaForm').reset();
+                } else {
+                    alert('❌ Error al procesar la solicitud.\n\n' + (resultado.error || 'Por favor, intenta nuevamente.'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Error de conexión.\n\nPor favor, verifica que hayas iniciado sesión e intenta nuevamente.');
+            }
         });
 
         // Establecer fecha mínima como hoy

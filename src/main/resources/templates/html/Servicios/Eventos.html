@@ -291,18 +291,6 @@
                             <form id="eventoForm">
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <label for="nombre" class="form-label">Nombre Completo *</label>
-                                        <input type="text" class="form-control form-control-lg" id="nombre" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="telefono" class="form-label">Teléfono *</label>
-                                        <input type="tel" class="form-control form-control-lg" id="telefono" required>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="email" class="form-label">Correo Electrónico *</label>
-                                        <input type="email" class="form-control form-control-lg" id="email" required>
-                                    </div>
-                                    <div class="col-md-6">
                                         <label for="tipoEvento" class="form-label">Tipo de Evento *</label>
                                         <select class="form-control form-control-lg" id="tipoEvento" required>
                                             <option value="">Selecciona el tipo</option>
@@ -333,7 +321,12 @@
                                     </div>
                                 </div>
 
-                                <div class="text-center mt-4">
+                                <div class="alert alert-info mt-3" role="alert">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <strong>Nota:</strong> La cotización se enviará a tu correo registrado.
+                                </div>
+
+                                <div class="text-center mt-3">
                                     <button type="submit" class="btn btn-primary btn-lg px-5">
                                         <i class="fas fa-paper-plane me-2"></i>Enviar Solicitud
                                     </button>
@@ -354,13 +347,10 @@
 
     <script>
         // Formulario de eventos
-        document.getElementById('eventoForm').addEventListener('submit', function (e) {
+        document.getElementById('eventoForm').addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const formData = {
-                nombre: document.getElementById('nombre').value,
-                telefono: document.getElementById('telefono').value,
-                email: document.getElementById('email').value,
                 tipoEvento: document.getElementById('tipoEvento').value,
                 invitados: document.getElementById('invitados').value,
                 fechaEvento: document.getElementById('fechaEvento').value,
@@ -368,11 +358,37 @@
                 mensaje: document.getElementById('mensaje').value
             };
 
-            alert('🎉 SOLICITUD ENVIADA\n\n' +
-                `Gracias ${formData.nombre}, hemos recibido tu solicitud para un ${formData.tipoEvento} el ${formData.fechaEvento}.\n\n` +
-                '📧 Te contactaremos en las próximas 24 horas con una cotización personalizada.\n\n' +
-                '📞 Para consultas urgentes: +51 1 234-5678\n' +
-                '💼 Equipo de Eventos Eden Resort');
+            try {
+                const response = await fetch('/reservas-servicios/evento', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const resultado = await response.json();
+
+                if (resultado.success) {
+                    alert('🎉 SOLICITUD ENVIADA\n\n' +
+                        `Tu solicitud ha sido recibida exitosamente:\n\n` +
+                        `📋 Código de Reserva: ${resultado.codigo}\n` +
+                        `🎯 Tipo: ${formData.tipoEvento}\n` +
+                        `📅 Fecha: ${formData.fechaEvento}\n` +
+                        `👥 Invitados: ${formData.invitados}\n\n` +
+                        '📧 Te contactaremos en las próximas 24 horas con una cotización personalizada.\n\n' +
+                        '📞 Para consultas urgentes: +51 1 234-5678\n' +
+                        '💼 Equipo de Eventos Eden Resort');
+                    
+                    // Limpiar formulario
+                    document.getElementById('eventoForm').reset();
+                } else {
+                    alert('❌ Error al procesar la solicitud.\n\n' + (resultado.error || 'Por favor, intenta nuevamente.'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Error de conexión.\n\nPor favor, verifica que hayas iniciado sesión e intenta nuevamente.');
+            }
         });
 
         // Establecer fecha mínima como hoy
