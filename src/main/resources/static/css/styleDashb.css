@@ -43,7 +43,7 @@
     }
 
     .btn-aranwa {
-        background: linear-gradient(135deg, #1e7e34 0%, #155724 100%);
+        background: linear-gradient(135deg, #1B5E20, #0F4A17);
         border: none;
         color: white;
         padding: 10px 20px;
@@ -54,9 +54,49 @@
     }
 
     .btn-aranwa:hover {
+        background: linear-gradient(135deg, #4CAF50, #1B5E20);
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(30, 126, 52, 0.3);
+        box-shadow: 0 5px 15px rgba(27, 94, 32, 0.3);
         color: white;
+    }
+
+    /* Estilos específicos para el botón "Nuevo" en la gestión de usuarios */
+    .btn-success {
+        background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
+        border-color: #1B5E20 !important;
+        color: white !important;
+    }
+
+    .btn-success:hover {
+        background: linear-gradient(135deg, #4CAF50, #1B5E20) !important;
+        border-color: #4CAF50 !important;
+        color: white !important;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(27, 94, 32, 0.3);
+    }
+
+    /* Overrides para botones primarios (verde) */
+    .btn-primary {
+        background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
+        border-color: #1B5E20 !important;
+        color: white !important;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #4CAF50, #1B5E20) !important;
+        border-color: #4CAF50 !important;
+        color: white !important;
+    }
+
+    .btn-outline-primary {
+        color: #1B5E20 !important;
+        border-color: #1B5E20 !important;
+    }
+
+    .btn-outline-primary:hover {
+        background: linear-gradient(135deg, #4CAF50, #1B5E20) !important;
+        border-color: #1B5E20 !important;
+        color: white !important;
     }
 
     .logout-btn {

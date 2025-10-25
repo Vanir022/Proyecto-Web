@@ -62,13 +62,41 @@
     }
 
     .price-wedding {
-        background: linear-gradient(45deg, #e83e8c, #fd7e14);
+        background: linear-gradient(135deg, #1B5E20, #0F4A17);
         color: white;
         padding: 1rem 2rem;
         border-radius: 30px;
         font-size: 1.3rem;
         font-weight: bold;
         display: inline-block;
+    }
+
+    /* Overrides para botones primarios (verde) */
+    .btn-primary {
+        background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
+        border-color: #1B5E20 !important;
+        color: white !important;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #4CAF50, #1B5E20) !important;
+        border-color: #4CAF50 !important;
+        color: white !important;
+    }
+
+    .btn-outline-primary {
+        color: #1B5E20 !important;
+        border-color: #1B5E20 !important;
+    }
+
+    .btn-outline-primary:hover {
+        background: linear-gradient(135deg, #4CAF50, #1B5E20) !important;
+        border-color: #1B5E20 !important;
+        color: white !important;
+    }
+
+    .text-primary {
+        color: #1B5E20 !important;
     }
 
     .gallery-item {
