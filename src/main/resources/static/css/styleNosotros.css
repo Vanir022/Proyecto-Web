@@ -2,26 +2,27 @@
    OVERRIDES PARA COLOR VERDE #1B5E20 - NOSOTROS.HTML
 ========================== */
 
-.btn {
+.btn-primary {
     background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
     border-color: #1B5E20 !important;
     color: white !important;
 }
 
-.btn:hover {
-    background: linear-gradient(135deg, #0F4A17, #1B5E20) !important;
-    border-color: #0F4A17 !important;
+.btn-primary:hover {
+    background: linear-gradient(135deg, #4CAF50, #1B5E20) !important;
+    border-color: #4CAF50 !important;
     color: white !important;
 }
 
-.btn-primary {
-    background-color: #1B5E20 !important;
+.btn-outline-primary {
+    color: #1B5E20 !important;
     border-color: #1B5E20 !important;
 }
 
-.btn-primary:hover {
-    background-color: #0F4A17 !important;
-    border-color: #0F4A17 !important;
+.btn-outline-primary:hover {
+    background: linear-gradient(135deg, #4CAF50, #1B5E20) !important;
+    border-color: #1B5E20 !important;
+    color: white !important;
 }
 
 .text-primary {
@@ -114,7 +115,7 @@
 }
 
 .hero .btn {
-    background: linear-gradient(135deg, #4CAF50, #45a049);
+    background: linear-gradient(135deg, #1B5E20, #0F4A17);
     color: white;
     padding: 15px 40px;
     border: none;
@@ -123,14 +124,14 @@
     font-weight: 600;
     font-size: 1.1rem;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 4px 15px rgba(27, 94, 32, 0.3);
     display: inline-block;
 }
 
 .hero .btn:hover {
-    background: linear-gradient(135deg, #45a049, #4CAF50);
+    background: linear-gradient(135deg, #4CAF50, #1B5E20);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    box-shadow: 0 6px 20px rgba(27, 94, 32, 0.4);
 }
 
 /* ==========================
@@ -172,7 +173,7 @@
     left: 0;
     width: 80px;
     height: 4px;
-    background: linear-gradient(135deg, #4CAF50, #45a049);
+    background: linear-gradient(135deg, #1B5E20, #0F4A17);
     border-radius: 2px;
 }
 
@@ -185,7 +186,7 @@
 }
 
 .about-text .btn {
-    background: linear-gradient(135deg, #4CAF50, #45a049);
+    background: linear-gradient(135deg, #1B5E20, #0F4A17);
     color: white;
     padding: 12px 30px;
     border: none;
@@ -194,14 +195,14 @@
     font-weight: 600;
     font-size: 1rem;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 4px 15px rgba(27, 94, 32, 0.3);
     display: inline-block;
 }
 
 .about-text .btn:hover {
-    background: linear-gradient(135deg, #45a049, #4CAF50);
+    background: linear-gradient(135deg, #4CAF50, #1B5E20);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    box-shadow: 0 6px 20px rgba(27, 94, 32, 0.4);
 }
 
 .about-image {

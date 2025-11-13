@@ -172,6 +172,30 @@
         background-color: #f8f9fa !important;
     }
 
+    /* Overrides para botones primarios (verde) */
+    .btn-primary {
+        background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
+        border-color: #1B5E20 !important;
+        color: white !important;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #4CAF50, #1B5E20) !important;
+        border-color: #4CAF50 !important;
+        color: white !important;
+    }
+
+    .btn-outline-primary {
+        color: #1B5E20 !important;
+        border-color: #1B5E20 !important;
+    }
+
+    .btn-outline-primary:hover {
+        background: linear-gradient(135deg, #4CAF50, #1B5E20) !important;
+        border-color: #1B5E20 !important;
+        color: white !important;
+    }
+
     /* Overrides para clases de colores Bootstrap que podrían ser celestes */
     .bg-info {
         background: linear-gradient(135deg, #1e7e34 0%, #155724 100%) !important;
@@ -241,4 +265,4 @@
     footer .container-fluid {
         padding-left: 0;
         padding-right: 0;
-    }"test change" 
+    }

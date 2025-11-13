@@ -16,6 +16,14 @@ public class ContactoService {
 
     // Guardar un nuevo contacto
     public Contacto guardarContacto(Contacto contacto) {
+        // Asegurar que fechaEnvio esté configurada
+        if (contacto.getFechaEnvio() == null) {
+            contacto.setFechaEnvio(java.time.LocalDateTime.now());
+        }
+        // Asegurar que estado esté configurado
+        if (contacto.getEstado() == null || contacto.getEstado().isEmpty()) {
+            contacto.setEstado("NUEVO");
+        }
         return contactoRepository.save(contacto);
     }
 

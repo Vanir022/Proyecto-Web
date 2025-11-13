@@ -20,7 +20,7 @@
     }
 
     .btn-login {
-      background: linear-gradient(45deg, #1B5E20, #0F4A17);
+      background: linear-gradient(135deg, #1B5E20, #0F4A17);
       border: none;
       border-radius: 50px;
       padding: 15px 40px;
@@ -31,8 +31,33 @@
     }
 
     .btn-login:hover {
+      background: linear-gradient(135deg, #4CAF50, #1B5E20);
       transform: translateY(-2px);
       box-shadow: 0 10px 20px rgba(27, 94, 32, 0.3);
+    }
+
+    /* Overrides para botones primarios (verde) */
+    .btn-primary {
+        background: linear-gradient(135deg, #1B5E20, #0F4A17) !important;
+        border-color: #1B5E20 !important;
+        color: white !important;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #4CAF50, #1B5E20) !important;
+        border-color: #4CAF50 !important;
+        color: white !important;
+    }
+
+    .btn-outline-primary {
+        color: #1B5E20 !important;
+        border-color: #1B5E20 !important;
+    }
+
+    .btn-outline-primary:hover {
+        background: linear-gradient(135deg, #4CAF50, #1B5E20) !important;
+        border-color: #1B5E20 !important;
+        color: white !important;
     }
 
     .social-btn {

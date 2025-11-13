@@ -36,13 +36,13 @@ public class Usuario {
     @Column(nullable = false, length = 100)
     private String nombre;
 
-    @NotBlank(message = "El email es obligatorio")
-    @Email(message = "El email debe ser válido")
+    @NotBlank(message = "El email es obligatorio") // Email no puede estar vacío
+    @Email(message = "El email debe ser válido") // Validar formato de email
     @Size(max = 150, message = "El email no puede exceder 150 caracteres")
-    @Column(nullable = false, unique = true, length = 150)
+    @Column(nullable = false, unique = true, length = 150) // Email único
     private String email;
 
-    @NotBlank(message = "La contraseña es obligatoria")
+    @NotBlank(message = "La contraseña es obligatoria") 
     @Size(min = 6, max = 255, message = "La contraseña debe tener al menos 6 caracteres")
     @Column(nullable = false, length = 255)
     private String password;
