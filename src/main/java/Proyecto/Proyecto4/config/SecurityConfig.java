@@ -23,7 +23,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/css/**", "/js/**", "/imagenes/**", "/static/**", "/uploads/**").permitAll()
                         .requestMatchers("/auth/registro", "/auth/welcome").permitAll()
-                        .requestMatchers("/api/admin/crear-super-admin").permitAll() // Permitir crear super admin
+                        .requestMatchers("/api/admin/crear-super-admin").permitAll() 
                                                                                      // inicial
                         .requestMatchers("/reservas", "/reservas/buscar", "/reservas/habitacion/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")

@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -64,6 +65,20 @@ public class Contacto {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuarios_id")
     private Usuario usuario;
+    
+    /**
+     * Método callback de JPA que se ejecuta antes de persistir la entidad.
+     * Inicializa campos automáticamente si no están establecidos.
+     */
+    @PrePersist
+    protected void onCreate() {
+        if (this.fechaEnvio == null) {
+            this.fechaEnvio = LocalDateTime.now();
+        }
+        if (this.estado == null || this.estado.isEmpty()) {
+            this.estado = "NUEVO";
+        }
+    }
     
     // Constructor con parámetros principales
     public Contacto(String nombre, String email, String telefono, String hotel, String mensaje) {

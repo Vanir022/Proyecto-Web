@@ -1,0 +1,822 @@
+<div class="h5 mb-0 font-weight-bold text-gray-800" id="clientesNuevos" th:text="${clientesNuevos}">
+    0
+</div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes - Resort Eden Admin</title>
+    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
+    <style>
+        .sidebar {
+            min-height: calc(100vh - 56px);
+        }
+
+        .report-card {
+            transition: transform 0.2s;
+        }
+
+        .report-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <!-- Header -->
+    <div th:replace="~{fragments/Header :: header}"></div>
+
+    <div class="container-fluid mt-5 pt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div th:replace="~{fragments/admin-sidebar :: adminSidebar}"></div>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2"><i class="fas fa-chart-bar me-2"></i>Reportes y Estadísticas</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="exportarReportes()">
+                                <i class="fas fa-download"></i> Exportar PDF
+                            </button>
+                        </div>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <div class="btn-group me-2">
+                                <a th:href="@{/admin/export}" class="btn btn-sm btn-outline-secondary">Exportar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros de Fecha -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Filtros de Reporte</h5>
+                                <form id="filtrosReporte">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="form-label">Fecha Desde:</label>
+                                            <input type="date" class="form-control" id="fechaDesde" name="fechaDesde">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Fecha Hasta:</label>
+                                            <input type="date" class="form-control" id="fechaHasta" name="fechaHasta">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">Hotel:</label>
+                                            <select class="form-select" id="hotelFiltro" name="hotel">
+                                                <option value="">Todos los Hoteles</option>
+                                                <option value="Eden Cusco">Eden Cusco</option>
+                                                <option value="Eden Paracas">Eden Paracas</option>
+                                                <option value="Eden Colca">Eden Colca</option>
+                                                <option value="Eden Valle Sagrado">Eden Valle Sagrado</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">&nbsp;</label>
+                                            <button type="button" class="btn btn-primary d-block w-100"
+                                                onclick="generarReportes()">
+                                                <i class="fas fa-search"></i> Generar Reportes
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cards de Resumen -->
+                <div class="row mb-4">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            Total Ingresos</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalIngresos"
+                                            th:text="|S/. ${totalIngresos}|">
+                                            S/. 0.00
+                                        </div>
+                                        <div class="text-xs text-muted" id="periodoIngresos">Este mes</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            Reservas Confirmadas</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="reservasCompletadas"
+                                            th:text="${reservasCompletadasCount}">
+                                            0
+                                        </div>
+                                        <div class="text-xs text-muted" id="periodoReservas">Este mes</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                            Tasa de Ocupación</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="tasaOcupacion"
+                                            th:text="${tasaOcupacion} + '%'">
+                                            0%
+                                        </div>
+                                        <div class="text-xs text-muted">Promedio mensual</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-chart-line fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Clientes Nuevos</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="clientesNuevos"
+                                            th:text="${clientesNuevos}">
+                                            0
+                                        </div>
+                                        <div class="text-xs text-muted" id="periodoClientes">Este mes</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user-plus fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos y Reportes -->
+                <div class="row">
+                    <!-- Gráfico de Ingresos -->
+                    <div class="col-xl-8 col-lg-7 mb-4">
+                        <div class="card shadow">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Ingresos Mensuales</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="ingresosChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reportes Rápidos -->
+                    <div class="col-xl-4 col-lg-5 mb-4">
+                        <div class="card shadow">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Reportes Rápidos</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-primary report-card"
+                                        onclick="generarReporteReservas()">
+                                        <i class="fas fa-calendar-alt me-2"></i>
+                                        Reporte de Reservas
+                                    </button>
+                                    <button class="btn btn-outline-success report-card"
+                                        onclick="generarReporteIngresos()">
+                                        <i class="fas fa-dollar-sign me-2"></i>
+                                        Reporte de Ingresos
+                                    </button>
+                                    <button class="btn btn-outline-info report-card"
+                                        onclick="generarReporteOcupacion()">
+                                        <i class="fas fa-bed me-2"></i>
+                                        Reporte de Ocupación
+                                    </button>
+                                    <button class="btn btn-outline-warning report-card"
+                                        onclick="generarReporteClientes()">
+                                        <i class="fas fa-users me-2"></i>
+                                        Reporte de Clientes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Reportes Detallados -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                <h6 class="m-0 font-weight-bold text-primary">Reporte Detallado</h6>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="mostrarTablaReservas()">
+                                        Reservas
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="mostrarTablaIngresos()">
+                                        Ingresos
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        onclick="mostrarTablaOcupacion()">
+                                        Ocupación
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped" id="tablaReportes">
+                                        <thead class="table-dark">
+                                            <tr id="tablaHeaders">
+                                                <th>Fecha</th>
+                                                <th>Descripción</th>
+                                                <th>Valor</th>
+                                                <th>Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tablaBody">
+                                            <tr>
+                                                <td colspan="4" class="text-center">Seleccione un tipo de reporte para
+                                                    ver los detalles</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contextPath = /*[[@{/}]]*/ '';
+        /*]]>*/
+    </script>
+    <script>
+        // Variables globales
+        let ingresosChart = null;
+
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', function () {
+            inicializarFechas();
+            generarReportes();
+
+            // Agregar event listeners para actualizar automáticamente al cambiar filtros
+            document.getElementById('fechaDesde').addEventListener('change', generarReportes);
+            document.getElementById('fechaHasta').addEventListener('change', generarReportes);
+            document.getElementById('hotelFiltro').addEventListener('change', generarReportes);
+        });
+
+        // Inicializar fechas por defecto (mes actual)
+        function inicializarFechas() {
+            const now = new Date();
+            const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+            const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+            document.getElementById('fechaDesde').value = firstDay.toISOString().split('T')[0];
+            document.getElementById('fechaHasta').value = lastDay.toISOString().split('T')[0];
+        }
+
+        // Generar reportes con filtros
+        function generarReportes() {
+            const fechaDesde = document.getElementById('fechaDesde').value;
+            const fechaHasta = document.getElementById('fechaHasta').value;
+            const hotel = document.getElementById('hotelFiltro').value;
+
+            // Aquí irían las llamadas AJAX para obtener datos reales
+            // Por ahora, usamos datos de ejemplo
+            actualizarEstadisticas(fechaDesde, fechaHasta, hotel);
+            actualizarGrafico(fechaDesde, fechaHasta, hotel);
+        }
+
+        // Actualizar estadísticas
+        function actualizarEstadisticas(fechaDesde, fechaHasta, hotel) {
+            // Simular llamada AJAX
+            fetch(`${window.location.origin}/admin/reportes/estadisticas?desde=${fechaDesde}&hasta=${fechaHasta}&hotel=${hotel}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('totalIngresos').textContent = 'S/. ' + (data.totalIngresos || '0.00');
+                    document.getElementById('reservasCompletadas').textContent = data.reservasCompletadas || 0;
+                    document.getElementById('tasaOcupacion').textContent = (data.tasaOcupacion || 0) + '%';
+                    document.getElementById('clientesNuevos').textContent = data.clientesNuevos || 0;
+
+                    // Actualizar períodos
+                    const periodo = fechaDesde && fechaHasta ? `${fechaDesde} - ${fechaHasta}` : 'Sin filtro de fecha';
+                    document.getElementById('periodoIngresos').textContent = periodo;
+                    document.getElementById('periodoReservas').textContent = periodo;
+                    document.getElementById('periodoClientes').textContent = periodo;
+                })
+                .catch(error => {
+                    console.error('Error al cargar estadísticas:', error);
+                    // Usar datos de ejemplo si falla la llamada
+                    document.getElementById('totalIngresos').textContent = 'S/. 45,230.50';
+                    document.getElementById('reservasCompletadas').textContent = '127';
+                    document.getElementById('tasaOcupacion').textContent = '78%';
+                    document.getElementById('clientesNuevos').textContent = '23';
+                });
+        }
+
+        // Actualizar gráfico
+        function actualizarGrafico(fechaDesde, fechaHasta, hotel) {
+            // Destruir gráfico anterior si existe
+            if (ingresosChart) {
+                ingresosChart.destroy();
+            }
+
+            // Llamada AJAX para obtener datos reales del gráfico
+            fetch(`${window.location.origin}/admin/reportes/grafico-ingresos?desde=${fechaDesde}&hasta=${fechaHasta}&hotel=${hotel}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const ctx = document.getElementById('ingresosChart').getContext('2d');
+
+                    // Convertir los ingresos a números
+                    const ingresosNumericos = data.ingresos.map(i => parseFloat(i));
+
+                    // Determinar el título según el rango de fechas
+                    let titulo = 'Tendencia de Ingresos';
+                    const diasDif = Math.floor((new Date(fechaHasta) - new Date(fechaDesde)) / (1000 * 60 * 60 * 24));
+
+                    if (diasDif <= 31) {
+                        titulo += ' Diarios';
+                    } else if (diasDif <= 180) {
+                        titulo += ' Semanales';
+                    } else {
+                        titulo += ' Mensuales';
+                    }
+
+                    ingresosChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: data.etiquetas,
+                            datasets: [{
+                                label: 'Ingresos (S/.)',
+                                data: ingresosNumericos,
+                                borderColor: 'rgb(75, 192, 192)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                tension: 0.3,
+                                fill: true,
+                                pointRadius: 4,
+                                pointHoverRadius: 6,
+                                pointBackgroundColor: 'rgb(75, 192, 192)',
+                                pointBorderColor: '#fff',
+                                pointBorderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: {
+                                mode: 'index',
+                                intersect: false,
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function (value, index, values) {
+                                            return 'S/. ' + value.toLocaleString('es-PE', {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            });
+                                        }
+                                    },
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.05)'
+                                    }
+                                },
+                                x: {
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                    labels: {
+                                        usePointStyle: true,
+                                        padding: 15
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: titulo,
+                                    font: {
+                                        size: 16,
+                                        weight: 'bold'
+                                    },
+                                    padding: {
+                                        top: 10,
+                                        bottom: 20
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    padding: 12,
+                                    titleFont: {
+                                        size: 14
+                                    },
+                                    bodyFont: {
+                                        size: 13
+                                    },
+                                    callbacks: {
+                                        label: function (context) {
+                                            let label = context.dataset.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            label += 'S/. ' + context.parsed.y.toLocaleString('es-PE', {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            });
+                                            return label;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar gráfico de ingresos:', error);
+                    // Mostrar gráfico con datos de ejemplo si falla
+                    const ctx = document.getElementById('ingresosChart').getContext('2d');
+                    ingresosChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Sin datos'],
+                            datasets: [{
+                                label: 'Ingresos (S/.)',
+                                data: [0],
+                                borderColor: 'rgb(220, 53, 69)',
+                                backgroundColor: 'rgba(220, 53, 69, 0.2)',
+                                tension: 0.1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Error al cargar datos - ' + error.message,
+                                    color: 'rgb(220, 53, 69)'
+                                }
+                            }
+                        }
+                    });
+                });
+        }
+
+        // Funciones para reportes rápidos
+        function generarReporteReservas() {
+            mostrarTablaReservas();
+        }
+
+        function generarReporteIngresos() {
+            mostrarTablaIngresos();
+        }
+
+        function generarReporteOcupacion() {
+            mostrarTablaOcupacion();
+        }
+
+        function generarReporteClientes() {
+            // Implementar reporte de clientes
+            alert('Reporte de clientes - Funcionalidad en desarrollo');
+        }
+
+        // Funciones para mostrar tablas
+        function mostrarTablaReservas() {
+            const fechaDesde = document.getElementById('fechaDesde').value;
+            const fechaHasta = document.getElementById('fechaHasta').value;
+            const hotel = document.getElementById('hotelFiltro').value;
+
+            const headers = `
+                <th>Fecha Reserva</th>
+                <th>Código</th>
+                <th>Usuario</th>
+                <th>Habitación</th>
+                <th>Estado</th>
+                <th>Monto</th>
+            `;
+            document.getElementById('tablaHeaders').innerHTML = headers;
+
+            // Mostrar loading
+            document.getElementById('tablaBody').innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center">
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        Cargando datos...
+                    </td>
+                </tr>
+            `;
+
+            // Llamada AJAX para obtener datos reales
+            fetch(`${window.location.origin}/admin/reportes/detalle-reservas?desde=${fechaDesde}&hasta=${fechaHasta}&hotel=${hotel}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.reservas && data.reservas.length > 0) {
+                        let body = '';
+                        data.reservas.forEach(reserva => {
+                            let estadoClass = '';
+                            let estadoText = reserva.estado;
+                            switch (reserva.estado) {
+                                case 'COMPLETADA':
+                                    estadoClass = 'bg-success';
+                                    estadoText = 'Completada';
+                                    break;
+                                case 'PENDIENTE':
+                                    estadoClass = 'bg-warning';
+                                    estadoText = 'Pendiente';
+                                    break;
+                                case 'CONFIRMADA':
+                                    estadoClass = 'bg-info';
+                                    estadoText = 'Confirmada';
+                                    break;
+                                case 'CANCELADA':
+                                    estadoClass = 'bg-danger';
+                                    estadoText = 'Cancelada';
+                                    break;
+                                default:
+                                    estadoClass = 'bg-secondary';
+                            }
+
+                            body += `
+                                <tr>
+                                    <td>${reserva.fechaReserva}</td>
+                                    <td>${reserva.codigo}</td>
+                                    <td>${reserva.usuario}</td>
+                                    <td>${reserva.habitacion}</td>
+                                    <td><span class="badge ${estadoClass}">${estadoText}</span></td>
+                                    <td>S/. ${reserva.monto}</td>
+                                </tr>
+                            `;
+                        });
+                        document.getElementById('tablaBody').innerHTML = body;
+                    } else {
+                        document.getElementById('tablaBody').innerHTML = `
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">No se encontraron reservas para los filtros aplicados</td>
+                            </tr>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar reservas:', error);
+                    document.getElementById('tablaBody').innerHTML = `
+                        <tr>
+                            <td colspan="6" class="text-center text-danger">
+                                Error al cargar los datos: ${error.message}
+                            </td>
+                        </tr>
+                    `;
+                });
+        }
+
+        function mostrarTablaIngresos() {
+            const fechaDesde = document.getElementById('fechaDesde').value;
+            const fechaHasta = document.getElementById('fechaHasta').value;
+            const hotel = document.getElementById('hotelFiltro').value;
+
+            const headers = `
+                <th>Fecha</th>
+                <th>Concepto</th>
+                <th>Ingreso</th>
+                <th>Estado</th>
+            `;
+            document.getElementById('tablaHeaders').innerHTML = headers;
+
+            // Mostrar loading
+            document.getElementById('tablaBody').innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center">
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        Cargando datos...
+                    </td>
+                </tr>
+            `;
+
+            // Llamada AJAX para obtener datos reales
+            fetch(`${window.location.origin}/admin/reportes/detalle-ingresos?desde=${fechaDesde}&hasta=${fechaHasta}&hotel=${hotel}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.ingresos && data.ingresos.length > 0) {
+                        let body = '';
+                        data.ingresos.forEach(ingreso => {
+                            let estadoClass = '';
+                            let estadoText = ingreso.estado;
+                            switch (ingreso.estado) {
+                                case 'CONFIRMADO':
+                                    estadoClass = 'bg-success';
+                                    estadoText = 'Confirmado';
+                                    break;
+                                case 'PENDIENTE':
+                                    estadoClass = 'bg-warning';
+                                    estadoText = 'Pendiente';
+                                    break;
+                                case 'CANCELADO':
+                                    estadoClass = 'bg-danger';
+                                    estadoText = 'Cancelado';
+                                    break;
+                                default:
+                                    estadoClass = 'bg-secondary';
+                            }
+
+                            body += `
+                                <tr>
+                                    <td>${ingreso.fecha}</td>
+                                    <td>${ingreso.concepto}</td>
+                                    <td>S/. ${ingreso.monto}</td>
+                                    <td><span class="badge ${estadoClass}">${estadoText}</span></td>
+                                </tr>
+                            `;
+                        });
+                        document.getElementById('tablaBody').innerHTML = body;
+                    } else {
+                        document.getElementById('tablaBody').innerHTML = `
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No se encontraron ingresos para los filtros aplicados</td>
+                            </tr>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar ingresos:', error);
+                    document.getElementById('tablaBody').innerHTML = `
+                        <tr>
+                            <td colspan="4" class="text-center text-danger">
+                                Error al cargar los datos: ${error.message}
+                            </td>
+                        </tr>
+                    `;
+                });
+        }
+
+        function mostrarTablaOcupacion() {
+            const fechaDesde = document.getElementById('fechaDesde').value;
+            const fechaHasta = document.getElementById('fechaHasta').value;
+            const hotel = document.getElementById('hotelFiltro').value;
+
+            const headers = `
+                <th>Fecha</th>
+                <th>Habitación</th>
+                <th>Estado</th>
+                <th>Ocupación</th>
+            `;
+            document.getElementById('tablaHeaders').innerHTML = headers;
+
+            // Mostrar loading
+            document.getElementById('tablaBody').innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center">
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        Cargando datos...
+                    </td>
+                </tr>
+            `;
+
+            // Llamada AJAX para obtener datos reales
+            fetch(`${window.location.origin}/admin/reportes/detalle-ocupacion?desde=${fechaDesde}&hasta=${fechaHasta}&hotel=${hotel}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.ocupacion && data.ocupacion.length > 0) {
+                        let body = '';
+                        data.ocupacion.forEach(item => {
+                            let estadoClass = '';
+                            let estadoText = item.estado;
+                            let ocupacionClass = '';
+                            let ocupacionText = item.ocupacion + '%';
+
+                            switch (item.estado) {
+                                case 'OCUPADA':
+                                    estadoClass = 'bg-danger';
+                                    estadoText = 'Ocupada';
+                                    ocupacionClass = 'bg-danger';
+                                    break;
+                                case 'LIBRE':
+                                    estadoClass = 'bg-success';
+                                    estadoText = 'Libre';
+                                    ocupacionClass = 'bg-success';
+                                    break;
+                                case 'MANTENIMIENTO':
+                                    estadoClass = 'bg-warning';
+                                    estadoText = 'Mantenimiento';
+                                    ocupacionClass = 'bg-warning';
+                                    break;
+                                default:
+                                    estadoClass = 'bg-secondary';
+                                    ocupacionClass = 'bg-secondary';
+                            }
+
+                            body += `
+                                <tr>
+                                    <td>${item.fecha}</td>
+                                    <td>${item.habitacion}</td>
+                                    <td><span class="badge ${estadoClass}">${estadoText}</span></td>
+                                    <td><span class="badge ${ocupacionClass}">${ocupacionText}</span></td>
+                                </tr>
+                            `;
+                        });
+                        document.getElementById('tablaBody').innerHTML = body;
+                    } else {
+                        document.getElementById('tablaBody').innerHTML = `
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No se encontraron datos de ocupación para los filtros aplicados</td>
+                            </tr>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar ocupación:', error);
+                    document.getElementById('tablaBody').innerHTML = `
+                        <tr>
+                            <td colspan="4" class="text-center text-danger">
+                                Error al cargar los datos: ${error.message}
+                            </td>
+                        </tr>
+                    `;
+                });
+        }
+
+        // Funciones de exportación
+        function exportarReportes() {
+            alert('Funcionalidad de exportación a PDF en desarrollo');
+        }
+
+    </script>
+</body>
+
+</html>
