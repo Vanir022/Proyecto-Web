@@ -1,0 +1,166 @@
+/* Estilos para el Modal de Autenticación - Eden Resorts */
+
+/* Modal de login personalizado */
+#loginModal .modal-content {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+#loginModal .modal-header {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: none;
+}
+
+#loginModal .modal-body {
+    background: #f8f9fa;
+}
+
+#loginModal .modal-footer {
+    background: #e9ecef;
+    border: none;
+}
+
+/* Animación del icono de usuario */
+#loginModal .fa-user-circle {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Efecto hover en botones del modal */
+#loginModal .btn {
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+#loginModal .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+#loginModal .btn-outline-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+/* Efectos visuales para elementos protegidos */
+.auth-protected {
+    position: relative;
+    cursor: pointer;
+}
+
+.auth-protected::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.auth-protected:hover::before {
+    background: rgba(0, 123, 255, 0.1);
+    border-radius: 8px;
+}
+
+/* Indicador visual para elementos que requieren autenticación */
+.requires-auth {
+    position: relative;
+}
+
+.requires-auth::after {
+    content: '\f023';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 193, 7, 0.9);
+    color: #000;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.requires-auth:hover::after {
+    opacity: 1;
+}
+
+/* Estilos para alertas informativas */
+.auth-info-alert {
+    background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+    border: 1px solid #b7d4da;
+    border-radius: 10px;
+}
+
+/* Responsive design para el modal */
+@media (max-width: 576px) {
+    #loginModal .modal-dialog {
+        margin: 1rem;
+    }
+    
+    #loginModal .btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    #loginModal .fa-user-circle {
+        font-size: 3rem !important;
+    }
+}
+
+/* Overlay de carga mientras se verifica autenticación */
+.auth-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.auth-loading-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.auth-loading-spinner {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.auth-loading-spinner .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: #007bff;
+}
