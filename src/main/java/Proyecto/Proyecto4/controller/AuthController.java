@@ -111,4 +111,56 @@ public class AuthController {
         response.put("message", "Welcome to the Resort Eden API!");
         return ResponseEntity.ok(response);
     }
+
+    // Endpoints para validaciones individuales en tiempo real
+    @PostMapping("/validar-email")
+    public ResponseEntity<?> validarEmail(@RequestBody Map<String, String> request) {
+        try {
+            String email = request.get("email");
+            if (email == null || email.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Email requerido"));
+            }
+            
+            boolean existe = usuarioService.emailExiste(email.trim());
+            return ResponseEntity.ok(Map.of("existe", existe));
+            
+        } catch (Exception e) {
+            logger.error("Error al validar email", e);
+            return ResponseEntity.internalServerError().body(Map.of("error", "Error del servidor"));
+        }
+    }
+
+    @PostMapping("/validar-telefono")
+    public ResponseEntity<?> validarTelefono(@RequestBody Map<String, String> request) {
+        try {
+            String telefono = request.get("telefono");
+            if (telefono == null || telefono.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Teléfono requerido"));
+            }
+            
+            boolean existe = usuarioService.telefonoExiste(telefono.trim());
+            return ResponseEntity.ok(Map.of("existe", existe));
+            
+        } catch (Exception e) {
+            logger.error("Error al validar teléfono", e);
+            return ResponseEntity.internalServerError().body(Map.of("error", "Error del servidor"));
+        }
+    }
+
+    @PostMapping("/validar-dni")
+    public ResponseEntity<?> validarDni(@RequestBody Map<String, String> request) {
+        try {
+            String dni = request.get("dni");
+            if (dni == null || dni.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "DNI requerido"));
+            }
+            
+            boolean existe = usuarioService.dniExiste(dni.trim());
+            return ResponseEntity.ok(Map.of("existe", existe));
+            
+        } catch (Exception e) {
+            logger.error("Error al validar DNI", e);
+            return ResponseEntity.internalServerError().body(Map.of("error", "Error del servidor"));
+        }
+    }
 }

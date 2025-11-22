@@ -18,11 +18,12 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/nosotros", "/contactos", "/login", "/register", "/acercade", "/eventos",
+                        .requestMatchers("/", "/nosotros", "/contactos", "/contactos/enviar", "/login", "/register", "/acercade", "/eventos",
                                 "/spa", "/bodas")
                         .permitAll()
                         .requestMatchers("/css/**", "/js/**", "/imagenes/**", "/static/**", "/uploads/**").permitAll()
-                        .requestMatchers("/auth/registro", "/auth/welcome").permitAll()
+                        .requestMatchers("/auth/registro", "/auth/welcome", "/auth/test-connection", 
+                                        "/auth/validar-email", "/auth/validar-telefono", "/auth/validar-dni").permitAll()
                         .requestMatchers("/api/admin/crear-super-admin").permitAll() 
                                                                                      // inicial
                         .requestMatchers("/reservas", "/reservas/buscar", "/reservas/habitacion/**").permitAll()

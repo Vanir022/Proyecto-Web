@@ -17,8 +17,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import Proyecto.Proyecto4.models.Administrador;
 import Proyecto.Proyecto4.models.Contacto;
+import Proyecto.Proyecto4.models.Usuario;
 import Proyecto.Proyecto4.services.AdministradorService;
 import Proyecto.Proyecto4.services.ContactoService;
+import Proyecto.Proyecto4.services.UsuarioService;
 import jakarta.validation.Valid;
 
 @Controller
@@ -30,9 +32,33 @@ public class ContactoController {
     @Autowired
     private AdministradorService administradorService;
     
+    @Autowired
+    private UsuarioService usuarioService;
+    
     // Mostrar página de contacto
     @GetMapping("/contactos")
-    public String mostrarContactos() {
+    public String mostrarContactos(Authentication authentication, Model model) {
+        // Verificar si hay un usuario autenticado
+        if (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getName())) {
+            String email = authentication.getName();
+            Optional<Usuario> usuarioOpt = usuarioService.buscarPorEmail(email);
+            
+            if (usuarioOpt.isPresent()) {
+                Usuario usuario = usuarioOpt.get();
+                model.addAttribute("usuarioAutenticado", usuario);
+                model.addAttribute("esUsuarioAutenticado", true);
+                
+                // Agregar información del usuario para prellenar el formulario
+                if (usuario.getDetallesPersona() != null) {
+                    model.addAttribute("nombreCompleto", usuario.getDetallesPersona().getNombres() + " " + usuario.getDetallesPersona().getApellidos());
+                    model.addAttribute("emailUsuario", usuario.getEmail());
+                    model.addAttribute("telefonoUsuario", usuario.getDetallesPersona().getTelefono());
+                }
+            }
+        } else {
+            model.addAttribute("esUsuarioAutenticado", false);
+        }
+        
         return "html/Contactos";
     }
     
@@ -41,17 +67,47 @@ public class ContactoController {
     public String enviarMensaje(
             @Valid @ModelAttribute Contacto contacto,
             BindingResult bindingResult,
+            Authentication authentication,
             RedirectAttributes redirectAttributes) {
         
         try {
-            // Validar errores de validación
-            if (bindingResult.hasErrors()) {
-                String errorMsg = bindingResult.getFieldErrors().stream()
-                    .map(error -> error.getDefaultMessage())
-                    .findFirst()
-                    .orElse("Error de validación en el formulario");
-                redirectAttributes.addFlashAttribute("error", errorMsg);
-                return "redirect:/contactos";
+            // Verificar si hay un usuario autenticado
+            if (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getName())) {
+                String email = authentication.getName();
+                Optional<Usuario> usuarioOpt = usuarioService.buscarPorEmail(email);
+                
+                if (usuarioOpt.isPresent()) {
+                    Usuario usuario = usuarioOpt.get();
+                    
+                    // Para usuarios autenticados, usar su información personal
+                    contacto.setUsuario(usuario);
+                    contacto.setEmail(usuario.getEmail());
+                    
+                    if (usuario.getDetallesPersona() != null) {
+                        String nombreCompleto = usuario.getDetallesPersona().getNombres() + " " + usuario.getDetallesPersona().getApellidos();
+                        contacto.setNombre(nombreCompleto);
+                        
+                        if (usuario.getDetallesPersona().getTelefono() != null && !usuario.getDetallesPersona().getTelefono().trim().isEmpty()) {
+                            contacto.setTelefono(usuario.getDetallesPersona().getTelefono());
+                        }
+                    }
+                    
+                    // Solo validar mensaje y hotel para usuarios autenticados
+                    if (contacto.getMensaje() == null || contacto.getMensaje().trim().length() < 10) {
+                        redirectAttributes.addFlashAttribute("error", "El mensaje debe tener al menos 10 caracteres.");
+                        return "redirect:/contactos";
+                    }
+                }
+            } else {
+                // Para usuarios no autenticados, validar todos los campos
+                if (bindingResult.hasErrors()) {
+                    String errorMsg = bindingResult.getFieldErrors().stream()
+                        .map(error -> error.getDefaultMessage())
+                        .findFirst()
+                        .orElse("Error de validación en el formulario");
+                    redirectAttributes.addFlashAttribute("error", errorMsg);
+                    return "redirect:/contactos";
+                }
             }
             
             // Guardar contacto

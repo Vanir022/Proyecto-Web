@@ -19,6 +19,77 @@
     border-color: #1B5E20 !important;
 }
 
+/* Estilos para el sistema de contacto con autenticación */
+.user-info-display {
+    background: linear-gradient(135deg, #e8f5e8, #f1f8f1);
+    border-left: 4px solid #1B5E20;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.user-info-display h6 {
+    color: #1B5E20;
+    margin-bottom: 0.5rem;
+}
+
+.user-info-display p {
+    margin-bottom: 0.25rem;
+    font-size: 0.95rem;
+}
+
+.alert-info a {
+    color: #1B5E20 !important;
+    font-weight: 600;
+}
+
+.alert-info a:hover {
+    color: #0F4A17 !important;
+    text-decoration: underline !important;
+}
+
+/* Animación suave para transiciones del formulario */
+.form-transition {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Indicador visual para usuarios autenticados */
+.authenticated-badge {
+    background: linear-gradient(135deg, #1B5E20, #4CAF50);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* Mejora en la visualización de información del usuario */
+.user-contact-info {
+    background: rgba(27, 94, 32, 0.1);
+    border: 1px solid rgba(27, 94, 32, 0.2);
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.user-contact-info h6 {
+    color: #1B5E20;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.user-contact-info p {
+    margin-bottom: 0.5rem;
+    color: #2e7d32;
+}
+
+.user-contact-info small {
+    color: #666;
+    font-style: italic;
+}
+
 .btn-outline-primary:hover {
     background: linear-gradient(135deg, #4CAF50, #1B5E20) !important;
     border-color: #1B5E20 !important;

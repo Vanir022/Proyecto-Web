@@ -111,9 +111,9 @@ class AuthModal {
             'button[onclick*="mostrarDetalles"]',
             'button[onclick*="buscarDisponibilidad"]',
             // Enlaces de servicios que requieren reserva
-            'a[href*="/spa"]',
+            /*'a[href*="/spa"]',
             'a[href*="/bodas"]',
-            'a[href*="/eventos"]',
+            'a[href*="/eventos"]',*/
             // Formularios de servicios
             'form[id*="Form"] button[type="submit"]',
             'button[onclick*="solicitar"]',

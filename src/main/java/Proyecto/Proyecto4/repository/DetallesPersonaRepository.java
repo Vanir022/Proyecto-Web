@@ -14,6 +14,9 @@ public interface DetallesPersonaRepository extends JpaRepository<DetallesPersona
     // Método para verificar si existe un DNI
     boolean existsByDni(String dni);
     
+    // Método para verificar si existe un teléfono
+    boolean existsByTelefono(String telefono);
+    
     // Método para buscar por DNI
     DetallesPersona findByDni(String dni);
 }
