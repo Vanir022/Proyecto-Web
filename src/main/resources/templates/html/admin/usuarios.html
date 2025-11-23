@@ -1,449 +1,731 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html
+  lang="es"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestión de Usuarios - Resort Eden</title>
-    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link th:href="@{/css/styleIndex.css}" rel="stylesheet">
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link th:href="@{/css/styleIndex.css}" rel="stylesheet" />
+  </head>
 
-<body class="bg-light">
+  <body class="bg-light">
     <!-- Header -->
     <div th:replace="~{fragments/Header :: header}"></div>
 
     <div class="container-fluid mt-5 pt-4">
-        <div class="row">
-            <!-- Sidebar -->
-            <div th:replace="~{fragments/admin-sidebar :: adminSidebar}"></div>
+      <div class="row">
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/admin-sidebar :: adminSidebar}"></div>
 
-            <!-- Main Content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div
-                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Gestión de Usuarios</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <div class="btn-group me-2">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">
-                                <a th:href="@{/admin/export}" class="btn btn-sm btn-outline-secondary">Exportar</a>
-                            </button>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#nuevoUsuarioModal">
-                            <i class="fas fa-plus"></i> Nuevo Usuario
-                        </button>
-                    </div>
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">Gestión de Usuarios</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group me-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary">
+                  <a
+                    th:href="@{/admin/export}"
+                    class="btn btn-sm btn-outline-secondary"
+                    >Exportar</a
+                  >
+                </button>
+              </div>
+              <button
+                type="button"
+                class="btn btn-sm btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#nuevoUsuarioModal"
+              >
+                <i class="fas fa-plus"></i> Nuevo Usuario
+              </button>
+            </div>
+          </div>
+
+          <!-- Filtros -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <form method="GET" action="/admin/usuarios" class="row g-3">
+                <div class="col-md-5">
+                  <label class="form-label">Buscar Usuario:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="busqueda"
+                    th:value="${busqueda}"
+                    placeholder="Nombre, email o DNI"
+                  />
                 </div>
-
-                <!-- Filtros -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <form method="GET" action="/admin/usuarios" class="row g-3">
-                            <div class="col-md-5">
-                                <label class="form-label">Buscar Usuario:</label>
-                                <input type="text" class="form-control" name="busqueda" 
-                                    th:value="${busqueda}"
-                                    placeholder="Nombre, email o DNI">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Estado:</label>
-                                <select class="form-select" name="estado" th:value="${estado}">
-                                    <option value="">Todos</option>
-                                    <option value="activo" th:selected="${estado == 'activo'}">Activos</option>
-                                    <option value="inactivo" th:selected="${estado == 'inactivo'}">Inactivos</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">&nbsp;</label>
-                                <div class="d-flex gap-2">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-search"></i> Buscar
-                                    </button>
-                                    <a href="/admin/usuarios" class="btn btn-secondary" title="Limpiar filtros">
-                                        <i class="fas fa-eraser"></i>
-                                    </a>
-                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                        data-bs-target="#nuevoUsuarioModal">
-                                        <i class="fas fa-plus"></i> Nuevo
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                <div class="col-md-4">
+                  <label class="form-label">Estado:</label>
+                  <select
+                    class="form-select"
+                    name="estado"
+                    th:value="${estado}"
+                  >
+                    <option value="">Todos</option>
+                    <option value="activo" th:selected="${estado == 'activo'}">
+                      Activos
+                    </option>
+                    <option
+                      value="inactivo"
+                      th:selected="${estado == 'inactivo'}"
+                    >
+                      Inactivos
+                    </option>
+                  </select>
                 </div>
-
-                <!-- Tabla de Usuarios -->
-                <div class="card shadow">
-                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 font-weight-bold text-primary">Lista de Usuarios Registrados</h6>
-                        <span class="badge bg-primary" th:text="'Total: ' + ${usuarios.size()}">Total: 0</span>
-                    </div>
-                    <div class="card-body">
-                        <!-- Mensaje de resultados de búsqueda -->
-                        <div th:if="${busqueda != null and !busqueda.isEmpty()}" class="alert alert-info alert-dismissible fade show" role="alert">
-                            <i class="fas fa-info-circle me-2"></i>
-                            <strong>Resultados de búsqueda:</strong> Se encontraron <strong th:text="${usuarios.size()}">0</strong> usuario(s) 
-                            que coinciden con "<strong th:text="${busqueda}">búsqueda</strong>"
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                        
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Foto</th>
-                                        <th>Nombre</th>
-                                        <th>Email</th>
-                                        <th>Documento</th>
-                                        <th>Teléfono</th>
-                                        <th>Rol</th>
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="usuario : ${usuarios}">
-                                        <td th:text="${usuario.id}">1</td>
-                                        <td>
-                                            <img th:if="${usuario.detallesPersona?.fotoPerfil != null}"
-                                                th:src="@{'/uploads/fotos/' + ${usuario.detallesPersona.fotoPerfil}}"
-                                                alt="Foto" class="rounded-circle"
-                                                style="width: 40px; height: 40px; object-fit: cover;">
-                                            <i th:unless="${usuario.detallesPersona?.fotoPerfil != null}"
-                                                class="fas fa-user-circle fa-2x text-secondary"></i>
-                                        </td>
-                                        <td>
-                                            <strong th:text="${usuario.nombre}">Nombre Usuario</strong>
-                                            <br>
-                                            <small class="text-muted"
-                                                th:text="${usuario.detallesPersona?.apellidos}">Apellidos</small>
-                                        </td>
-                                        <td th:text="${usuario.email}">usuario@email.com</td>
-                                        <td>
-                                            <span th:if="${usuario.detallesPersona?.dni}"
-                                                th:text="${usuario.detallesPersona.dni}">12345678</span>
-                                            <span th:unless="${usuario.detallesPersona?.dni}" class="text-muted">No
-                                                especificado</span>
-                                        </td>
-                                        <td th:text="${usuario.detallesPersona?.telefono ?: 'No especificado'}">
-                                            987654321</td>
-                                        <td>
-                                            <span class="badge bg-info" th:text="${usuario.rol}">ROLE_USER</span>
-                                        </td>
-                                        <td>
-                                            <span th:if="${usuario.activo == null or usuario.activo == true}" class="badge bg-success">Activo</span>
-                                            <span th:unless="${usuario.activo == null or usuario.activo == true}" class="badge bg-danger">Inactivo</span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-sm btn-outline-primary"
-                                                    th:onclick="'verDetalleUsuario(' + ${usuario.id} + ')'"
-                                                    title="Ver Detalles">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-sm btn-outline-warning"
-                                                    th:onclick="'editarUsuario(' + ${usuario.id} + ')'" title="Editar">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-sm btn-outline-info"
-                                                    title="Resetear Contraseña">
-                                                    <i class="fas fa-key"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-sm btn-outline-danger"
-                                                    th:onclick="'eliminarUsuario(' + ${usuario.id} + ')'"
-                                                    title="Eliminar">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <!-- Mensaje cuando no hay usuarios -->
-                                    <tr th:if="${#lists.isEmpty(usuarios)}">
-                                        <td colspan="9" class="text-center py-5">
-                                            <i class="fas fa-users-slash fa-3x text-muted mb-3"></i>
-                                            <h5 class="text-muted" th:if="${busqueda != null and !busqueda.isEmpty()}">
-                                                No se encontraron usuarios que coincidan con la búsqueda
-                                            </h5>
-                                            <h5 class="text-muted" th:unless="${busqueda != null and !busqueda.isEmpty()}">
-                                                No hay usuarios registrados
-                                            </h5>
-                                            <p class="text-muted" th:if="${busqueda != null and !busqueda.isEmpty()}">
-                                                Intenta con otros términos de búsqueda
-                                            </p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Paginación -->
-                        <nav th:if="${totalPaginas > 1}">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item" th:classappend="${paginaActual == 0} ? 'disabled'">
-                                    <a class="page-link"
-                                        th:href="@{/admin/usuarios(page=${paginaActual - 1})}">Anterior</a>
-                                </li>
-                                <li th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}" class="page-item"
-                                    th:classappend="${i == paginaActual} ? 'active'">
-                                    <a class="page-link" th:href="@{/admin/usuarios(page=${i})}"
-                                        th:text="${i + 1}">1</a>
-                                </li>
-                                <li class="page-item" th:classappend="${paginaActual >= totalPaginas - 1} ? 'disabled'">
-                                    <a class="page-link"
-                                        th:href="@{/admin/usuarios(page=${paginaActual + 1})}">Siguiente</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                <div class="col-md-3">
+                  <label class="form-label">&nbsp;</label>
+                  <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fas fa-search"></i> Buscar
+                    </button>
+                    <a
+                      href="/admin/usuarios"
+                      class="btn btn-secondary"
+                      title="Limpiar filtros"
+                    >
+                      <i class="fas fa-eraser"></i>
+                    </a>
+                    <button
+                      type="button"
+                      class="btn btn-success"
+                      data-bs-toggle="modal"
+                      data-bs-target="#nuevoUsuarioModal"
+                    >
+                      <i class="fas fa-plus"></i> Nuevo
+                    </button>
+                  </div>
                 </div>
-            </main>
-        </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Tabla de Usuarios -->
+          <div class="card shadow">
+            <div
+              class="card-header py-3 d-flex justify-content-between align-items-center"
+            >
+              <h6 class="m-0 font-weight-bold text-primary">
+                Lista de Usuarios Registrados
+              </h6>
+              <span
+                class="badge bg-primary"
+                th:text="'Total: ' + ${usuarios.size()}"
+                >Total: 0</span
+              >
+            </div>
+            <div class="card-body">
+              <!-- Mensaje de resultados de búsqueda -->
+              <div
+                th:if="${busqueda != null and !busqueda.isEmpty()}"
+                class="alert alert-info alert-dismissible fade show"
+                role="alert"
+              >
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Resultados de búsqueda:</strong> Se encontraron
+                <strong th:text="${usuarios.size()}">0</strong> usuario(s) que
+                coinciden con "<strong th:text="${busqueda}">búsqueda</strong>"
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                ></button>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>ID</th>
+                      <th>Foto</th>
+                      <th>Nombre</th>
+                      <th>Email</th>
+                      <th>Documento</th>
+                      <th>Teléfono</th>
+                      <th>Rol</th>
+                      <th>Estado</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                      <td th:text="${usuario.id}">1</td>
+                      <td>
+                        <img
+                          th:if="${usuario.detallesPersona?.fotoPerfil != null}"
+                          th:src="@{'/uploads/fotos/' + ${usuario.detallesPersona.fotoPerfil}}"
+                          alt="Foto"
+                          class="rounded-circle"
+                          style="width: 40px; height: 40px; object-fit: cover"
+                        />
+                        <i
+                          th:unless="${usuario.detallesPersona?.fotoPerfil != null}"
+                          class="fas fa-user-circle fa-2x text-secondary"
+                        ></i>
+                      </td>
+                      <td>
+                        <strong th:text="${usuario.nombre}"
+                          >Nombre Usuario</strong
+                        >
+                        <br />
+                        <small
+                          class="text-muted"
+                          th:text="${usuario.detallesPersona?.apellidos}"
+                          >Apellidos</small
+                        >
+                      </td>
+                      <td th:text="${usuario.email}">usuario@email.com</td>
+                      <td>
+                        <span
+                          th:if="${usuario.detallesPersona?.dni}"
+                          th:text="${usuario.detallesPersona.dni}"
+                          >12345678</span
+                        >
+                        <span
+                          th:unless="${usuario.detallesPersona?.dni}"
+                          class="text-muted"
+                          >No especificado</span
+                        >
+                      </td>
+                      <td
+                        th:text="${usuario.detallesPersona?.telefono ?: 'No especificado'}"
+                      >
+                        987654321
+                      </td>
+                      <td>
+                        <span class="badge bg-info" th:text="${usuario.rol}"
+                          >ROLE_USER</span
+                        >
+                      </td>
+                      <td>
+                        <span
+                          th:if="${usuario.activo == null or usuario.activo == true}"
+                          class="badge bg-success"
+                          >Activo</span
+                        >
+                        <span
+                          th:unless="${usuario.activo == null or usuario.activo == true}"
+                          class="badge bg-danger"
+                          >Inactivo</span
+                        >
+                      </td>
+                      <td>
+                        <div class="btn-group" role="group">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-primary"
+                            th:onclick="'verDetalleUsuario(' + ${usuario.id} + ')'"
+                            title="Ver Detalles"
+                          >
+                            <i class="fas fa-eye"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-warning"
+                            th:onclick="'editarUsuario(' + ${usuario.id} + ')'"
+                            title="Editar"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-info"
+                            title="Resetear Contraseña"
+                          >
+                            <i class="fas fa-key"></i>
+                          </button>
+                          <button
+                            th:if="${!usuario.accountNonLocked}"
+                            type="button"
+                            class="btn btn-sm btn-outline-success"
+                            th:onclick="'desbloquearUsuario(' + ${usuario.id} + ')'"
+                            title="Desbloquear Usuario"
+                          >
+                            <i class="fas fa-unlock"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-danger"
+                            th:onclick="'eliminarUsuario(' + ${usuario.id} + ')'"
+                            title="Eliminar"
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <!-- Mensaje cuando no hay usuarios -->
+                    <tr th:if="${#lists.isEmpty(usuarios)}">
+                      <td colspan="9" class="text-center py-5">
+                        <i class="fas fa-users-slash fa-3x text-muted mb-3"></i>
+                        <h5
+                          class="text-muted"
+                          th:if="${busqueda != null and !busqueda.isEmpty()}"
+                        >
+                          No se encontraron usuarios que coincidan con la
+                          búsqueda
+                        </h5>
+                        <h5
+                          class="text-muted"
+                          th:unless="${busqueda != null and !busqueda.isEmpty()}"
+                        >
+                          No hay usuarios registrados
+                        </h5>
+                        <p
+                          class="text-muted"
+                          th:if="${busqueda != null and !busqueda.isEmpty()}"
+                        >
+                          Intenta con otros términos de búsqueda
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Paginación -->
+              <nav th:if="${totalPaginas > 1}">
+                <ul class="pagination justify-content-center">
+                  <li
+                    class="page-item"
+                    th:classappend="${paginaActual == 0} ? 'disabled'"
+                  >
+                    <a
+                      class="page-link"
+                      th:href="@{/admin/usuarios(page=${paginaActual - 1})}"
+                      >Anterior</a
+                    >
+                  </li>
+                  <li
+                    th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}"
+                    class="page-item"
+                    th:classappend="${i == paginaActual} ? 'active'"
+                  >
+                    <a
+                      class="page-link"
+                      th:href="@{/admin/usuarios(page=${i})}"
+                      th:text="${i + 1}"
+                      >1</a
+                    >
+                  </li>
+                  <li
+                    class="page-item"
+                    th:classappend="${paginaActual >= totalPaginas - 1} ? 'disabled'"
+                  >
+                    <a
+                      class="page-link"
+                      th:href="@{/admin/usuarios(page=${paginaActual + 1})}"
+                      >Siguiente</a
+                    >
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
 
     <!-- Modal Nuevo Usuario -->
     <div class="modal fade" id="nuevoUsuarioModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header"
-                    style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
-                    <h5 class="modal-title fw-bold"><i class="fas fa-user-plus me-2"></i>Crear Nuevo Usuario</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div
+            class="modal-header"
+            style="
+              background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+              color: white;
+            "
+          >
+            <h5 class="modal-title fw-bold">
+              <i class="fas fa-user-plus me-2"></i>Crear Nuevo Usuario
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <form id="formNuevoUsuario">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold text-success"
+                      >Nombre *</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="nombre"
+                      required
+                    />
+                  </div>
                 </div>
-                <form id="formNuevoUsuario">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold text-success">Nombre *</label>
-                                    <input type="text" class="form-control" name="nombre" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold text-success">Email *</label>
-                                    <input type="email" class="form-control" name="email" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Contraseña *</label>
-                                    <input type="password" class="form-control" name="password" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Confirmar Contraseña *</label>
-                                    <input type="password" class="form-control" name="confirmarPassword" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label">Tipo Documento</label>
-                                    <select class="form-select" name="tipoDocumento">
-                                        <option value="DNI">DNI</option>
-                                        <option value="Pasaporte">Pasaporte</option>
-                                        <option value="C.E.">C.E.</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label">Número Documento</label>
-                                    <input type="text" class="form-control" name="numeroDocumento">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label">Teléfono</label>
-                                    <input type="tel" class="form-control" name="telefono">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="activo" checked>
-                                <label class="form-check-label">Usuario Activo</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Crear Usuario</button>
-                    </div>
-                </form>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold text-success"
+                      >Email *</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label">Contraseña *</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="password"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label">Confirmar Contraseña *</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="confirmarPassword"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label class="form-label">Tipo Documento</label>
+                    <select class="form-select" name="tipoDocumento">
+                      <option value="DNI">DNI</option>
+                      <option value="Pasaporte">Pasaporte</option>
+                      <option value="C.E.">C.E.</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label class="form-label">Número Documento</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="numeroDocumento"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label class="form-label">Teléfono</label>
+                    <input type="tel" class="form-control" name="telefono" />
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="activo"
+                    checked
+                  />
+                  <label class="form-check-label">Usuario Activo</label>
+                </div>
+              </div>
             </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Crear Usuario
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
 
     <!-- Modal Editar Usuario -->
     <div class="modal fade" id="editarUsuarioModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-warning text-dark">
-                    <h5 class="modal-title fw-bold"><i class="fas fa-user-edit me-2"></i>Editar Usuario</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-warning text-dark">
+            <h5 class="modal-title fw-bold">
+              <i class="fas fa-user-edit me-2"></i>Editar Usuario
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <form id="formEditarUsuario">
+            <input type="hidden" name="id" id="editUsuarioId" />
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold text-dark">Nombre *</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="nombre"
+                      id="editNombre"
+                      required
+                    />
+                  </div>
                 </div>
-                <form id="formEditarUsuario">
-                    <input type="hidden" name="id" id="editUsuarioId">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold text-dark">Nombre *</label>
-                                    <input type="text" class="form-control" name="nombre" id="editNombre" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold text-dark">Email *</label>
-                                    <input type="email" class="form-control" name="email" id="editEmail" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold text-dark">Nueva Contraseña (opcional)</label>
-                                    <input type="password" class="form-control" name="password" id="editPassword"
-                                        placeholder="Dejar vacío para mantener la actual">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold text-dark">Confirmar Nueva Contraseña</label>
-                                    <input type="password" class="form-control" name="confirmarPassword"
-                                        id="editConfirmarPassword">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold text-dark">Apellidos</label>
-                                    <input type="text" class="form-control" name="apellidos" id="editApellidos">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold text-dark">DNI</label>
-                                    <input type="text" class="form-control" name="dni" id="editDni">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold text-dark">Teléfono</label>
-                                    <input type="tel" class="form-control" name="telefono" id="editTelefono">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold text-dark">Fecha de Nacimiento</label>
-                                    <input type="date" class="form-control" name="fechaNacimiento"
-                                        id="editFechaNacimiento">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold text-dark">Estado del Usuario *</label>
-                                    <select class="form-select" name="activo" id="editActivo" required>
-                                        <option value="true">Activo</option>
-                                        <option value="false">Inactivo</option>
-                                    </select>
-                                    <small class="text-muted">Los usuarios inactivos no podrán iniciar sesión</small>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label fw-bold text-dark">Intereses</label>
-                                    <textarea class="form-control" name="intereses" id="editIntereses" rows="2"
-                                        placeholder="Intereses del usuario"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="aceptaMarketing"
-                                    id="editAceptaMarketing">
-                                <label class="form-check-label fw-bold text-dark">Acepta recibir comunicaciones de
-                                    marketing</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                    </div>
-                </form>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold text-dark">Email *</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      id="editEmail"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold text-dark"
+                      >Nueva Contraseña (opcional)</label
+                    >
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="password"
+                      id="editPassword"
+                      placeholder="Dejar vacío para mantener la actual"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold text-dark"
+                      >Confirmar Nueva Contraseña</label
+                    >
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="confirmarPassword"
+                      id="editConfirmarPassword"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold text-dark"
+                      >Apellidos</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="apellidos"
+                      id="editApellidos"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold text-dark">DNI</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="dni"
+                      id="editDni"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold text-dark">Teléfono</label>
+                    <input
+                      type="tel"
+                      class="form-control"
+                      name="telefono"
+                      id="editTelefono"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold text-dark"
+                      >Fecha de Nacimiento</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      name="fechaNacimiento"
+                      id="editFechaNacimiento"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold text-dark"
+                      >Estado del Usuario *</label
+                    >
+                    <select
+                      class="form-select"
+                      name="activo"
+                      id="editActivo"
+                      required
+                    >
+                      <option value="true">Activo</option>
+                      <option value="false">Inactivo</option>
+                    </select>
+                    <small class="text-muted"
+                      >Los usuarios inactivos no podrán iniciar sesión</small
+                    >
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label fw-bold text-dark"
+                      >Intereses</label
+                    >
+                    <textarea
+                      class="form-control"
+                      name="intereses"
+                      id="editIntereses"
+                      rows="2"
+                      placeholder="Intereses del usuario"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="aceptaMarketing"
+                    id="editAceptaMarketing"
+                  />
+                  <label class="form-check-label fw-bold text-dark"
+                    >Acepta recibir comunicaciones de marketing</label
+                  >
+                </div>
+              </div>
             </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Guardar Cambios
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
 
     <!-- Modal Detalle Usuario -->
     <div class="modal fade" id="detalleUsuarioModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header"
-                    style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
-                    <h5 class="modal-title">Detalles del Usuario</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body" id="detalleUsuarioContent">
-                    <!-- El contenido se cargará dinámicamente -->
-                </div>
-            </div>
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div
+            class="modal-header"
+            style="
+              background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+              color: white;
+            "
+          >
+            <h5 class="modal-title">Detalles del Usuario</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body" id="detalleUsuarioContent">
+            <!-- El contenido se cargará dinámicamente -->
+          </div>
         </div>
+      </div>
     </div>
 
     <style>
-        .border-left-success {
-            border-left: 4px solid #28a745 !important;
-        }
+      .border-left-success {
+        border-left: 4px solid #28a745 !important;
+      }
 
-        .border-left-warning {
-            border-left: 4px solid #ffc107 !important;
-        }
+      .border-left-warning {
+        border-left: 4px solid #ffc107 !important;
+      }
 
-        .border-left-danger {
-            border-left: 4px solid #dc3545 !important;
-        }
+      .border-left-danger {
+        border-left: 4px solid #dc3545 !important;
+      }
 
-        .border-left-info {
-            border-left: 4px solid #17a2b8 !important;
-        }
+      .border-left-info {
+        border-left: 4px solid #17a2b8 !important;
+      }
 
-        .border-left-secondary {
-            border-left: 4px solid #6c757d !important;
-        }
+      .border-left-secondary {
+        border-left: 4px solid #6c757d !important;
+      }
 
+      .modal-xl {
+        max-width: 90%;
+      }
+
+      @media (max-width: 768px) {
         .modal-xl {
-            max-width: 90%;
+          max-width: 95%;
         }
-
-        @media (max-width: 768px) {
-            .modal-xl {
-                max-width: 95%;
-            }
-        }
+      }
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function verDetalleUsuario(idUsuario) {
-            // Mostrar spinner mientras carga
-            document.getElementById('detalleUsuarioContent').innerHTML = `
+      function verDetalleUsuario(idUsuario) {
+        // Mostrar spinner mientras carga
+        document.getElementById("detalleUsuarioContent").innerHTML = `
                 <div class="text-center py-4">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Cargando...</span>
@@ -452,37 +734,43 @@
                 </div>
             `;
 
-            // Mostrar modal primero
-            const modal = new bootstrap.Modal(document.getElementById('detalleUsuarioModal'));
-            modal.show();
+        // Mostrar modal primero
+        const modal = new bootstrap.Modal(
+          document.getElementById("detalleUsuarioModal")
+        );
+        modal.show();
 
-            // Cargar detalles del usuario via AJAX
-            fetch(`/admin/usuarios/${idUsuario}/detalle`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error al cargar los datos');
-                    }
-                    return response.text();
-                })
-                .then(html => {
-                    // Actualizar el contenido del modal
-                    document.getElementById('detalleUsuarioContent').innerHTML = html;
+        // Cargar detalles del usuario via AJAX
+        fetch(`/admin/usuarios/${idUsuario}/detalle`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Error al cargar los datos");
+            }
+            return response.text();
+          })
+          .then((html) => {
+            // Actualizar el contenido del modal
+            document.getElementById("detalleUsuarioContent").innerHTML = html;
 
-                    // Configurar el botón de editar
-                    const btnEditar = document.getElementById('btnEditarUsuarioDetalle');
-                    if (btnEditar) {
-                        btnEditar.style.display = 'inline-block';
-                        btnEditar.onclick = function () {
-                            // Cerrar el modal de detalles
-                            bootstrap.Modal.getInstance(document.getElementById('detalleUsuarioModal')).hide();
-                            // Abrir el modal de edición
-                            editarUsuario(idUsuario);
-                        };
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('detalleUsuarioContent').innerHTML = `
+            // Configurar el botón de editar
+            const btnEditar = document.getElementById(
+              "btnEditarUsuarioDetalle"
+            );
+            if (btnEditar) {
+              btnEditar.style.display = "inline-block";
+              btnEditar.onclick = function () {
+                // Cerrar el modal de detalles
+                bootstrap.Modal.getInstance(
+                  document.getElementById("detalleUsuarioModal")
+                ).hide();
+                // Abrir el modal de edición
+                editarUsuario(idUsuario);
+              };
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            document.getElementById("detalleUsuarioContent").innerHTML = `
                         <div class="alert alert-danger">
                             <i class="fas fa-exclamation-triangle me-2"></i>
                             Error al cargar los detalles del usuario. Por favor, inténtelo de nuevo.
@@ -490,161 +778,199 @@
                             <small class="text-muted">${error.message}</small>
                         </div>
                     `;
-                });
-        }
+          });
+      }
 
-        function editarUsuario(idUsuario) {
-            // Cargar datos del usuario y mostrar modal de edición
-            fetch(`/admin/usuarios/${idUsuario}/datos`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error al cargar los datos del usuario');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Llenar el formulario con los datos del usuario
-                    document.getElementById('editUsuarioId').value = data.id;
-                    document.getElementById('editNombre').value = data.nombre || '';
-                    document.getElementById('editEmail').value = data.email || '';
-                    document.getElementById('editApellidos').value = data.apellidos || '';
-                    document.getElementById('editDni').value = data.dni || '';
-                    document.getElementById('editTelefono').value = data.telefono || '';
-                    document.getElementById('editFechaNacimiento').value = data.fechaNacimiento || '';
-                    document.getElementById('editIntereses').value = data.intereses || '';
-                    document.getElementById('editAceptaMarketing').checked = data.aceptaMarketing || false;
-                    document.getElementById('editActivo').value = data.activo !== undefined ? data.activo.toString() : 'true';
-
-                    // Limpiar campos de contraseña
-                    document.getElementById('editPassword').value = '';
-                    document.getElementById('editConfirmarPassword').value = '';
-
-                    // Mostrar modal
-                    const modal = new bootstrap.Modal(document.getElementById('editarUsuarioModal'));
-                    modal.show();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al cargar los datos del usuario. Por favor, inténtelo de nuevo.');
-                });
-        }
-
-        function cambiarEstadoUsuario(idUsuario, estadoActual) {
-            const accion = estadoActual ? 'desactivar' : 'activar';
-            if (confirm(`¿Está seguro de ${accion} este usuario?`)) {
-                fetch(`/admin/usuarios/${idUsuario}/cambiar-estado`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            location.reload();
-                        } else {
-                            alert('Error al cambiar el estado del usuario');
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
-        }
-
-        // Manejar formulario de nuevo usuario
-        // Procesa el envío del formulario para crear un nuevo usuario en el sistema
-        // Valida las contraseñas y envía los datos al servidor mediante una petición POST
-        document.getElementById('formNuevoUsuario').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            const password = formData.get('password');
-            const confirmarPassword = formData.get('confirmarPassword');
-
-            if (password !== confirmarPassword) {
-                alert('Las contraseñas no coinciden');
-                return;
-            }
-
-            fetch('/admin/usuarios/crear', {
-                method: 'POST',
-                body: formData
+      function desbloquearUsuario(idUsuario) {
+        if (confirm("¿Está seguro que desea desbloquear este usuario?")) {
+          fetch(`/api/admin/usuarios/desbloquear/${idUsuario}`, {
+            method: "POST",
+          })
+            .then((response) => {
+              if (response.ok) {
+                alert("Usuario desbloqueado exitosamente.");
+                location.reload();
+              } else {
+                alert("Error al desbloquear usuario.");
+              }
             })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Usuario creado exitosamente');
-                        location.reload();
-                    } else {
-                        alert('Error al crear el usuario');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Error al desbloquear usuario.");
+            });
+        }
+      }
+
+      function editarUsuario(idUsuario) {
+        // Cargar datos del usuario y mostrar modal de edición
+        fetch(`/admin/usuarios/${idUsuario}/datos`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Error al cargar los datos del usuario");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // Llenar el formulario con los datos del usuario
+            document.getElementById("editUsuarioId").value = data.id;
+            document.getElementById("editNombre").value = data.nombre || "";
+            document.getElementById("editEmail").value = data.email || "";
+            document.getElementById("editApellidos").value =
+              data.apellidos || "";
+            document.getElementById("editDni").value = data.dni || "";
+            document.getElementById("editTelefono").value = data.telefono || "";
+            document.getElementById("editFechaNacimiento").value =
+              data.fechaNacimiento || "";
+            document.getElementById("editIntereses").value =
+              data.intereses || "";
+            document.getElementById("editAceptaMarketing").checked =
+              data.aceptaMarketing || false;
+            document.getElementById("editActivo").value =
+              data.activo !== undefined ? data.activo.toString() : "true";
+
+            // Limpiar campos de contraseña
+            document.getElementById("editPassword").value = "";
+            document.getElementById("editConfirmarPassword").value = "";
+
+            // Mostrar modal
+            const modal = new bootstrap.Modal(
+              document.getElementById("editarUsuarioModal")
+            );
+            modal.show();
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert(
+              "Error al cargar los datos del usuario. Por favor, inténtelo de nuevo."
+            );
+          });
+      }
+
+      function cambiarEstadoUsuario(idUsuario, estadoActual) {
+        const accion = estadoActual ? "desactivar" : "activar";
+        if (confirm(`¿Está seguro de ${accion} este usuario?`)) {
+          fetch(`/admin/usuarios/${idUsuario}/cambiar-estado`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => {
+              if (response.ok) {
+                location.reload();
+              } else {
+                alert("Error al cambiar el estado del usuario");
+              }
+            })
+            .catch((error) => console.error("Error:", error));
+        }
+      }
+
+      // Manejar formulario de nuevo usuario
+      // Procesa el envío del formulario para crear un nuevo usuario en el sistema
+      // Valida las contraseñas y envía los datos al servidor mediante una petición POST
+      document
+        .getElementById("formNuevoUsuario")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const formData = new FormData(this);
+          const password = formData.get("password");
+          const confirmarPassword = formData.get("confirmarPassword");
+
+          if (password !== confirmarPassword) {
+            alert("Las contraseñas no coinciden");
+            return;
+          }
+
+          fetch("/admin/usuarios/crear", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => {
+              if (response.ok) {
+                alert("Usuario creado exitosamente");
+                location.reload();
+              } else {
+                alert("Error al crear el usuario");
+              }
+            })
+            .catch((error) => console.error("Error:", error));
         });
 
-        // Manejar formulario de editar usuario
-        document.getElementById('formEditarUsuario').addEventListener('submit', function (e) {
-            e.preventDefault();
+      // Manejar formulario de editar usuario
+      document
+        .getElementById("formEditarUsuario")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
 
-            const formData = new FormData(this);
-            const password = formData.get('password');
-            const confirmarPassword = formData.get('confirmarPassword');
+          const formData = new FormData(this);
+          const password = formData.get("password");
+          const confirmarPassword = formData.get("confirmarPassword");
 
-            // Validar contraseñas solo si se proporciona una nueva
-            if (password && password !== confirmarPassword) {
-                alert('Las contraseñas no coinciden');
-                return;
-            }
+          // Validar contraseñas solo si se proporciona una nueva
+          if (password && password !== confirmarPassword) {
+            alert("Las contraseñas no coinciden");
+            return;
+          }
 
-            const idUsuario = formData.get('id');
+          const idUsuario = formData.get("id");
 
-            fetch(`/admin/usuarios/${idUsuario}/editar`, {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Usuario actualizado exitosamente');
-                        location.reload();
-                    } else {
-                        return response.text().then(text => {
-                            alert('Error al actualizar el usuario: ' + text);
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al actualizar el usuario. Por favor, inténtelo de nuevo.');
+          fetch(`/admin/usuarios/${idUsuario}/editar`, {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => {
+              if (response.ok) {
+                alert("Usuario actualizado exitosamente");
+                location.reload();
+              } else {
+                return response.text().then((text) => {
+                  alert("Error al actualizar el usuario: " + text);
                 });
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert(
+                "Error al actualizar el usuario. Por favor, inténtelo de nuevo."
+              );
+            });
         });
 
-        // Función para eliminar un usuario del sistema
-        // Muestra confirmación y realiza petición DELETE al endpoint correspondiente
-        function eliminarUsuario(idUsuario) {
-            if (confirm('¿Está seguro de que desea eliminar este usuario? Esta acción no se puede deshacer.')) {
-                fetch(`/admin/usuarios/${idUsuario}/eliminar`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            return response.json();
-                        } else {
-                            return response.json().then(data => {
-                                throw new Error(data.error || 'Error al eliminar usuario');
-                            });
-                        }
-                    })
-                    .then(data => {
-                        alert(data.message || 'Usuario eliminado exitosamente');
-                        location.reload();
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error al eliminar usuario: ' + error.message);
-                    });
-            }
+      // Función para eliminar un usuario del sistema
+      // Muestra confirmación y realiza petición DELETE al endpoint correspondiente
+      function eliminarUsuario(idUsuario) {
+        if (
+          confirm(
+            "¿Está seguro de que desea eliminar este usuario? Esta acción no se puede deshacer."
+          )
+        ) {
+          fetch(`/admin/usuarios/${idUsuario}/eliminar`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                return response.json().then((data) => {
+                  throw new Error(data.error || "Error al eliminar usuario");
+                });
+              }
+            })
+            .then((data) => {
+              alert(data.message || "Usuario eliminado exitosamente");
+              location.reload();
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Error al eliminar usuario: " + error.message);
+            });
         }
+      }
     </script>
-</body>
-
+  </body>
 </html>

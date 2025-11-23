@@ -8,11 +8,17 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import Proyecto.Proyecto4.config.CustomAuthenticationSuccessHandler;
+import Proyecto.Proyecto4.config.CustomAuthenticationFailureHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Configuration
 public class SecurityConfig {
     @Autowired
     private CustomAuthenticationSuccessHandler successHandler;
+    @Autowired
+    private CustomAuthenticationFailureHandler failureHandler;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -37,7 +43,7 @@ public class SecurityConfig {
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .successHandler(successHandler)
-                        .failureUrl("/login?error=true")
+                        .failureHandler(failureHandler)
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")

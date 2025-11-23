@@ -29,10 +29,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
+
+            if (!usuario.getAccountNonLocked()) {
+                throw new RuntimeException("Usuario bloqueado por múltiples intentos fallidos. Espere o contacte al administrador.");
+            }
+
             return User.builder()
                     .username(usuario.getEmail())
                     .password(usuario.getPassword())
                     .authorities(usuario.getRol())
+                    .accountLocked(!usuario.getAccountNonLocked())
                     .build();
         }
 
