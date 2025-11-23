@@ -11,6 +11,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
   <link rel="stylesheet" th:href="@{../css/styleLogin.css}">
+  <link rel="stylesheet" th:href="@{../css/validation.css}">
 
 </head>
 
@@ -76,7 +77,7 @@
             </div>
 
             <!-- Formulario principal -->
-            <form id="registerForm" th:action="@{/auth/registro}" method="post">
+            <form id="registerForm">
               <!-- Mostrar mensajes de error -->
               <div id="errorMessage" class="alert alert-danger mb-3" role="alert" style="display: none;">
                 <i class="fas fa-exclamation-triangle me-2"></i>
@@ -111,8 +112,14 @@
                 <label for="email" class="form-label fw-semibold">
                   <i class="fas fa-envelope me-2 text-primary"></i>Correo Electrónico
                 </label>
-                <input type="email" class="form-control form-control-lg" id="email" name="email"
-                  placeholder="Ingrese su correo electrónico" required>
+                <div class="input-container">
+                  <input type="email" class="form-control form-control-lg" id="email" name="email"
+                    placeholder="Ingrese su correo electrónico" required>
+                  <i class="validation-icon"></i>
+                </div>
+                <div class="duplicado-message" id="emailDuplicado">
+                  <i class="fas fa-exclamation-triangle"></i>Este correo electrónico ya está registrado
+                </div>
               </div>
 
               <div class="row">
@@ -120,15 +127,30 @@
                   <label for="phone" class="form-label fw-semibold">
                     <i class="fas fa-phone me-2 text-primary"></i>Teléfono
                   </label>
-                  <input type="tel" class="form-control form-control-lg" id="phone" name="phone"
-                    placeholder="+51 999 999 999" required>
+                  <div class="input-container">
+                    <input type="tel" class="form-control form-control-lg" id="phone" name="phone"
+                      placeholder="999999999" required pattern="[0-9]{7,20}" title="Ingrese entre 7 y 20 dígitos, solo números">
+                    <i class="validation-icon"></i>
+                  </div>
+                  <div class="invalid-feedback">
+                    El teléfono debe contener entre 7 y 20 dígitos, solo números
+                  </div>
+                  <div class="duplicado-message" id="phoneDuplicado">
+                    <i class="fas fa-exclamation-triangle"></i>Este teléfono ya está registrado
+                  </div>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="dni" class="form-label fw-semibold">
                     <i class="fas fa-id-card me-2 text-primary"></i>DNI
                   </label>
-                  <input type="text" class="form-control form-control-lg" id="dni" name="dni" placeholder="12345678"
-                    required pattern="[0-9]{8}" maxlength="8" title="Ingrese un DNI válido de 8 dígitos">
+                  <div class="input-container">
+                    <input type="text" class="form-control form-control-lg" id="dni" name="dni" placeholder="12345678"
+                      required pattern="[0-9]{8}" maxlength="8" title="Ingrese un DNI válido de 8 dígitos">
+                    <i class="validation-icon"></i>
+                  </div>
+                  <div class="duplicado-message" id="dniDuplicado">
+                    <i class="fas fa-exclamation-triangle"></i>Este DNI ya está registrado
+                  </div>
                 </div>
               </div>
 
@@ -137,6 +159,9 @@
                   <i class="fas fa-calendar me-2 text-primary"></i>Fecha de Nacimiento
                 </label>
                 <input type="date" class="form-control form-control-lg" id="birthDate" name="birthDate" required>
+                <div id="birthDateError" class="invalid-feedback" style="display: none;">
+                  <i class="fas fa-exclamation-circle me-1"></i>Debes ser mayor de 18 años para registrarte
+                </div>
               </div>
 
               <!-- Credenciales -->
@@ -231,9 +256,15 @@
               </div>
 
               <!-- Botón de registro -->
-              <button type="submit" class="btn btn-primary btn-login w-100 mb-4">
+              <button type="submit" class="btn btn-primary btn-login w-100 mb-3">
                 <i class="fas fa-user-plus me-2"></i>
                 Crear Cuenta
+              </button>
+              
+              <!-- Botón de prueba de conexión -->
+              <button type="button" id="testConnectionBtn" class="btn btn-outline-info w-100 mb-3" style="font-size: 0.9em;">
+                <i class="fas fa-network-wired me-2"></i>
+                Probar Conexión al Servidor
               </button>
             </form>
 
@@ -302,6 +333,17 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
+    console.log('🔄 Script de registro iniciado');
+    
+    // Verificar que los elementos existen
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('📄 DOM Content Loaded');
+      const form = document.getElementById('registerForm');
+      const testBtn = document.getElementById('testConnectionBtn');
+      console.log('🔍 Formulario encontrado:', form ? 'Sí' : 'No');
+      console.log('🔍 Botón test encontrado:', testBtn ? 'Sí' : 'No');
+    });
+    
     // Función para alternar visibilidad de contraseña
     function togglePassword(fieldId) {
       const passwordField = document.getElementById(fieldId);
@@ -424,6 +466,7 @@
 
     // Manejo del formulario de registro
     document.getElementById('registerForm').addEventListener('submit', function (e) {
+      console.log('🚀 Formulario de registro enviado'); // Debug
       e.preventDefault();
 
       // Ocultar mensajes previos
@@ -450,6 +493,41 @@
         return;
       }
 
+      // Validar edad mínima
+      const birthDateValue = document.getElementById('birthDate').value;
+      if (!birthDateValue || !validateAge(birthDateValue)) {
+        showError('Debes ser mayor de 18 años para poder registrarte.');
+        document.getElementById('birthDate').focus();
+        return;
+      }
+
+      // Validar teléfono
+      const phoneValue = document.getElementById('phone').value.trim();
+      const phonePattern = /^[0-9]{7,20}$/;
+      if (!phoneValue || !phonePattern.test(phoneValue)) {
+        showError('El teléfono debe contener entre 7 y 20 dígitos, solo números.');
+        document.getElementById('phone').focus();
+        return;
+      }
+
+      // Verificar que no hay duplicados antes de enviar
+      const hayDuplicados = !estadosValidacion.email || !estadosValidacion.telefono || !estadosValidacion.dni;
+      
+      if (hayDuplicados) {
+        showError('Por favor, corrija los errores de validación antes de continuar. Verifique que el email, teléfono y DNI no estén duplicados.');
+        
+        // Hacer shake en los campos con error
+        ['email', 'phone', 'dni'].forEach(campo => {
+          const input = document.getElementById(campo);
+          if (input.classList.contains('duplicado') || input.classList.contains('error')) {
+            input.classList.add('shake');
+            setTimeout(() => input.classList.remove('shake'), 500);
+          }
+        });
+        
+        return false;
+      }
+
       // Recopilar intereses seleccionados
       const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked'))
         .map(checkbox => checkbox.value);
@@ -469,6 +547,18 @@
         acceptMarketing: document.getElementById('acceptMarketing').checked
       };
 
+      // Debug: Log de los datos que se van a enviar
+      console.log('Datos del formulario a enviar:', formData);
+      
+      // Validar que todos los campos requeridos estén llenos
+      const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'dni', 'birthDate'];
+      const missingFields = requiredFields.filter(field => !formData[field] || formData[field].trim() === '');
+      
+      if (missingFields.length > 0) {
+        showError('Los siguientes campos son obligatorios: ' + missingFields.join(', '));
+        return;
+      }
+
       // Mostrar mensaje de carga
       const submitBtn = e.target.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
@@ -483,8 +573,19 @@
         },
         body: JSON.stringify(formData)
       })
-        .then(response => response.json())
+        .then(response => {
+          console.log('Response status:', response.status);
+          console.log('Response headers:', response.headers);
+          
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          return response.json();
+        })
         .then(data => {
+          console.log('Response data:', data);
+          
           if (data.message) {
             // Éxito
             showSuccess('¡Bienvenido a Eden Resorts, ' + formData.firstName + '! Tu cuenta ha sido creada exitosamente. Redirigiendo al login...');
@@ -495,11 +596,26 @@
           } else if (data.error) {
             // Error del servidor
             showError(data.error);
+          } else {
+            // Si hay errores de validación (objeto con campos)
+            let errorMessage = 'Error de validación: ';
+            const errorKeys = Object.keys(data);
+            if (errorKeys.length > 0) {
+              // Mostrar errores específicos de cada campo
+              const errores = [];
+              for (const [campo, mensaje] of Object.entries(data)) {
+                errores.push(`${campo}: ${mensaje}`);
+              }
+              errorMessage += errores.join(', ');
+            } else {
+              errorMessage = 'Error desconocido del servidor';
+            }
+            showError(errorMessage);
           }
         })
         .catch(error => {
-          console.error('Error:', error);
-          showError('Error de conexión. Por favor, inténtelo de nuevo.');
+          console.error('Fetch error:', error);
+          showError('Error de conexión: ' + error.message + '. Por favor, inténtelo de nuevo.');
         })
         .finally(() => {
           // Restaurar botón
@@ -560,6 +676,207 @@
         'Próximamente podrás registrarte con tu cuenta de Facebook.');
     }
 
+    // ========== SISTEMA DE VALIDACIÓN EN TIEMPO REAL ==========
+    
+    // Variables para controlar timeouts y estado de validaciones
+    const validacionesTimeouts = {};
+    const estadosValidacion = {
+      email: true,
+      telefono: true,
+      dni: true
+    };
+
+    // Función para validar email
+    async function validarEmail(email) {
+      if (!email || email.length < 3) {
+        return;
+      }
+
+      try {
+        const response = await fetch('/auth/validar-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: email })
+        });
+
+        const data = await response.json();
+        const inputEmail = document.getElementById('email');
+        const iconEmail = inputEmail.parentElement.querySelector('.validation-icon');
+        const mensajeDuplicado = document.getElementById('emailDuplicado');
+
+        if (data.existe) {
+          // Email duplicado - color naranja
+          inputEmail.classList.remove('is-valid');
+          inputEmail.classList.add('duplicado');
+          iconEmail.innerHTML = '⚠️';
+          iconEmail.style.color = '#ff8c00';
+          iconEmail.style.opacity = '1';
+          mensajeDuplicado.style.display = 'block';
+          estadosValidacion.email = false;
+        } else {
+          // Email disponible - color verde
+          inputEmail.classList.remove('duplicado');
+          inputEmail.classList.add('is-valid');
+          iconEmail.innerHTML = '✓';
+          iconEmail.style.color = '#28a745';
+          iconEmail.style.opacity = '1';
+          mensajeDuplicado.style.display = 'none';
+          estadosValidacion.email = true;
+        }
+      } catch (error) {
+        console.error('Error al validar email:', error);
+      }
+    }
+
+    // Función para validar teléfono
+    async function validarTelefono(telefono) {
+      if (!telefono || telefono.length < 7) {
+        return;
+      }
+
+      try {
+        const response = await fetch('/auth/validar-telefono', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ telefono: telefono })
+        });
+
+        const data = await response.json();
+        const inputTelefono = document.getElementById('phone');
+        const iconTelefono = inputTelefono.parentElement.querySelector('.validation-icon');
+        const mensajeDuplicado = document.getElementById('phoneDuplicado');
+
+        if (data.existe) {
+          // Teléfono duplicado - color naranja
+          inputTelefono.classList.remove('is-valid');
+          inputTelefono.classList.add('duplicado');
+          iconTelefono.innerHTML = '⚠️';
+          iconTelefono.style.color = '#ff8c00';
+          iconTelefono.style.opacity = '1';
+          mensajeDuplicado.style.display = 'block';
+          estadosValidacion.telefono = false;
+        } else {
+          // Teléfono disponible - color verde
+          inputTelefono.classList.remove('duplicado');
+          inputTelefono.classList.add('is-valid');
+          iconTelefono.innerHTML = '✓';
+          iconTelefono.style.color = '#28a745';
+          iconTelefono.style.opacity = '1';
+          mensajeDuplicado.style.display = 'none';
+          estadosValidacion.telefono = true;
+        }
+      } catch (error) {
+        console.error('Error al validar teléfono:', error);
+      }
+    }
+
+    // Función para validar DNI
+    async function validarDni(dni) {
+      if (!dni || dni.length !== 8) {
+        return;
+      }
+
+      try {
+        const response = await fetch('/auth/validar-dni', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ dni: dni })
+        });
+
+        const data = await response.json();
+        const inputDni = document.getElementById('dni');
+        const iconDni = inputDni.parentElement.querySelector('.validation-icon');
+        const mensajeDuplicado = document.getElementById('dniDuplicado');
+
+        if (data.existe) {
+          // DNI duplicado - color naranja
+          inputDni.classList.remove('is-valid');
+          inputDni.classList.add('duplicado');
+          iconDni.innerHTML = '⚠️';
+          iconDni.style.color = '#ff8c00';
+          iconDni.style.opacity = '1';
+          mensajeDuplicado.style.display = 'block';
+          estadosValidacion.dni = false;
+        } else {
+          // DNI disponible - color verde
+          inputDni.classList.remove('duplicado');
+          inputDni.classList.add('is-valid');
+          iconDni.innerHTML = '✓';
+          iconDni.style.color = '#28a745';
+          iconDni.style.opacity = '1';
+          mensajeDuplicado.style.display = 'none';
+          estadosValidacion.dni = true;
+        }
+      } catch (error) {
+        console.error('Error al validar DNI:', error);
+      }
+    }
+
+    // ========== EVENT LISTENERS PARA VALIDACIÓN EN TIEMPO REAL ==========
+    
+    // Event listener para email
+    document.getElementById('email').addEventListener('input', function() {
+      const email = this.value.trim();
+      
+      // Cancelar validación anterior
+      if (validacionesTimeouts.email) {
+        clearTimeout(validacionesTimeouts.email);
+      }
+      
+      // Marcar como validando
+      this.classList.add('validando');
+      
+      // Validar después de 500ms de inactividad
+      validacionesTimeouts.email = setTimeout(() => {
+        this.classList.remove('validando');
+        validarEmail(email);
+      }, 500);
+    });
+
+    // Event listener para teléfono
+    document.getElementById('phone').addEventListener('input', function() {
+      const telefono = this.value.trim();
+      
+      // Cancelar validación anterior
+      if (validacionesTimeouts.telefono) {
+        clearTimeout(validacionesTimeouts.telefono);
+      }
+      
+      // Marcar como validando
+      this.classList.add('validando');
+      
+      // Validar después de 400ms de inactividad
+      validacionesTimeouts.telefono = setTimeout(() => {
+        this.classList.remove('validando');
+        validarTelefono(telefono);
+      }, 400);
+    });
+
+    // Event listener para DNI
+    document.getElementById('dni').addEventListener('input', function() {
+      const dni = this.value.trim();
+      
+      // Cancelar validación anterior
+      if (validacionesTimeouts.dni) {
+        clearTimeout(validacionesTimeouts.dni);
+      }
+      
+      // Marcar como validando
+      this.classList.add('validando');
+      
+      // Validar después de 300ms de inactividad (más rápido para DNI)
+      validacionesTimeouts.dni = setTimeout(() => {
+        this.classList.remove('validando');
+        validarDni(dni);
+      }, 300);
+    });
+
     // Animaciones al cargar
     window.addEventListener('load', function () {
       const animatedElements = document.querySelectorAll('.animate-on-load');
@@ -569,6 +886,51 @@
         }, index * 200);
       });
     });
+
+    // Configurar fecha máxima (hace 18 años)
+    const today = new Date();
+    const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    const birthDateInput = document.getElementById('birthDate');
+    
+    if (birthDateInput) {
+      // Establecer fecha máxima
+      birthDateInput.max = eighteenYearsAgo.toISOString().split('T')[0];
+      
+      // Validación de edad en tiempo real
+      birthDateInput.addEventListener('change', function() {
+        validateAge(this.value);
+      });
+    }
+
+    // Función para validar edad
+    function validateAge(birthDateValue) {
+      const birthDate = new Date(birthDateValue);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      const dayDiff = today.getDate() - birthDate.getDate();
+      
+      // Ajustar edad si no ha llegado el cumpleaños este año
+      let actualAge = age;
+      if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        actualAge--;
+      }
+      
+      const birthDateInput = document.getElementById('birthDate');
+      const errorDiv = document.getElementById('birthDateError');
+      
+      if (actualAge < 18) {
+        birthDateInput.classList.add('is-invalid');
+        birthDateInput.classList.remove('is-valid');
+        errorDiv.style.display = 'block';
+        return false;
+      } else {
+        birthDateInput.classList.remove('is-invalid');
+        birthDateInput.classList.add('is-valid');
+        errorDiv.style.display = 'none';
+        return true;
+      }
+    }
 
     // Validación y formato del DNI
     const dniInput = document.getElementById('dni');
@@ -592,6 +954,30 @@
       });
     }
 
+    // Validación y formato del teléfono
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+      phoneInput.addEventListener('input', function (e) {
+        let value = e.target.value.replace(/\D/g, ''); // Solo números
+        if (value.length > 20) {
+          value = value.substring(0, 20);
+        }
+        e.target.value = value;
+
+        const isValid = value.length >= 7 && value.length <= 20;
+        
+        if (value.length === 0) {
+          e.target.classList.remove('is-valid', 'is-invalid');
+        } else if (isValid) {
+          e.target.classList.add('is-valid');
+          e.target.classList.remove('is-invalid');
+        } else {
+          e.target.classList.add('is-invalid');
+          e.target.classList.remove('is-valid');
+        }
+      });
+    }
+
     // Efectos de focus en inputs
     const inputs = document.querySelectorAll('.form-control');
     inputs.forEach(input => {
@@ -602,6 +988,54 @@
 
       input.addEventListener('blur', function () {
         this.parentElement.style.transform = 'scale(1)';
+      });
+    });
+
+    // Botón de prueba de conexión
+    document.getElementById('testConnectionBtn').addEventListener('click', function() {
+      const btn = this;
+      const originalText = btn.innerHTML;
+      
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Probando conexión...';
+      btn.disabled = true;
+      
+      fetch('/auth/test-connection', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => {
+        console.log('Test connection response status:', response.status);
+        console.log('Response headers:', response.headers);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        // Verificar que la respuesta sea JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('El servidor devolvió HTML en lugar de JSON. Verifica la configuración de Spring Security.');
+        }
+        
+        return response.json();
+      })
+      .then(data => {
+        console.log('Test connection response:', data);
+        if (data.status === 'OK') {
+          showSuccess(' Conexión exitosa al servidor. El registro debería funcionar correctamente.');
+        } else {
+          showError('❌ Respuesta inesperada del servidor: ' + JSON.stringify(data));
+        }
+      })
+      .catch(error => {
+        console.error('Test connection error:', error);
+        showError('❌ Error de conexión: ' + error.message);
+      })
+      .finally(() => {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
       });
     });
 

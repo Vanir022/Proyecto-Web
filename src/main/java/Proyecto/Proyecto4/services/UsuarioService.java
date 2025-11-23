@@ -121,4 +121,17 @@ public class UsuarioService {
         usuario.setPassword(passwordEncoder.encode(nuevaPassword));
         usuarioRepository.save(usuario);
     }
+
+    // Métodos para validaciones individuales
+    public boolean emailExiste(String email) {
+        return usuarioRepository.findByEmail(email).isPresent();
+    }
+
+    public boolean telefonoExiste(String telefono) {
+        return detallesPersonaRepository.existsByTelefono(telefono);
+    }
+
+    public boolean dniExiste(String dni) {
+        return detallesPersonaRepository.existsByDni(dni);
+    }
 }

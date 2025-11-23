@@ -1,0 +1,53 @@
+/* Estilos para validación en tiempo real */
+.duplicado {
+    border-color: #ff8c00 !important; /* Naranja */
+    box-shadow: 0 0 0 0.2rem rgba(255, 140, 0, 0.25) !important;
+}
+
+.validando {
+    border-color: #6c757d !important; /* Gris mientras se valida */
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25) !important;
+}
+
+.validation-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.input-container {
+    position: relative;
+}
+
+/* Animación shake para errores */
+.shake {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 20%, 40%, 60%, 80% {
+        transform: translateX(-5px);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Mensaje de duplicado */
+.duplicado-message {
+    color: #ff8c00;
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+.duplicado-message i {
+    margin-right: 0.5rem;
+}

@@ -309,14 +309,7 @@
                     </div>
                   </div>
 
-                  <div class="text-center mt-3">
-                    <a th:href="@{/cliente-reservas}" class="btn btn-outline-primary btn-sm">
-                      <i class="fas fa-bed me-1"></i>Ver Reservas de Habitaciones
-                    </a>
-                    <a th:href="@{/reservas-servicios/mis-reservas}" class="btn btn-outline-success btn-sm ms-2">
-                      <i class="fas fa-spa me-1"></i>Ver Reservas de Servicios
-                    </a>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -364,7 +357,7 @@
             <h5><i class="fas fa-headset me-2"></i>Soporte</h5>
             <p class="small text-muted">¿Necesitas ayuda? Nuestro equipo está disponible 24/7</p>
             <div class="d-grid gap-1">
-              <a href="tel:+51-1-234-5678" class="btn btn-sm btn-outline-primary">
+              <a href="tel:915280447" class="btn btn-sm btn-outline-primary">
                 <i class="fas fa-phone me-2"></i>Llamar Ahora
               </a>
               <a href="mailto:soporte@aranwa.com" class="btn btn-sm btn-outline-secondary">
@@ -430,15 +423,46 @@
           <form id="passwordForm">
             <div class="mb-3">
               <label for="passwordActual" class="form-label">Contraseña Actual</label>
-              <input type="password" class="form-control" id="passwordActual" required>
+              <div class="input-group">
+                <input type="password" class="form-control" id="passwordActual" required>
+                <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('passwordActual')">
+                  <i class="fas fa-eye" id="eyePasswordActual"></i>
+                </button>
+              </div>
             </div>
             <div class="mb-3">
               <label for="passwordNueva" class="form-label">Nueva Contraseña</label>
-              <input type="password" class="form-control" id="passwordNueva" required minlength="8">
+              <div class="input-group">
+                <input type="password" class="form-control" id="passwordNueva" required minlength="8">
+                <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('passwordNueva')">
+                  <i class="fas fa-eye" id="eyePasswordNueva"></i>
+                </button>
+              </div>
+              <div class="form-text">
+                <small class="text-muted">
+                  <i class="fas fa-info-circle me-1"></i>
+                  La contraseña debe tener al menos 8 caracteres
+                </small>
+              </div>
             </div>
             <div class="mb-3">
               <label for="confirmarPassword" class="form-label">Confirmar Nueva Contraseña</label>
-              <input type="password" class="form-control" id="confirmarPassword" required>
+              <div class="input-group">
+                <input type="password" class="form-control" id="confirmarPassword" required>
+                <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('confirmarPassword')">
+                  <i class="fas fa-eye" id="eyeConfirmarPassword"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Checkbox para mostrar todas las contraseñas -->
+            <div class="mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="mostrarTodasContrasenas" onchange="toggleAllPasswordsVisibility()">
+                <label class="form-check-label" for="mostrarTodasContrasenas">
+                  <i class="fas fa-eye me-1"></i>Mostrar todas las contraseñas
+                </label>
+              </div>
             </div>
           </form>
         </div>
@@ -509,6 +533,54 @@
 
     #dashboardPreview:hover {
       transform: scale(1.02);
+    }
+
+    /* Estilos para los botones de mostrar/ocultar contraseña */
+    .input-group .btn-outline-secondary {
+      border-color: #ced4da;
+      color: #6c757d;
+      transition: all 0.3s ease;
+    }
+
+    .input-group .btn-outline-secondary:hover {
+      background-color: #f8f9fa;
+      border-color: #adb5bd;
+      color: #495057;
+    }
+
+    .input-group .btn-outline-secondary:focus {
+      box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+    }
+
+    .form-check-input:checked {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .form-check-label {
+      color: #495057;
+      cursor: pointer;
+    }
+
+    .modal-content {
+      border: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+      color: white;
+      border-radius: 15px 15px 0 0;
+      border-bottom: none;
+    }
+
+    .modal-title {
+      font-weight: 600;
+    }
+
+    .btn-close {
+      filter: invert(1) grayscale(100%) brightness(200%);
     }
   </style>
 
@@ -639,6 +711,8 @@
           alert(data);
           if (data.includes('exitosamente')) {
             document.getElementById('passwordForm').reset();
+            // Resetear todas las contraseñas a tipo "password"
+            resetPasswordVisibility();
             bootstrap.Modal.getInstance(document.getElementById('cambiarPasswordModal')).hide();
           }
         })
@@ -647,6 +721,75 @@
           alert('Error al cambiar contraseña');
         });
     }
+
+    // Función para alternar la visibilidad de contraseñas individuales
+    function togglePasswordVisibility(inputId) {
+      const input = document.getElementById(inputId);
+      const eyeIcon = document.getElementById('eye' + inputId.charAt(0).toUpperCase() + inputId.slice(1));
+      
+      if (input.type === 'password') {
+        input.type = 'text';
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+      }
+    }
+
+    // Función para alternar la visibilidad de todas las contraseñas
+    function toggleAllPasswordsVisibility() {
+      const checkbox = document.getElementById('mostrarTodasContrasenas');
+      const passwordInputs = ['passwordActual', 'passwordNueva', 'confirmarPassword'];
+      
+      passwordInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        const eyeIcon = document.getElementById('eye' + inputId.charAt(0).toUpperCase() + inputId.slice(1));
+        
+        if (checkbox.checked) {
+          input.type = 'text';
+          eyeIcon.classList.remove('fa-eye');
+          eyeIcon.classList.add('fa-eye-slash');
+        } else {
+          input.type = 'password';
+          eyeIcon.classList.remove('fa-eye-slash');
+          eyeIcon.classList.add('fa-eye');
+        }
+      });
+    }
+
+    // Función para resetear la visibilidad de contraseñas
+    function resetPasswordVisibility() {
+      const passwordInputs = ['passwordActual', 'passwordNueva', 'confirmarPassword'];
+      
+      passwordInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        const eyeIcon = document.getElementById('eye' + inputId.charAt(0).toUpperCase() + inputId.slice(1));
+        
+        if (input && eyeIcon) {
+          input.type = 'password';
+          eyeIcon.classList.remove('fa-eye-slash');
+          eyeIcon.classList.add('fa-eye');
+        }
+      });
+      
+      const checkbox = document.getElementById('mostrarTodasContrasenas');
+      if (checkbox) {
+        checkbox.checked = false;
+      }
+    }
+
+    // Event listener para resetear cuando se cierre el modal
+    document.addEventListener('DOMContentLoaded', function() {
+      const cambiarPasswordModal = document.getElementById('cambiarPasswordModal');
+      if (cambiarPasswordModal) {
+        cambiarPasswordModal.addEventListener('hidden.bs.modal', function() {
+          document.getElementById('passwordForm').reset();
+          resetPasswordVisibility();
+        });
+      }
+    });
   </script>
 </body>
 
