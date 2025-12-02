@@ -6,13 +6,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Manejador global de excepciones de validación
