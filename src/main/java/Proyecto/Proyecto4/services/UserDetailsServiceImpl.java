@@ -16,13 +16,14 @@ import Proyecto.Proyecto4.repository.UsuarioRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-
+    //INYECCION DE REPOSITORIOS QUE MANEJAN USUARIOS 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
+    //INYECCION DE REPOSITORIO QUE MANEJA ADMINISTRADORES
     @Autowired
     private AdministradorRepository administradorRepository;
 
+    //METODO PARA CARGAR USUARIO POR NOMBRE DE USUARIO (EMAIL)
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // Buscar primero en usuarios regulares

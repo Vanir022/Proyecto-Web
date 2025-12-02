@@ -14,17 +14,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Configuration
 public class SecurityConfig {
+    // iNYECCIONES PARA MANEJADORES DE AUTENTICACION Y FALLAS EN EL LOGIN
     @Autowired
     private CustomAuthenticationSuccessHandler successHandler;
+    //INYECCION QUE LO MANEJA CUANDO EL LOGIN FALLA
     @Autowired
     private CustomAuthenticationFailureHandler failureHandler;
 
+    //METODO QUE CONFIGURA LAS REGLAS DE SEGURIDAD
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+        //CONFIGURACIÓN PARA EVITAR VULNERABILIDADES ANTE CAMBIOS DE OTRO SITIO CON LA MISMA CUENTA
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                    // 1. DEFINICIÓN DE RUTAS PÚBLICAS
+                    // 1. DEFINICIÓN DE RUTAS PÚBLICAS SIN AUTENTICACIÓN
                         .requestMatchers("/", "/nosotros", "/contactos", "/contactos/enviar", "/login", "/register", "/acercade", "/eventos",
                                 "/spa", "/bodas")
                         .permitAll()
@@ -62,7 +66,7 @@ public class SecurityConfig {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    //RESPONSABLE DE MANEJAR LA AUTENTICACIÓN
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
