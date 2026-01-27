@@ -50,8 +50,8 @@ public class HomeController {
     
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error,
-                       @RequestParam(value = "logout", required = false) String logout,
-                       Model model) {
+                        @RequestParam(value = "logout", required = false) String logout,
+                        Model model) {
         if (error != null) {
             model.addAttribute("errorMessage", "Email o contraseña incorrectos. Por favor, inténtelo de nuevo.");
         }
@@ -82,7 +82,7 @@ public class HomeController {
                 model.addAttribute("detalles", usuario.getDetallesPersona());
             }
             
-            // ========== OBTENER RESERVAS DE HABITACIONES ==========
+            // ========== OBTENER RESERVAS DE HABITACIONES ========== 
             List<Reserva> reservasHabitaciones = reservaService.obtenerReservasPorUsuario(usuario);
             model.addAttribute("reservasHabitaciones", reservasHabitaciones);
             
@@ -145,5 +145,10 @@ public class HomeController {
     @GetMapping("/bodas")
     public String bodas() {
         return "html/Servicios/Bodas"; // Thymeleaf buscará templates/Bodas.html
+    }
+    
+    @GetMapping("/buscar-habitaciones")
+    public String buscarHabitaciones() {
+        return "html/buscar-habitaciones";
     }
 }

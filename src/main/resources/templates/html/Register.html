@@ -466,7 +466,7 @@
 
     // Manejo del formulario de registro
     document.getElementById('registerForm').addEventListener('submit', function (e) {
-      console.log('🚀 Formulario de registro enviado'); // Debug
+      console.log('Formulario de registro enviado'); // Debug
       e.preventDefault();
 
       // Ocultar mensajes previos
@@ -959,12 +959,12 @@
     if (phoneInput) {
       phoneInput.addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, ''); // Solo números
-        if (value.length > 20) {
-          value = value.substring(0, 20);
+        if (value.length > 9) {
+          value = value.substring(0, 9);
         }
         e.target.value = value;
 
-        const isValid = value.length >= 7 && value.length <= 20;
+        const isValid = value.length >= 7 && value.length <= 9;
         
         if (value.length === 0) {
           e.target.classList.remove('is-valid', 'is-invalid');

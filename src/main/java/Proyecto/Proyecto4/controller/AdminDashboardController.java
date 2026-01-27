@@ -1999,8 +1999,8 @@ public class AdminDashboardController {
                         })
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
                     
-                    String[] meses = {"Ene", "Feb", "Mar", "Abr", "May", "Jun", 
-                                     "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"};
+                    String[] meses = {"Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                                    "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"};
                     etiquetas.add(meses[inicioMesFinal.getMonthValue() - 1] + " " + inicioMesFinal.getYear());
                     ingresos.add(ingresoDelMes);
                     

@@ -16,23 +16,30 @@ import Proyecto.Proyecto4.repository.UsuarioRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-
+    //INYECCION DE REPOSITORIOS QUE MANEJAN USUARIOS 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
+    //INYECCION DE REPOSITORIO QUE MANEJA ADMINISTRADORES
     @Autowired
     private AdministradorRepository administradorRepository;
 
+    //METODO PARA CARGAR USUARIO POR NOMBRE DE USUARIO (EMAIL)
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // Buscar primero en usuarios regulares
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
+
+            if (!usuario.getAccountNonLocked()) {
+                throw new RuntimeException("Usuario bloqueado por múltiples intentos fallidos. Espere o contacte al administrador.");
+            }
+
             return User.builder()
                     .username(usuario.getEmail())
                     .password(usuario.getPassword())
                     .authorities(usuario.getRol())
+                    .accountLocked(!usuario.getAccountNonLocked())
                     .build();
         }
 

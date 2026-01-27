@@ -8,36 +8,50 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import Proyecto.Proyecto4.config.CustomAuthenticationSuccessHandler;
+import Proyecto.Proyecto4.config.CustomAuthenticationFailureHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Configuration
 public class SecurityConfig {
+    // iNYECCIONES PARA MANEJADORES DE AUTENTICACION Y FALLAS EN EL LOGIN
     @Autowired
     private CustomAuthenticationSuccessHandler successHandler;
+    //INYECCION QUE LO MANEJA CUANDO EL LOGIN FALLA
+    @Autowired
+    private CustomAuthenticationFailureHandler failureHandler;
+
+    //METODO QUE CONFIGURA LAS REGLAS DE SEGURIDAD
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+        //CONFIGURACIÓN PARA EVITAR VULNERABILIDADES ANTE CAMBIOS DE OTRO SITIO CON LA MISMA CUENTA
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                    // 1. DEFINICIÓN DE RUTAS PÚBLICAS SIN AUTENTICACIÓN
                         .requestMatchers("/", "/nosotros", "/contactos", "/contactos/enviar", "/login", "/register", "/acercade", "/eventos",
                                 "/spa", "/bodas")
                         .permitAll()
                         .requestMatchers("/css/**", "/js/**", "/imagenes/**", "/static/**", "/uploads/**").permitAll()
                         .requestMatchers("/auth/registro", "/auth/welcome", "/auth/test-connection", 
                                         "/auth/validar-email", "/auth/validar-telefono", "/auth/validar-dni").permitAll()
+                    // 2. DEFINICION DE RUTAS DE ADMINISTRADOR (AUTORIZACIÓN)     
                         .requestMatchers("/api/admin/crear-super-admin").permitAll() 
                                                                                      // inicial
                         .requestMatchers("/reservas", "/reservas/buscar", "/reservas/habitacion/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                    // 3. DEFINICIÓN DE RUTAS DE USUARIO AUTENTICADO (AUTORIZACIÓN)
                         .requestMatchers("/api/perfil/**").authenticated()
                         .anyRequest().authenticated())
+                // 4. CONFIGURACIÓN DEL FORMULARIO DEL LOGIN Y LOGOUT
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .successHandler(successHandler)
-                        .failureUrl("/login?error=true")
+                        .failureHandler(failureHandler)
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -47,12 +61,12 @@ public class SecurityConfig {
                         .permitAll());
         return http.build();
     }
-
+    //BEAN PARA ENCRIPTAR CONTRASEÑAS
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    //RESPONSABLE DE MANEJAR LA AUTENTICACIÓN
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();

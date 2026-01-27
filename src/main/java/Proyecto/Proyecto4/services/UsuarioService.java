@@ -3,10 +3,14 @@ package Proyecto.Proyecto4.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import Proyecto.Proyecto4.config.CustomAuthenticationFailureHandler;
 import Proyecto.Proyecto4.dto.RegistroUsuarioDTO;
 import Proyecto.Proyecto4.models.DetallesPersona;
 import Proyecto.Proyecto4.models.Usuario;
@@ -15,16 +19,21 @@ import Proyecto.Proyecto4.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
+    private static final Logger logger = LoggerFactory.getLogger(UsuarioService.class);
     private final UsuarioRepository usuarioRepository;
     private final DetallesPersonaRepository detallesPersonaRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final CustomAuthenticationFailureHandler failureHandler;
 
+    @Autowired
     public UsuarioService(UsuarioRepository usuarioRepository,
             DetallesPersonaRepository detallesPersonaRepository,
-            BCryptPasswordEncoder passwordEncoder) {
+            BCryptPasswordEncoder passwordEncoder,
+            CustomAuthenticationFailureHandler failureHandler) {
         this.usuarioRepository = usuarioRepository;
         this.detallesPersonaRepository = detallesPersonaRepository;
         this.passwordEncoder = passwordEncoder;
+        this.failureHandler = failureHandler;
     }
 
     public List<Usuario> listar() {
@@ -120,6 +129,28 @@ public class UsuarioService {
     public void cambiarPassword(Usuario usuario, String nuevaPassword) {
         usuario.setPassword(passwordEncoder.encode(nuevaPassword));
         usuarioRepository.save(usuario);
+    }
+
+    @Transactional
+    public boolean desbloquearUsuario(Long usuarioId) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(usuarioId);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            usuario.setAccountNonLocked(true);
+            usuario.setFailedAttempt(0);
+            usuario.setLockTime(null);
+            usuarioRepository.save(usuario);
+            try {
+                failureHandler.resetearIntentosFallidos(usuario.getEmail());
+            } catch (Exception e) {
+                logger.warn("No se pudo resetear contador en memoria para {}: {}", usuario.getEmail(), e.getMessage());
+            }
+            logger.info("Usuario desbloqueado: id={}, email={}", usuario.getId(), usuario.getEmail());
+            return true;
+        } else {
+            logger.warn("Intento de desbloqueo para usuario inexistente: id={}", usuarioId);
+            return false;
+        }
     }
 
     // Métodos para validaciones individuales

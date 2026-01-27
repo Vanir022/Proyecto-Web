@@ -36,6 +36,39 @@ public class Usuario {
     @Column(nullable = false, length = 100)
     private String nombre;
 
+    @Column(name = "failed_attempt")
+    private Integer failedAttempt = 0;
+
+    @Column(name = "account_non_locked", nullable = false)
+    private boolean accountNonLocked = true;
+
+    @Column(name = "lock_time")
+    private java.time.LocalDateTime lockTime;
+
+    public int getFailedAttempt() {
+        return failedAttempt;
+    }
+
+    public void setFailedAttempt(int failedAttempt) {
+        this.failedAttempt = failedAttempt;
+    }
+
+    public boolean getAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    public java.time.LocalDateTime getLockTime() {
+        return lockTime;
+    }
+
+    public void setLockTime(java.time.LocalDateTime lockTime) {
+        this.lockTime = lockTime;
+    }
+
     @NotBlank(message = "El email es obligatorio") // Email no puede estar vacío
     @Email(message = "El email debe ser válido") // Validar formato de email
     @Size(max = 150, message = "El email no puede exceder 150 caracteres")

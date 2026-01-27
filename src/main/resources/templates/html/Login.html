@@ -1,218 +1,285 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión - EDEN RESORTS</title>
+    <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iniciar Sesión - EDEN RESORTS</title>
-  <link rel="icon" type="image/x-icon" href="imagenes/EDEN.ico">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    />
+    <link rel="stylesheet" th:href="@{../css/styleLogin.css}" />
+  </head>
 
+  <body>
+    <!-- Header -->
+    <div th:replace="~{fragments/Header :: header}"></div>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
-  <link rel="stylesheet" th:href="@{../css/styleLogin.css}">
+    <!-- Login Section -->
+    <section
+      class="login-section d-flex align-items-center position-relative"
+      style="margin-top: 76px"
+    >
+      <div class="floating-elements"></div>
 
-
-</head>
-
-<body>
-  <!-- Header -->
-  <div th:replace="~{fragments/Header :: header}"></div>
-
-  <!-- Login Section -->
-  <section class="login-section d-flex align-items-center position-relative" style="margin-top: 76px;">
-    <div class="floating-elements"></div>
-
-    <div class="container">
-      <div class="row justify-content-center align-items-center min-vh-100">
-        <!-- Información del Hotel (lado izquierdo) -->
-        <div class="col-lg-5 d-none d-lg-block">
-          <div class="hotel-info text-white animate-on-load">
-            <div class="text-center mb-4">
-              <h2 class="display-5 fw-bold mb-3">Bienvenido al Eden</h2>
-              <p class="lead">Donde tus recuerdos más preciados comienzan a escribirse</p>
-            </div>
-
-            <div class="row g-4">
-              <div class="col-md-6 text-center">
-                <div class="feature-icon">
-                  <i class="fas fa-concierge-bell"></i>
-                </div>
-                <h5 class="mb-2">Servicio Premium</h5>
-                <p class="small">Atención personalizada las 24 horas</p>
+      <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+          <!-- Información del Hotel (lado izquierdo) -->
+          <div class="col-lg-5 d-none d-lg-block">
+            <div class="hotel-info text-white animate-on-load">
+              <div class="text-center mb-4">
+                <h2 class="display-5 fw-bold mb-3">Bienvenido al Eden</h2>
+                <p class="lead">
+                  Donde tus recuerdos más preciados comienzan a escribirse
+                </p>
               </div>
-              <div class="col-md-6 text-center">
-                <div class="feature-icon">
-                  <i class="fas fa-spa"></i>
+
+              <div class="row g-4">
+                <div class="col-md-6 text-center">
+                  <div class="feature-icon">
+                    <i class="fas fa-concierge-bell"></i>
+                  </div>
+                  <h5 class="mb-2">Servicio Premium</h5>
+                  <p class="small">Atención personalizada las 24 horas</p>
                 </div>
-                <h5 class="mb-2">Spa & Bienestar</h5>
-                <p class="small">Relájate en nuestros exclusivos centros de spa</p>
-              </div>
-              <div class="col-md-6 text-center">
-                <div class="feature-icon">
-                  <i class="fas fa-utensils"></i>
+                <div class="col-md-6 text-center">
+                  <div class="feature-icon">
+                    <i class="fas fa-spa"></i>
+                  </div>
+                  <h5 class="mb-2">Spa & Bienestar</h5>
+                  <p class="small">
+                    Relájate en nuestros exclusivos centros de spa
+                  </p>
                 </div>
-                <h5 class="mb-2">Gastronomía</h5>
-                <p class="small">Sabores únicos de la cocina peruana</p>
-              </div>
-              <div class="col-md-6 text-center">
-                <div class="feature-icon">
-                  <i class="fas fa-mountain"></i>
+                <div class="col-md-6 text-center">
+                  <div class="feature-icon">
+                    <i class="fas fa-utensils"></i>
+                  </div>
+                  <h5 class="mb-2">Gastronomía</h5>
+                  <p class="small">Sabores únicos de la cocina peruana</p>
                 </div>
-                <h5 class="mb-2">Destinos Únicos</h5>
-                <p class="small">Paisajes emblemáticos del Perú</p>
+                <div class="col-md-6 text-center">
+                  <div class="feature-icon">
+                    <i class="fas fa-mountain"></i>
+                  </div>
+                  <h5 class="mb-2">Destinos Únicos</h5>
+                  <p class="small">Paisajes emblemáticos del Perú</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Formulario de Login (lado derecho) -->
-        <div class="col-lg-6 col-xl-5">
-          <div class="login-card p-5 animate-on-load">
-            <!-- Logo y título -->
-            <div class="logo-container text-center">
-              <h3 class="fw-bold text-primary mb-2">EDEN RESORTS</h3>
-              <p class="welcome-text mb-0">Portal de Huéspedes</p>
-              <h4 class="fw-bold mb-4">Iniciar Sesión</h4>
-            </div>
-
-            <!-- Formulario principal -->
-            <form id="loginForm" th:action="@{/login}" method="post">
-              <!-- Mostrar mensajes de error o logout -->
-              <div th:if="${errorMessage}" class="alert alert-danger mb-3" role="alert">
-                <i class="fas fa-exclamation-triangle me-2"></i>
-                <span th:text="${errorMessage}"></span>
+          <!-- Formulario de Login (lado derecho) -->
+          <div class="col-lg-6 col-xl-5">
+            <div class="login-card p-5 animate-on-load">
+              <!-- Logo y título -->
+              <div class="logo-container text-center">
+                <h3 class="fw-bold text-primary mb-2">EDEN RESORTS</h3>
+                <p class="welcome-text mb-0">Portal de Huéspedes</p>
+                <h4 class="fw-bold mb-4">Iniciar Sesión</h4>
               </div>
 
-              <div th:if="${logoutMessage}" class="alert alert-success mb-3" role="alert">
-                <i class="fas fa-check-circle me-2"></i>
-                <span th:text="${logoutMessage}"></span>
+              <!-- Formulario principal -->
+              <form id="loginForm" th:action="@{/login}" method="post">
+                <!-- Mostrar mensajes de error o logout -->
+                <div
+                  th:if="${param.message}"
+                  class="alert alert-danger mb-3"
+                  role="alert"
+                >
+                  <i class="fas fa-exclamation-triangle me-2"></i>
+                  <span th:text="${param.message}"></span>
+                </div>
+
+                <div
+                  th:if="${logoutMessage}"
+                  class="alert alert-success mb-3"
+                  role="alert"
+                >
+                  <i class="fas fa-check-circle me-2"></i>
+                  <span th:text="${logoutMessage}"></span>
+                </div>
+
+                <div class="mb-4">
+                  <label for="email" class="form-label fw-semibold">
+                    <i class="fas fa-envelope me-2 text-primary"></i>Correo
+                    Electrónico
+                  </label>
+                  <input
+                    type="email"
+                    class="form-control form-control-lg"
+                    id="email"
+                    name="email"
+                    placeholder="Ingrese su correo electrónico"
+                    required
+                  />
+                </div>
+
+                <div class="mb-4">
+                  <label for="password" class="form-label fw-semibold">
+                    <i class="fas fa-lock me-2 text-primary"></i>Contraseña
+                  </label>
+                  <div class="position-relative">
+                    <input
+                      type="password"
+                      class="form-control form-control-lg"
+                      id="password"
+                      name="password"
+                      placeholder="Ingrese su contraseña"
+                      required
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3"
+                      onclick="togglePassword()"
+                      style="z-index: 10; border: none"
+                    >
+                      <i class="fas fa-eye" id="passwordToggle"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Recordar sesión -->
+                <div
+                  class="d-flex justify-content-between align-items-center mb-4"
+                >
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="rememberMe"
+                      name="remember-me"
+                    />
+                    <label class="form-check-label" for="rememberMe">
+                      Recordar sesión
+                    </label>
+                  </div>
+                  <div class="login-links">
+                    <a href="#" onclick="showForgotPassword()"
+                      >¿Olvidaste tu contraseña?</a
+                    >
+                  </div>
+                </div>
+
+                <!-- Botón de login -->
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-login w-100 mb-4"
+                >
+                  <i class="fas fa-sign-in-alt me-2"></i>
+                  Iniciar Sesión
+                </button>
+              </form>
+
+              <!-- Divider -->
+              <div class="divider">
+                <span>O continúa con</span>
               </div>
 
-              <div class="mb-4">
-                <label for="email" class="form-label fw-semibold">
-                  <i class="fas fa-envelope me-2 text-primary"></i>Correo Electrónico
-                </label>
-                <input type="email" class="form-control form-control-lg" id="email" name="email"
-                  placeholder="Ingrese su correo electrónico" required>
-              </div>
-
-              <div class="mb-4">
-                <label for="password" class="form-label fw-semibold">
-                  <i class="fas fa-lock me-2 text-primary"></i>Contraseña
-                </label>
-                <div class="position-relative">
-                  <input type="password" class="form-control form-control-lg" id="password" name="password"
-                    placeholder="Ingrese su contraseña" required>
-                  <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3"
-                    onclick="togglePassword()" style="z-index: 10; border: none;">
-                    <i class="fas fa-eye" id="passwordToggle"></i>
+              <!-- Botones de redes sociales -->
+              <div class="row g-2 mb-4">
+                <div class="col-6">
+                  <button
+                    class="btn btn-google social-btn w-100 text-white"
+                    onclick="loginWithGoogle()"
+                  >
+                    <i class="fab fa-google me-2"></i>Google
+                  </button>
+                </div>
+                <div class="col-6">
+                  <button
+                    class="btn btn-facebook social-btn w-100 text-white"
+                    onclick="loginWithFacebook()"
+                  >
+                    <i class="fab fa-facebook-f me-2"></i>Facebook
                   </button>
                 </div>
               </div>
 
-              <!-- Recordar sesión -->
-              <div class="d-flex justify-content-between align-items-center mb-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="rememberMe" name="remember-me">
-                  <label class="form-check-label" for="rememberMe">
-                    Recordar sesión
-                  </label>
-                </div>
-                <div class="login-links">
-                  <a href="#" onclick="showForgotPassword()">¿Olvidaste tu contraseña?</a>
-                </div>
-              </div>
-
-              <!-- Botón de login -->
-              <button type="submit" class="btn btn-primary btn-login w-100 mb-4">
-                <i class="fas fa-sign-in-alt me-2"></i>
-                Iniciar Sesión
-              </button>
-            </form>
-
-            <!-- Divider -->
-            <div class="divider">
-              <span>O continúa con</span>
-            </div>
-
-            <!-- Botones de redes sociales -->
-            <div class="row g-2 mb-4">
-              <div class="col-6">
-                <button class="btn btn-google social-btn w-100 text-white" onclick="loginWithGoogle()">
-                  <i class="fab fa-google me-2"></i>Google
-                </button>
-              </div>
-              <div class="col-6">
-                <button class="btn btn-facebook social-btn w-100 text-white" onclick="loginWithFacebook()">
-                  <i class="fab fa-facebook-f me-2"></i>Facebook
-                </button>
+              <!-- Enlaces adicionales -->
+              <div class="text-center login-links">
+                <p class="mb-0">
+                  ¿No tienes una cuenta?
+                  <a th:href="@{/register}" onclick="showRegister()">
+                    <strong>Regístrate aquí</strong>
+                  </a>
+                </p>
+                <p class="mt-2 mb-0">
+                  <a
+                    href="../index.html"
+                    class="d-flex align-items-center justify-content-center"
+                  >
+                    <i class="fas fa-arrow-left me-2"></i>Volver al inicio
+                  </a>
+                </p>
               </div>
             </div>
 
-            <!-- Enlaces adicionales -->
-            <div class="text-center login-links">
-              <p class="mb-0">¿No tienes una cuenta?
-                <a th:href="@{/register}" onclick="showRegister()">
-                  <strong>Regístrate aquí</strong>
-                </a>
-              </p>
-              <p class="mt-2 mb-0">
-                <a href="../index.html" class="d-flex align-items-center justify-content-center">
-                  <i class="fas fa-arrow-left me-2"></i>Volver al inicio
-                </a>
-              </p>
-            </div>
-          </div>
-
-          <!-- Información adicional (móvil) -->
-          <div class="d-lg-none mt-4">
-            <div class="hotel-info text-white text-center">
-              <h5 class="mb-3">Beneficios de ser huésped registrado</h5>
-              <div class="row g-3">
-                <div class="col-6">
-                  <small><i class="fas fa-check-circle text-success me-2"></i>Reservas rápidas</small>
-                </div>
-                <div class="col-6">
-                  <small><i class="fas fa-check-circle text-success me-2"></i>Descuentos exclusivos</small>
-                </div>
-                <div class="col-6">
-                  <small><i class="fas fa-check-circle text-success me-2"></i>Historial de reservas</small>
-                </div>
-                <div class="col-6">
-                  <small><i class="fas fa-check-circle text-success me-2"></i>Atención preferencial</small>
+            <!-- Información adicional (móvil) -->
+            <div class="d-lg-none mt-4">
+              <div class="hotel-info text-white text-center">
+                <h5 class="mb-3">Beneficios de ser huésped registrado</h5>
+                <div class="row g-3">
+                  <div class="col-6">
+                    <small
+                      ><i class="fas fa-check-circle text-success me-2"></i
+                      >Reservas rápidas</small
+                    >
+                  </div>
+                  <div class="col-6">
+                    <small
+                      ><i class="fas fa-check-circle text-success me-2"></i
+                      >Descuentos exclusivos</small
+                    >
+                  </div>
+                  <div class="col-6">
+                    <small
+                      ><i class="fas fa-check-circle text-success me-2"></i
+                      >Historial de reservas</small
+                    >
+                  </div>
+                  <div class="col-6">
+                    <small
+                      ><i class="fas fa-check-circle text-success me-2"></i
+                      >Atención preferencial</small
+                    >
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Footer -->
+    <!-- Footer -->
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Función para alternar visibilidad de contraseña
+      function togglePassword() {
+        const passwordField = document.getElementById("password");
+        const passwordToggle = document.getElementById("passwordToggle");
 
-  <script>
-    // Función para alternar visibilidad de contraseña
-    function togglePassword() {
-      const passwordField = document.getElementById('password');
-      const passwordToggle = document.getElementById('passwordToggle');
-
-      if (passwordField.type === 'password') {
-        passwordField.type = 'text';
-        passwordToggle.className = 'fas fa-eye-slash';
-      } else {
-        passwordField.type = 'password';
-        passwordToggle.className = 'fas fa-eye';
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+          passwordToggle.className = "fas fa-eye-slash";
+        } else {
+          passwordField.type = "password";
+          passwordToggle.className = "fas fa-eye";
+        }
       }
-    }
 
-    // Manejo del formulario de login - Comentado para permitir envío normal del formulario
-    /*
+      // Manejo del formulario de login - Comentado para permitir envío normal del formulario
+      /*
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
@@ -244,67 +311,76 @@
     });
     */
 
-    // Función para mostrar recuperación de contraseña
-    function showForgotPassword() {
-      const email = prompt('Ingrese su correo electrónico para recuperar su contraseña:');
-      if (email) {
-        alert('Se ha enviado un enlace de recuperación a: ' + email + '\n\n' +
-          '(Funcionalidad en desarrollo)');
+      // Función para mostrar recuperación de contraseña
+      function showForgotPassword() {
+        const email = prompt(
+          "Ingrese su correo electrónico para recuperar su contraseña:"
+        );
+        if (email) {
+          alert(
+            "Se ha enviado un enlace de recuperación a: " +
+              email +
+              "\n\n" +
+              "(Funcionalidad en desarrollo)"
+          );
+        }
       }
-    }
 
-    // Función para mostrar registro
-    function showRegister() {
-      window.location.href = 'register.html';
-    }
-
-    // Login con Google
-    function loginWithGoogle() {
-      alert('Inicio de sesión con Google\n\n' +
-        'Funcionalidad en desarrollo.\n' +
-        'Próximamente podrás acceder con tu cuenta de Google.');
-    }
-
-    // Login con Facebook  
-    function loginWithFacebook() {
-      alert('Inicio de sesión con Facebook\n\n' +
-        'Funcionalidad en desarrollo.\n' +
-        'Próximamente podrás acceder con tu cuenta de Facebook.');
-    }
-
-    // Animaciones al cargar
-    window.addEventListener('load', function () {
-      const animatedElements = document.querySelectorAll('.animate-on-load');
-      animatedElements.forEach((el, index) => {
-        setTimeout(() => {
-          el.style.opacity = '1';
-        }, index * 200);
-      });
-    });
-
-    // Efectos de focus en inputs
-    const inputs = document.querySelectorAll('.form-control');
-    inputs.forEach(input => {
-      input.addEventListener('focus', function () {
-        this.parentElement.style.transform = 'scale(1.02)';
-        this.parentElement.style.transition = 'transform 0.2s ease';
-      });
-
-      input.addEventListener('blur', function () {
-        this.parentElement.style.transform = 'scale(1)';
-      });
-    });
-
-    // Sticky navbar effect (heredado del index)
-    window.addEventListener("scroll", function () {
-      var header = document.querySelector(".navbar");
-      if (header && window.scrollY > 100) {
-        header.classList.add("sticky-header");
-      } else if (header) {
-        header.classList.remove("sticky-header");
+      // Función para mostrar registro
+      function showRegister() {
+        window.location.href = "register.html";
       }
-    });
-  </script>
-</body>
 
+      // Login con Google
+      function loginWithGoogle() {
+        alert(
+          "Inicio de sesión con Google\n\n" +
+            "Funcionalidad en desarrollo.\n" +
+            "Próximamente podrás acceder con tu cuenta de Google."
+        );
+      }
+
+      // Login con Facebook
+      function loginWithFacebook() {
+        alert(
+          "Inicio de sesión con Facebook\n\n" +
+            "Funcionalidad en desarrollo.\n" +
+            "Próximamente podrás acceder con tu cuenta de Facebook."
+        );
+      }
+
+      // Animaciones al cargar
+      window.addEventListener("load", function () {
+        const animatedElements = document.querySelectorAll(".animate-on-load");
+        animatedElements.forEach((el, index) => {
+          setTimeout(() => {
+            el.style.opacity = "1";
+          }, index * 200);
+        });
+      });
+
+      // Efectos de focus en inputs
+      const inputs = document.querySelectorAll(".form-control");
+      inputs.forEach((input) => {
+        input.addEventListener("focus", function () {
+          this.parentElement.style.transform = "scale(1.02)";
+          this.parentElement.style.transition = "transform 0.2s ease";
+        });
+
+        input.addEventListener("blur", function () {
+          this.parentElement.style.transform = "scale(1)";
+        });
+      });
+
+      // Sticky navbar effect (heredado del index)
+      window.addEventListener("scroll", function () {
+        var header = document.querySelector(".navbar");
+        if (header && window.scrollY > 100) {
+          header.classList.add("sticky-header");
+        } else if (header) {
+          header.classList.remove("sticky-header");
+        }
+      });
+    </script>
+  </body>
 </html>
